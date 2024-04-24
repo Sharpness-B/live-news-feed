@@ -12,6 +12,17 @@ import { Grid, Typography, Chip, Box } from '@mui/material';
 
 import { writeSelectedFeedsToDB, readSelectedFeedsFromDB } from "../../../data/services/firestore";
 
+
+
+
+import Parser from 'rss-parser';
+
+
+
+
+
+
+
 const feeds = [
   { id:1, category: 'Norway', title: 'VG Forsiden', url: 'https://www.vg.no/rss/feed/forsiden/' },
   { id:2, category: 'Norway', title: 'VG Innenriks', url: 'https://www.vg.no/rss/feed/?categories=1069' },
@@ -117,18 +128,14 @@ export default function Home() {
         {/* should be able to unclick and delete */}
 
       {/* Read selected feeds */}
-      
-
-      {/* <Grid container>
-        <Grid item lg={3} sm={4}>
-          <NoteContainer />
-        </Grid>
-        <Grid item lg={9} sm={8}>
-          <CurrentNote>
-            <NoteDetails />
-          </CurrentNote>
-        </Grid>
-      </Grid> */}
+      <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+        {selectedFeeds.map((feed, index) => (
+          <Box sx={{ minWidth: 200, mr: 2 }} key={index}>
+            <Typography variant="h6">{feed.title}</Typography>
+            {/* Here you would fetch and display the RSS data for each feed */}
+          </Box>
+        ))}
+      </Box>
     </>
   );
 }
