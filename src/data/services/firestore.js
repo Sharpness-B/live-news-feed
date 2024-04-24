@@ -2,6 +2,7 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   addDoc,
   setDoc,
   serverTimestamp,
@@ -69,3 +70,27 @@ export const notesRef = (user) =>
 export const noteDetailsRef = (user, noteId) =>
   doc(db, "users", user.uid, "notes", noteId);
 export const userInfoRef = (user) => doc(db, "users", user.uid);
+
+
+
+// New stuff
+
+// save selected feeds id
+export const writeSelectedFeedsToDB = async (user, id_list) => {
+  await setDoc(doc(db, "users", user.uid, "feeds", "selected"), {
+    id_list: id_list,
+    createdAt: serverTimestamp(),
+  }, { merge: true });
+};
+
+// read selected feeds id
+export const readSelectedFeedsFromDB = async (user) => {
+  const docRef = doc(db, "users", user.uid, "feeds", "selected");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().id_list;
+  } else {
+    return [];
+  }
+}

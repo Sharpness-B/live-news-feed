@@ -1,0 +1,13 @@
+automatisert gh deply funker ikke
+få bort alle spor av notes
+fjern facebook
+fiks profilbilde
+
+Funksjonalitet:
+Muligheten til å legge inn egen rss med kategori (og ta dem bort også)
+RSS bortover scrolling må se bra uten
+Filter på rss
+
+Kommersialisering
+Maks 1 rss uten betaling. Vel faktura epost skal sendes til/kortbetaling
+Har vi lov til dette? Ref harald concern
