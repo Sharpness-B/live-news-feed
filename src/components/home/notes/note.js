@@ -44,6 +44,11 @@ const feeds = [
 export default function Home() {
   const { user } = useUser();
 
+
+
+  ////////////////////////
+  // select feeds logic //
+  //////////////////////// 
   const [selectedFeeds, setSelectedFeeds] = useState([]);
 
   // Fetch selected feeds from DB on component mount
@@ -65,7 +70,7 @@ export default function Home() {
     fetchSelectedFeeds();
   }, []); // Empty dependency array means this effect runs once on mount
 
-  console.log(selectedFeeds)
+  //console.log(selectedFeeds)
 
   const handleFeedClick = (feed) => {
     setSelectedFeeds((prevFeeds) => {
@@ -94,8 +99,9 @@ export default function Home() {
 
 
 
-
-  // read selected rss feeds
+  /////////////////////////////
+  // read selected rss feeds //
+  /////////////////////////////
   const [feedData, setFeedData] = useState([]);
 
   useEffect(() => {
@@ -113,6 +119,8 @@ export default function Home() {
       // Filter out any feeds that failed to fetch
       const successfulFeedsData = allFeedsData.filter(Boolean);
       setFeedData(successfulFeedsData);
+
+      console.log(successfulFeedsData)
     };
     
     fetchFeeds();
