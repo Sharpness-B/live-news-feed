@@ -1,13 +1,20 @@
+* Ting
 automatisert gh deply funker ikke
 få bort alle spor av notes
 fjern facebook
 fiks profilbilde
 
-Funksjonalitet:
+* Funksjonalitet:
 Muligheten til å legge inn egen rss med kategori (og ta dem bort også)
-RSS bortover scrolling må se bra uten
 Filter på rss
+Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
+Toggle på en linje per kanal eller en feed sortert på publiseringstid
 
-Kommersialisering
-Maks 1 rss uten betaling. Vel faktura epost skal sendes til/kortbetaling
-Har vi lov til dette? Ref harald concern
+* Kommersialisering
+Maks 1 forhåndsbestemt rss  uten betaling. Vel faktura epost skal sendes til/kortbetaling
+Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
+
+* Bugs
+Veldig rar behavor når det velges feeds som ikke funker
+Funker ikke å gå direkte inn på link
+user object er ikke loadet fra start så bytter bort noen ganger også

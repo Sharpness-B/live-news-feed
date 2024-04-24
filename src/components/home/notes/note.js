@@ -18,8 +18,8 @@ import { writeSelectedFeedsToDB, readSelectedFeedsFromDB } from "../../../data/s
 import Parser from 'rss-parser';
 
 
-
-
+// to read rss feeds
+const parser = new Parser();
 
 
 
@@ -91,6 +91,38 @@ export default function Home() {
   };
 
 
+
+
+
+
+  // read selected rss feeds
+  const [feedData, setFeedData] = useState([]);
+
+  useEffect(() => {
+    const fetchFeeds = async () => {
+      const allFeedsData = await Promise.all(selectedFeeds.map(async (feed) => {
+        try {
+          const proxyUrl = 'https://api.allorigins.win/raw?url=';
+          const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
+          return { ...feed, data };
+        } catch (error) {
+          console.error(`Failed to fetch feed ${feed.title}:`, error);
+        }
+      }));
+    
+      // Filter out any feeds that failed to fetch
+      const successfulFeedsData = allFeedsData.filter(Boolean);
+      setFeedData(successfulFeedsData);
+    };
+    
+    fetchFeeds();
+  }, [selectedFeeds]);
+
+
+
+
+
+
   if (!user) return <Navigate to="/login" />;
 
   return (
@@ -98,7 +130,7 @@ export default function Home() {
       <NavBar />
 
       {/* Select feeds bar */}
-      <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+      <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap', p: 4}}>
         {Object.entries(feeds.reduce((categories, feed) => {
           if (!categories[feed.category]) {
             categories[feed.category] = [];
@@ -128,11 +160,26 @@ export default function Home() {
         {/* should be able to unclick and delete */}
 
       {/* Read selected feeds */}
-      <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-        {selectedFeeds.map((feed, index) => (
-          <Box sx={{ minWidth: 200, mr: 2 }} key={index}>
+      <Box sx={{ display: 'flex', overflowX: 'auto', p: 2 }}>
+        {feedData.map((feed, index) => (
+          <Box 
+            sx={{ 
+              minWidth: '400px', 
+              width: { xs: '100%', sm: '500px' },
+              mr: 2, 
+              p: 2, 
+              wordWrap: 'break-word', 
+              overflowWrap: 'break-word' 
+            }} 
+            key={index}
+          >
             <Typography variant="h6">{feed.title}</Typography>
-            {/* Here you would fetch and display the RSS data for each feed */}
+            {feed.data.items.map((item, index) => (
+              <Box key={index} sx={{ my: 1 }}>
+                <Typography variant="h6" sx={{ wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' }}>{item.title}</Typography>
+                <Typography variant="body2" sx={{ wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' }}>{item.contentSnippet}</Typography>
+              </Box>
+            ))}
           </Box>
         ))}
       </Box>
