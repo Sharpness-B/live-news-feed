@@ -86,6 +86,7 @@ export default function Home() {
     <>
       <NavBar />
 
+      {/* Select feeds bar */}
       <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
         {Object.entries(feeds.reduce((categories, feed) => {
           if (!categories[feed.category]) {
@@ -112,6 +113,11 @@ export default function Home() {
         ))}
       </Box>
 
+      {/* Add feeds bar */}
+        {/* should be able to unclick and delete */}
+
+      {/* Read selected feeds */}
+      
 
       {/* <Grid container>
         <Grid item lg={3} sm={4}>
