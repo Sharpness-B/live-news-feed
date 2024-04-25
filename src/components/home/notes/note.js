@@ -66,6 +66,7 @@ export default function Home() {
   ////////////////////////
   // select feeds logic //
   //////////////////////// 
+  const [selectedCustomFeeds, setSelectedCustomFeeds] = useState([]);
   const [selectedFeeds, setSelectedFeeds] = useState([]);
 
   // Fetch selected feeds from DB on component mount
@@ -132,8 +133,10 @@ export default function Home() {
   const fetchFeeds = async () => {
     // Create a local copy of hashes state
     let currentHashes = new Set(hashes);
+
+    const mergedFeeds = [...selectedFeeds, ...selectedCustomFeeds];
   
-    const allFeedsData = await Promise.all(selectedFeeds.map(async (feed) => {
+    const allFeedsData = await Promise.all(mergedFeeds.map(async (feed) => {
       try {
         const proxyUrl = 'https://api.allorigins.win/raw?url=';
         const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
@@ -231,7 +234,7 @@ export default function Home() {
       </Box>
 
       {/* Add filter feeds bar */}
-      <CustomFeedInput user={user} />
+      <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} />
 
         
 

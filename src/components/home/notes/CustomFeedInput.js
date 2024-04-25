@@ -3,9 +3,8 @@ import { TextField, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
 
-const CustomFeedInput = ({ user }) => {
+const CustomFeedInput = ({ user, setSelectedCustomFeeds }) => {
   const [feeds, setFeeds] = useState([]);
-  const [selectedFeeds, setSelectedFeeds] = useState([]);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
 
@@ -13,7 +12,7 @@ const CustomFeedInput = ({ user }) => {
     const fetchFeeds = async () => {
       const feedsFromDB = await readCustomFeedsFromDB(user);
       setFeeds(feedsFromDB);
-      setSelectedFeeds(feedsFromDB.filter(feed => feed.isSelected));
+      setSelectedCustomFeeds(feedsFromDB.filter(feed => feed.isSelected));
     }
 
     fetchFeeds();
@@ -22,7 +21,7 @@ const CustomFeedInput = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newFeed = { id: feeds.length + 1, url, title, category: 'Custom', isSelected: false };
+    const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: false };
     await writeCustomFeedsToDB(user, [...feeds, newFeed]);
 
     setFeeds([...feeds, newFeed]);
@@ -39,7 +38,7 @@ const CustomFeedInput = ({ user }) => {
     });
     await writeCustomFeedsToDB(user, updatedFeeds);
 
-    setSelectedFeeds(updatedFeeds.filter(feed => feed.isSelected));
+    setSelectedCustomFeeds(updatedFeeds.filter(feed => feed.isSelected));
   };
 
   const handleDeleteFeed = async (feedToDelete) => {
@@ -47,7 +46,7 @@ const CustomFeedInput = ({ user }) => {
     await writeCustomFeedsToDB(user, updatedFeeds);
 
     setFeeds(updatedFeeds);
-    setSelectedFeeds(updatedFeeds.filter(feed => feed.isSelected));
+    setSelectedCustomFeeds(updatedFeeds.filter(feed => feed.isSelected));
   };
 
   return (
