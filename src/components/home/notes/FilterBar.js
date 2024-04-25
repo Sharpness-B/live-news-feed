@@ -50,10 +50,11 @@ const FilterBar = ({ user, filters, setFilters }) => {
             <form onSubmit={handleKeywordSubmit} className='form-container'>
                 <TextField
                     className='input-field'
-                    label="End Date"
-                    type="date"
+                    label="Last date and time"
+                    type="datetime-local"
                     value={filters.endDate}
                     onChange={handleEndDateChange}
+                    InputLabelProps={{ shrink: true }}
                 />
             
                 <TextField
