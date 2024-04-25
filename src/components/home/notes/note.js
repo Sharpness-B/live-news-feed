@@ -7,6 +7,7 @@ import { useUser } from "../../../context/useUser";
 import CurrentNote from "../../../context/useCurrentNote";
 
 import CustomFeedInput from './CustomFeedInput';
+import FilterBar from './FilterBar';
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
@@ -185,8 +186,17 @@ export default function Home() {
 
 
 
+  /////////////
+  // filters //
+  /////////////
+  const [filters, setFilters] = useState({ keyword: '', dateRange: { start: '', end: '' } });
 
-
+  const handleFilterChange = (newFilters) => {
+    // save filters to database
+    // ...
+  
+    setFilters(newFilters);
+  };
 
 
     
@@ -234,8 +244,11 @@ export default function Home() {
         ))}
       </Box>
 
-      {/* Add filter feeds bar */}
+      {/* Custom rss input */}
       <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} />
+
+      {/* Add filter feeds bar */}
+      <FilterBar user={user} />
 
         
 
