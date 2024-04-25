@@ -4,7 +4,7 @@ import { TextField, Button, Chip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { writeFiltersToDB, readFiltersFromDB } from "../../../data/services/firestore";
 
-import './FilterBar.css';
+import './CustomFeedInput.css';
 
 const FilterBar = ({ user }) => {
     const [keywords, setKeywords] = useState([]);
@@ -53,9 +53,9 @@ const FilterBar = ({ user }) => {
   };
 
   return (
-    <div className='filter-container'>
-        <Typography variant="h6">Add custom RSS feeds</Typography>
-        <div className='form-and-chips'>
+    <div className='container'>
+        <Typography variant="h6">Search for keywords</Typography>
+        <form onSubmit={handleKeywordSubmit} className='form-container'>
             <TextField
                 className='input-field'
                 label="End Date"
@@ -63,21 +63,21 @@ const FilterBar = ({ user }) => {
                 value={endDate}
                 onChange={handleEndDateChange}
             />
-            <form onSubmit={handleKeywordSubmit}>
-                <TextField
+            
+            <TextField
                 className='input-field'
                 label="Keyword"
                 value={keywordInput}
                 onChange={(e) => setKeywordInput(e.target.value)}
-                />
-                <Button type="submit">Add Keyword</Button>
-            </form>
+            />
+            <Button type="submit">Add Keyword</Button>
+            
             <div className="chips-container">
                 {keywords.map((keyword) => (
                     <Chip key={keyword} label={keyword} onDelete={handleKeywordDelete(keyword)} />
                 ))}
             </div>
-        </div>
+        </form>
     </div>
   );
 };
