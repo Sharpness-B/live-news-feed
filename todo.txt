@@ -12,6 +12,7 @@ Toggle på en linje per kanal eller en feed sortert på publiseringstid
 Default med en samlet kanal -> da er oppdateringseffekten kulere også (ref fokus på det som oppdaterer seg)
 
 Man velger de kildene man vil, men også hvilken feed (1 2 eller 3, eller hvor mange man vil. + til siden for ny feed) de skal vises. Hver feed består av kanalene og saker sortert etter klokkeslett
+Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
 * Kommersialisering
 Maks 1 forhåndsbestemt rss  uten betaling. Vel faktura epost skal sendes til/kortbetaling
