@@ -197,7 +197,7 @@ export default function Home() {
     // if empty list of keywords AND item object contains at least one key word
     (filters.keywords.length===0 || filters.keywords.some(word => JSON.stringify(item).includes(word)))
     // on or within end date
-    && (item.pubDate ? new Date(item.pubDate) >= new Date(filters.endDate) : false)
+    && (item.pubDate ? (filters.endDate ? new Date(item.pubDate) >= new Date(filters.endDate) : true) : false)
   ));
 
 
