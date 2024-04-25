@@ -179,8 +179,8 @@ export default function Home() {
   // Fetch feeds every 10 seconds
   useInterval(fetchFeeds, 10000);
 
-  // flatten all feeds into one item array
-  const items = feedData
+  // flatten all feeds into one item array, and then sort them after date
+  const flattened_items = feedData
     .flatMap(feed => feed.data.items.map(item => ({ ...item, newspaper: feed.title })))
     .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
 
@@ -189,14 +189,17 @@ export default function Home() {
   /////////////
   // filters //
   /////////////
-  const [filters, setFilters] = useState({ keyword: '', dateRange: { start: '', end: '' } });
+  // init
+  const [filters, setFilters] = useState({ keywords: [], endDate: '' });
+  // filter flattened_items
 
-  const handleFilterChange = (newFilters) => {
-    // save filters to database
-    // ...
-  
-    setFilters(newFilters);
-  };
+  const filtered_items = flattened_items.filter(item => (
+    // if empty list of keywords AND item object contains at least one key word
+    (filters.keywords.length===0 || filters.keywords.some(word => JSON.stringify(item).includes(word)))
+    // on or within end date
+    && (item.pubDate ? new Date(item.pubDate) >= new Date(filters.endDate) : false)
+  ));
+
 
 
     
@@ -247,14 +250,12 @@ export default function Home() {
       {/* Custom rss input */}
       <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} />
 
-      {/* Add filter feeds bar */}
-      <FilterBar user={user} />
-
-        
+      {/* Filters */}
+      <FilterBar user={user} filters={filters} setFilters={setFilters} />
 
       {/* Read selected feeds (one feed)*/}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
-        {items.map((item, index) => {
+        {filtered_items.map((item, index) => {
           let date;
           let timeString;
           let isNewArticle = false;
