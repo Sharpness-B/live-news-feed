@@ -94,3 +94,27 @@ export const readSelectedFeedsFromDB = async (user) => {
     return [];
   }
 }
+
+
+
+
+
+// write custom feeds
+export const writeCustomFeedsToDB = async (user, feeds) => {
+  await setDoc(doc(db, "users", user.uid, "feeds", "custom"), {
+    feeds,
+    createdAt: serverTimestamp(),
+  }, { merge: true });
+};
+
+// read custom feeds
+export const readCustomFeedsFromDB = async (user) => {
+  const docRef = doc(db, "users", user.uid, "feeds", "custom");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().feeds;
+  } else {
+    return [];
+  }
+};

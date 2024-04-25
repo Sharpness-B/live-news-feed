@@ -6,6 +6,8 @@ import NavBar from "../../common/navBar";
 import { useUser } from "../../../context/useUser";
 import CurrentNote from "../../../context/useCurrentNote";
 
+import CustomFeedInput from './CustomFeedInput';
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import { Grid, Typography, Chip, Box } from '@mui/material';
@@ -112,7 +114,7 @@ export default function Home() {
 
 
 
-  
+
   ////////////////////////
   // alert new artickle //
   ////////////////////////
@@ -229,7 +231,7 @@ export default function Home() {
       </Box>
 
       {/* Add filter feeds bar */}
-        {/* should be able to unclick and delete */}
+      <CustomFeedInput user={user} />
 
         
 
