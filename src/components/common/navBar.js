@@ -27,6 +27,9 @@ export default function NavBar() {
   const closeAnchor = () => setAnchor(null);
   const open = !!anchor;
 
+  // if no user or loading nothing shows
+  if (!user) return null
+
   return (
     <AppBar position="static" color={"inherit"}>
       <Toolbar sx={{ display: "flex", flexDirection: "row" }}>
@@ -44,7 +47,7 @@ export default function NavBar() {
           <MenuItem component={Link} to="/profile">
             <ListItemText primary={"Profile"} />
           </MenuItem>
-          <MenuItem onClick={LogOut} component={Link} to="/login">
+          <MenuItem onClick={LogOut} component={Link} to="/">
             <ListItemText primary={"Logout"} />
           </MenuItem>
         </Menu>

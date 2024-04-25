@@ -60,9 +60,7 @@ const feeds = [
 
 
 export default function Home() {
-  const { user } = useUser();
-
-
+  const { user, userInfo } = useUser();
 
   ////////////////////////
   // select feeds logic //
@@ -201,9 +199,9 @@ export default function Home() {
   ));
 
 
-
-    
-  if (!user) return <Navigate to="/login" />;
+  // console.log(user)
+  // if (!userInfo) return <div>loading</div>
+  // if (!user) return <Navigate to="/login" />;
 
   return (
     <>

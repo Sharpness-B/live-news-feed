@@ -10,7 +10,7 @@ import Quotes from "./notes/quote";
 export default function Home() {
   const { user } = useUser();
 
-  if (!user) return <Navigate to="/login" />;
+  // if (!user) return <Navigate to="/login" />;
   return (
     <>
       <NavBar />
@@ -49,7 +49,7 @@ export default function Home() {
                   "It's better to note down than to memorize. Get started with afternotes, a note app which helps you to to make maintainable notes."
                 }
               </Typography>
-              <BlackButton component={Link} to="/notes">
+              <BlackButton component={Link} to={user ? "/notes" : "/signup"}>
                 {"Get started"}
               </BlackButton>
             </Container>
