@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { TextField, Button, Chip, IconButton } from '@mui/material';
+import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
+
+import './CustomFeedInput.css';
 
 const CustomFeedInput = ({ user, setSelectedCustomFeeds }) => {
   const [feeds, setFeeds] = useState([]);
@@ -50,33 +52,36 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="container">
+      <Typography variant="h6">Add custom RSS feeds</Typography>
+      <form onSubmit={handleSubmit} className="form-container">
         <TextField
-          label="URL"
+          label="URL https://www.website.rss"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          className="input-field"
         />
         <TextField
           label="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          className="input-field"
         />
         <Button type="submit">Add Feed</Button>
+        <div className="chips-container">
+          {feeds.map((feed, index) => (
+            <Chip
+              label={feed.title}
+              clickable
+              color={feed.isSelected ? 'primary' : 'default'}
+              onClick={() => handleFeedClick(feed)}
+              onDelete={() => handleDeleteFeed(feed)}
+              deleteIcon={<IconButton><DeleteIcon /></IconButton>}
+              key={index}
+            />
+          ))}
+        </div>
       </form>
-      <div>
-        {feeds.map((feed, index) => (
-          <Chip
-            label={feed.title}
-            clickable
-            color={feed.isSelected ? 'primary' : 'default'}
-            onClick={() => handleFeedClick(feed)}
-            onDelete={() => handleDeleteFeed(feed)}
-            deleteIcon={<IconButton><DeleteIcon /></IconButton>}
-            key={index}
-          />
-        ))}
-      </div>
     </div>
   );
 };
