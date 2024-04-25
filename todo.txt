@@ -17,6 +17,8 @@ Default med en samlet kanal -> da er oppdateringseffekten kulere også (ref foku
 Man velger de kildene man vil, men også hvilken feed (1 2 eller 3, eller hvor mange man vil. + til siden for ny feed) de skal vises. Hver feed består av kanalene og saker sortert etter klokkeslett
 Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
+Legg til successfully added
+
 * Kommersialisering
 Maks 1 forhåndsbestemt rss  uten betaling. Vel faktura epost skal sendes til/kortbetaling
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk

@@ -22,7 +22,17 @@ export default function Quotes() {
       alignItems={"flex-end"}
       sx={{ pr: 4 }}
     >
-      {author != null ? (
+
+      <>
+          <Typography variant={"subtitle2"}>
+            <q>Vi gir deg oversikt og hurtighet</q>
+          </Typography>
+          <Typography variant={"caption"}>
+            <cite>Nyhetspulsen</cite>
+          </Typography>
+      </>
+
+      {/* {author != null ? (
         <>
           <Typography variant={"subtitle2"}>
             <q>{quote}</q>
@@ -35,7 +45,7 @@ export default function Quotes() {
         <Typography variant="caption" sx={{ textAlign: "right" }}>
           {"Loading thought for the day !!"}
         </Typography>
-      )}
+      )} */}
     </Stack>
   );
 }
