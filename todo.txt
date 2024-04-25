@@ -1,3 +1,8 @@
+timing and update osv hvilken løsning??
+
+
+
+
 * Ting
 automatisert gh deply funker ikke
 få bort alle spor av notes
@@ -22,3 +27,6 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 Veldig rar behavor når det velges feeds som ikke funker
 Funker ikke å gå direkte inn på link
 user object er ikke loadet fra start så bytter bort noen ganger også
+
+Multi global news - MGN
+Hybrid News - HN
