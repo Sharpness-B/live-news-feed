@@ -72,8 +72,9 @@ export const noteDetailsRef = (user, noteId) =>
 export const userInfoRef = (user) => doc(db, "users", user.uid);
 
 
-
-// New stuff
+///////////////
+// New stuff //
+///////////////
 
 // save selected feeds id
 export const writeSelectedFeedsToDB = async (user, id_list) => {

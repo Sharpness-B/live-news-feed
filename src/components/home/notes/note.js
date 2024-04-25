@@ -19,7 +19,7 @@ import { writeSelectedFeedsToDB, readSelectedFeedsFromDB } from "../../../data/s
 import { useInterval } from 'react-use';
 
 
-import hash from 'object-hash'; // you need to install this package
+import hash from 'object-hash'; 
 
 
 
@@ -195,6 +195,7 @@ export default function Home() {
   return (
     <>
       <NavBar />
+      {/* New item alert */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isNewItemAdded}
