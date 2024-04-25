@@ -7,10 +7,17 @@ import { useUser } from "../../../context/useUser";
 import CurrentNote from "../../../context/useCurrentNote";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
 import { Grid, Typography, Chip, Box } from '@mui/material';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 import { writeSelectedFeedsToDB, readSelectedFeedsFromDB } from "../../../data/services/firestore";
+
+
+import { useInterval } from 'react-use';
+
+
+import hash from 'object-hash'; // you need to install this package
 
 
 
@@ -105,37 +112,72 @@ export default function Home() {
 
 
 
+  
+  ////////////////////////
+  // alert new artickle //
+  ////////////////////////
+  const [isNewItemAdded, setIsNewItemAdded] = useState(true);
+
+
 
 
   /////////////////////////////
   // read selected rss feeds //
   /////////////////////////////
   const [feedData, setFeedData] = useState([]);
+  const [hashes, setHashes] = useState(new Set());
 
+  const fetchFeeds = async () => {
+    // Create a local copy of hashes state
+    let currentHashes = new Set(hashes);
+  
+    const allFeedsData = await Promise.all(selectedFeeds.map(async (feed) => {
+      try {
+        const proxyUrl = 'https://api.allorigins.win/raw?url=';
+        const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
+  
+        // Map the items, adding an 'isNew' property
+        data.items = data.items.map(item => {
+          const itemHash = hash(item);
+          const isNew = !currentHashes.has(itemHash) && currentHashes.size; //if not has from before and not emptry (first load)
+          // Add the new hash to currentHashes
+          if(isNew) {
+            currentHashes.add(itemHash);
+            setIsNewItemAdded(true); // alert
+          }
+          return { ...item, isNew };
+        });
+
+        return { ...feed, data };
+      } 
+      catch (error) {
+        console.error(`Failed to fetch feed ${feed.title}:`, error);
+        return null; // return null for feeds that failed to fetch
+      }
+    }));
+
+    // Filter out any feeds that failed to fetch
+    const successfulFeedsData = allFeedsData.filter(Boolean);
+
+    // Update the set of item hashes state
+    setHashes(currentHashes);
+
+    setFeedData(successfulFeedsData);
+  }
+
+  // Fetch feeds initially when selectedFeeds changes
   useEffect(() => {
-    const fetchFeeds = async () => {
-      const allFeedsData = await Promise.all(selectedFeeds.map(async (feed) => {
-        try {
-          const proxyUrl = 'https://api.allorigins.win/raw?url=';
-          const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
-          return { ...feed, data };
-        } catch (error) {
-          console.error(`Failed to fetch feed ${feed.title}:`, error);
-        }
-      }));
-    
-      // Filter out any feeds that failed to fetch
-      const successfulFeedsData = allFeedsData.filter(Boolean);
-      setFeedData(successfulFeedsData);
-    };
-    
     fetchFeeds();
   }, [selectedFeeds]);
+
+  // Fetch feeds every 10 seconds
+  useInterval(fetchFeeds, 10000);
 
   // flatten all feeds into one item array
   const items = feedData
     .flatMap(feed => feed.data.items.map(item => ({ ...item, newspaper: feed.title })))
     .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
 
 
 
@@ -148,6 +190,16 @@ export default function Home() {
   return (
     <>
       <NavBar />
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isNewItemAdded}
+        autoHideDuration={5000}
+        onClose={() => setIsNewItemAdded(false)}
+      >
+        <Alert severity="error">
+          A new article has been added!
+        </Alert>
+      </Snackbar>
 
       {/* Select feeds bar */}
       <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap', p: 4}}>
@@ -179,42 +231,35 @@ export default function Home() {
       {/* Add filter feeds bar */}
         {/* should be able to unclick and delete */}
 
+        
+
       {/* Read selected feeds (one feed)*/}
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 2 }}>
-        {items.map((item, index) => (
-          <Box key={index} sx={{ my: 1, p: 2, width: { xs: '100%', sm: '500px' }, backgroundColor: '#f6f6f6', borderRadius: '5px' }}>
-            <Typography variant="h4"        sx={{ fontFamily: 'Poppins', fontWeight: 600 }}>{item.title}</Typography>
-            <Typography variant="body2"     sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300 }}>{new Date(item.pubDate).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} {item.newspaper}</Typography>
-            <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300 }}>{item.contentSnippet}</Typography>
-            <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'none' }}>Read more</a>
-          </Box>
-        ))}
-      </Box>
+        {items.map((item, index) => {
+          let date;
+          let timeString;
+          let isNewArticle = false;
+          try {
+            date = new Date(item.pubDate);
+            const options = { hour: '2-digit', minute: '2-digit', hour12: false};
+            timeString = new Intl.DateTimeFormat('default', options).format(date);
+            // Check if the article is less than 5 minutes old
+            isNewArticle = (new Date() - date) < 5 * 60 * 1000;
+          } catch {}
 
-      {/* Read selected feeds (one column per source)*/}
-      {/* <Box sx={{ display: 'flex', overflowX: 'auto', p: 2 }}>
-        {feedData.map((feed, index) => (
-          <Box 
-            sx={{ 
-              minWidth: '400px', 
-              width: { xs: '100%', sm: '500px' },
-              mr: 2, 
-              p: 2, 
-              wordWrap: 'break-word', 
-              overflowWrap: 'break-word' 
-            }} 
-            key={index}
-          >
-            <Typography variant="h6">{feed.title}</Typography>
-            {feed.data.items.map((item, index) => (
-              <Box key={index} sx={{ my: 1 }}>
-                <Typography variant="h6" sx={{ wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' }}>{item.title}</Typography>
-                <Typography variant="body2" sx={{ wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal' }}>{item.contentSnippet}</Typography>
-              </Box>
-            ))}
-          </Box>
-        ))}
-      </Box> */}
+          return (
+            <Box key={index} sx={{ my: 1, p: 2, width: { xs: '100%', sm: '500px' }, backgroundColor: '#f6f6f6', borderRadius: '5px' }}>
+              <Typography variant="h4" sx={{ fontFamily: 'Poppins', fontWeight: 600 }}>{item.title}</Typography>
+              <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300 }}>
+                {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 20, verticalAlign: 'middle', color: 'red' }} />} {/* Display icon if the article is less than 5 minutes old */}
+                {timeString} {item.newspaper}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300 }}>{item.contentSnippet}</Typography>
+              <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'none' }}>Read more</a>
+            </Box>
+          );
+        })}
+      </Box>
     </>
   );
 }
