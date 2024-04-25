@@ -42,7 +42,7 @@ const SocialAuth = () => {
       sx={{ width: "100%", mb: 1 }}
     >
       <SignWithGoggleButton />
-      <SignWithFaceBookButton />
+      {/* <SignWithFaceBookButton /> */}
     </Stack>
   );
 };
