@@ -37,7 +37,7 @@ const parser = new Parser();
 
 
 export default function Home() {
-  const { user, userInfo } = useUser();
+  const { user } = useUser();
 
   ////////////////////////
   // select feeds logic //
@@ -73,18 +73,6 @@ export default function Home() {
       try {
         const proxyUrl = 'https://api.allorigins.win/raw?url=';
         const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
-  
-        // Map the items, adding an 'isNew' property
-        data.items = data.items.map(item => {
-          const itemHash = hash(item);
-          const isNew = !currentHashes.has(itemHash) && currentHashes.size; //if not has from before and not emptry (first load)
-          // Add the new hash to currentHashes
-          if(isNew) {
-            currentHashes.add(itemHash);
-            setIsNewItemAdded(true); // alert
-          }
-          return { ...item, isNew };
-        });
 
         return { ...feed, data };
       } 
@@ -123,14 +111,36 @@ export default function Home() {
   /////////////
   // init
   const [filters, setFilters] = useState({ keywords: [], endDate: '' });
-  // filter flattened_items
 
+  // filter flattened_items
   const filtered_items = flattened_items.filter(item => (
     // if empty list of keywords AND item object contains at least one key word
     (filters.keywords.length===0 || filters.keywords.some(word => JSON.stringify(item).includes(word)))
     // on or within end date
     && (item.pubDate ? (filters.endDate ? new Date(item.pubDate) >= new Date(filters.endDate) : true) : false)
   ));
+
+  //////////////////
+  // alert if new //
+  //////////////////
+  // State variable to store hashes
+  const [itemHashes, setItemHashes] = useState([]);
+
+  useEffect(() => {
+    // Calculate hashes for current items
+    const currentItemHashes = flattened_items.map(item => hash(item));
+    // Compare the new list of hashes with the current state list
+    const newHashes = currentItemHashes.filter(h => !itemHashes.includes(h));
+    // If there are new hashes in the list, alert the user
+    if (newHashes.length > 0) {
+        // alert('A new hash has been added!');
+        setIsNewItemAdded(true);
+    }
+    // Update itemHashes state to the new list only if there are changes
+    if (JSON.stringify(currentItemHashes) !== JSON.stringify(itemHashes)) {
+        setItemHashes(currentItemHashes);
+    }
+  }, [flattened_items]);
 
 
   // console.log(user)

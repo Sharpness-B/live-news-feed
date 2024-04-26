@@ -1,4 +1,3 @@
-1. alert Funksjonalitet
 2. designet av feed og spor av notes
 3. url og login
 
