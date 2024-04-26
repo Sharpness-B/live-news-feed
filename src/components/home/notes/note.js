@@ -143,23 +143,7 @@ export default function Home() {
 
   return (
     <>
-      <NavBar />
-      {/* New item alert */}
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isNewItemAdded}
-        autoHideDuration={5000}
-        onClose={() => setIsNewItemAdded(false)}
-      >
-        <Alert severity="info">
-          Ny artikkel
-        </Alert>
-      </Snackbar>
-
-      {/* Paying user alert */}
-      <PayingUserModal open={payingUserModalIsOpen} handleClose={() => setPayingUserModalVisible(false)} />
-
-      
+      <NavBar />     
 
       {/* Settings and filters */}
       <Accordion>
@@ -176,6 +160,9 @@ export default function Home() {
           <FilterBar user={user} filters={filters} setFilters={setFilters} />
         </AccordionDetails>
       </Accordion>
+
+
+
 
 
 
@@ -213,6 +200,25 @@ export default function Home() {
           );
         })}
       </Box>
+
+
+
+
+
+      {/* Paying user alert */}
+      <PayingUserModal open={payingUserModalIsOpen} handleClose={() => setPayingUserModalVisible(false)} />
+
+      {/* New item alert */}
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isNewItemAdded}
+        autoHideDuration={5000}
+        onClose={() => setIsNewItemAdded(false)}
+      >
+        <Alert severity="info">
+          Ny artikkel
+        </Alert>
+      </Snackbar>
     </>
   );
 }
