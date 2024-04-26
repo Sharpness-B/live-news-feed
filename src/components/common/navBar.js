@@ -35,7 +35,7 @@ export default function NavBar() {
       <Toolbar sx={{ display: "flex", flexDirection: "row" }}>
         <div style={{ flexGrow: 1 }}>
           <LogoLink variant="text" component={Link} to="/">
-            {"afternotes"}
+            {"InfoIndeks"}
           </LogoLink>
         </div>
         <Menu
@@ -45,10 +45,10 @@ export default function NavBar() {
           anchorOrigin={{ vertical: "center", horizontal: "center" }}
         >
           <MenuItem component={Link} to="/profile">
-            <ListItemText primary={"Profile"} />
+            <ListItemText primary={"Konto"} />
           </MenuItem>
           <MenuItem onClick={LogOut} component={Link} to="/">
-            <ListItemText primary={"Logout"} />
+            <ListItemText primary={"Logg ut"} />
           </MenuItem>
         </Menu>
         <Avatar

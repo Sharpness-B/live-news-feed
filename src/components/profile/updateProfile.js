@@ -59,13 +59,13 @@ export default function UpdateProfile() {
       setLoading(false);
       setIsColapsed(true);
       setAlertType("success");
-      setAlert("Your profile has been updated");
+      setAlert("Din profil har blitt oppdatert");
     } catch (e) {
       setIsColapsed(true);
       setAlertType("error");
       setLoading(false);
       console.warn(e);
-      setAlert("Failed to update your profile");
+      setAlert("Kunne ikke oppdatere profilen din");
     }
   };
 
@@ -114,7 +114,7 @@ export default function UpdateProfile() {
             />
           </Badge>
           <Typography sx={{ fontSize: "1.2em", mt: 0 }} variant={"body2"}>
-            {"Select your image"}
+            {"Velg bilde"}
           </Typography>
         </Stack>
         <div style={{ height: 10 }} />
@@ -127,7 +127,7 @@ export default function UpdateProfile() {
                 error={nameError}
                 sx={{ fontFamily: "Poppins" }}
               >
-                {"Name"}
+                {"Navn"}
               </InputLabel>
               <TextField
                 fullWidth
@@ -147,7 +147,7 @@ export default function UpdateProfile() {
                 error={userNameError}
                 sx={{ fontFamily: "Poppins" }}
               >
-                {"Username"}
+                {"Brukernavn"}
               </InputLabel>
               <TextField
                 fullWidth
@@ -162,7 +162,7 @@ export default function UpdateProfile() {
             </Grid>
             <Grid item sm={12} lg={12} xs={12}>
               <InputLabel htmlFor="username" sx={{ fontFamily: "Poppins" }}>
-                {"About"}
+                {"Om"}
               </InputLabel>
               <TextField
                 fullWidth
@@ -179,7 +179,7 @@ export default function UpdateProfile() {
                 fullWidth
                 disabled={loading}
               >
-                {loading ? "Updating..." : "Update"}
+                {loading ? "Oppdaterer..." : "Oppdater"}
               </BlackButton>
             </Grid>
           </Grid>

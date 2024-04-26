@@ -34,7 +34,7 @@ export default function Home() {
                   fontWeight: 600,
                 }}
               >
-                {"Let's make some notes"}
+                {"Oversikt og hurtighet"}
               </Typography>
 
               <Typography
@@ -46,11 +46,11 @@ export default function Home() {
                 }}
               >
                 {
-                  "It's better to note down than to memorize. Get started with afternotes, a note app which helps you to to make maintainable notes."
+                  "InfoIndeks samler nyhetskildene dine på ett sted. Dette gir deg oversikt og hrutghet. Et forsprang."
                 }
               </Typography>
               <BlackButton component={Link} to={"/notes"}>
-                {"Get started"}
+                {"Til InfoIndeks"}
               </BlackButton>
               <BlackButton component={Link} to={"/signup"}>
                 {"Registrer bruker"}

@@ -46,11 +46,11 @@ const FilterBar = ({ user, filters, setFilters }) => {
 
     return (
         <div className='container'>
-            <Typography variant="h6">Search for keywords</Typography>
+            <Typography variant="h6">Søk etter nøkkelord</Typography>
             <form onSubmit={handleKeywordSubmit} className='form-container'>
                 <TextField
                     className='input-field'
-                    label="Last date and time"
+                    label="Siste dato og tidspunkt"
                     type="datetime-local"
                     value={filters.endDate}
                     onChange={handleEndDateChange}
@@ -60,12 +60,12 @@ const FilterBar = ({ user, filters, setFilters }) => {
             
                 <TextField
                     className='input-field'
-                    label="Keyword"
+                    label="Nøkkelord"
                     value={keywordInput}
                     onChange={(e) => setKeywordInput(e.target.value)}
                     size="small"
                 />
-                <Button type="submit">Add Keyword</Button>
+                <Button type="submit">Legg til</Button>
                 
                 <div className="chips-container">
                     {filters.keywords.map((keyword) => (

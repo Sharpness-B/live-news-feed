@@ -1,4 +1,4 @@
-2. designet av feed og spor av notes
+2. spor av notes
 3. url og login
 
 

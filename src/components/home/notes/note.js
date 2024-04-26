@@ -159,8 +159,8 @@ export default function Home() {
         autoHideDuration={5000}
         onClose={() => setIsNewItemAdded(false)}
       >
-        <Alert severity="error">
-          A new article has been added!
+        <Alert severity="info">
+          Ny artikkel
         </Alert>
       </Snackbar>
 
@@ -200,7 +200,7 @@ export default function Home() {
         <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 600, lineHeight: 1 }}>{item.title}</Typography>
         <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}> 
           {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />} {/* Display icon if the article is less than 5 minutes old */}
-          {timeString} {item.newspaper} <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>Read more</a>
+          {timeString} {item.newspaper} <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>Les mer</a>
         </Typography>
         <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1 }}>{item.contentSnippet}</Typography>
       </Box>

@@ -68,23 +68,23 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
 
   return (
     <div className="container">
-      <Typography variant="h6">Add custom RSS feeds</Typography>
+      <Typography variant="h6">Legg til egne RSS kanaler</Typography>
       <form onSubmit={handleSubmit} className="form-container">
         <TextField
-          label="URL https://www.website.rss"
+          label="URL https://www.|.rss"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           className="input-field"
           size="small"
         />
         <TextField
-          label="Title"
+          label="Beskrivelse"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="input-field"
           size="small"
         />
-        <Button type="submit">Add Feed</Button>
+        <Button type="submit">Legg til</Button>
         <div className="chips-container">
           {feeds.map((feed, index) => (
             <Chip

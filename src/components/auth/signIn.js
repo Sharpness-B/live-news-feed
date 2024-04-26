@@ -83,7 +83,7 @@ export default function SignUp() {
                   error={emailError}
                   sx={{ fontFamily: "Poppins", fontWeight: "500" }}
                 >
-                  {"Email"}
+                  {"E-post"}
                 </InputLabel>
                 <TextField
                   value={email}
@@ -110,7 +110,7 @@ export default function SignUp() {
                   error={passwordError}
                   sx={{ fontFamily: "Poppins", fontWeight: "500" }}
                 >
-                  {"Password"}
+                  {"Passord"}
                 </InputLabel>
                 <TextField
                   sx={{ padding: "2px" }}
