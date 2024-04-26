@@ -59,13 +59,13 @@ export default function UpdateProfile() {
       setLoading(false);
       setIsColapsed(true);
       setAlertType("success");
-      setAlert("Your profile has been updated 😘");
+      setAlert("Your profile has been updated");
     } catch (e) {
       setIsColapsed(true);
       setAlertType("error");
       setLoading(false);
       console.warn(e);
-      setAlert("Failed to update your profile 😔");
+      setAlert("Failed to update your profile");
     }
   };
 
@@ -183,19 +183,22 @@ export default function UpdateProfile() {
               </BlackButton>
             </Grid>
           </Grid>
-          {userInfo && (
-            <Typography
-              variant="caption"
-              sx={{
-                textAlign: "center",
-                color: "rgba(80,80,80,0.8)",
-                fontStyle: "italic",
-                display: "block",
-              }}
-            >
-              {`updated ${dateFormatWithTime(userInfo.updatedAt)}...`}
-            </Typography>
-          )}
+          
+          <Typography
+            variant="caption"
+            sx={{
+              textAlign: "center",
+              color: "rgba(80,80,80,0.8)",
+              fontStyle: "italic",
+              display: "block",
+            }}
+          >
+            <br/>
+            {user.isPayingUser ? "Har aktivt abonnement." : "Har ikke kjøpt tilgang."}
+            <br/>
+            Support: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
+          </Typography>
+          
         </Paper>
         <Snackbar open={isCollpased}>
           <Alert severity={alertType}>{alert}</Alert>

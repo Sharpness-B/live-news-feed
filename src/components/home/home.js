@@ -49,8 +49,11 @@ export default function Home() {
                   "It's better to note down than to memorize. Get started with afternotes, a note app which helps you to to make maintainable notes."
                 }
               </Typography>
-              <BlackButton component={Link} to={user ? "/notes" : "/signup"}>
+              <BlackButton component={Link} to={"/notes"}>
                 {"Get started"}
+              </BlackButton>
+              <BlackButton component={Link} to={"/signup"}>
+                {"Registrer bruker"}
               </BlackButton>
             </Container>
             <LazyLoadImage

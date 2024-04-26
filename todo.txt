@@ -1,4 +1,6 @@
-timing and update osv hvilken løsning??
+1. alert Funksjonalitet
+2. designet av feed og spor av notes
+3. url og login
 
 
 
@@ -6,7 +8,6 @@ timing and update osv hvilken løsning??
 * Ting
 automatisert gh deply funker ikke
 få bort alle spor av notes
-fjern facebook
 fiks profilbilde
 
 * Funksjonalitet:
@@ -23,7 +24,6 @@ AI filterer på det som er samme sak
 Lagre i DB historiske feeds
 
 * Kommersialisering
-Maks 1 forhåndsbestemt rss  uten betaling. Vel faktura epost skal sendes til/kortbetaling
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
 * Bugs
