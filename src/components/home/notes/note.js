@@ -148,7 +148,7 @@ export default function Home() {
       {/* Settings and filters */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Innstillinger</Typography>
+          <Typography marginLeft={"8px"}>Innstillinger</Typography>
         </AccordionSummary>
         
         <AccordionDetails>
