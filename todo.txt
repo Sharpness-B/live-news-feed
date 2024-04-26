@@ -19,6 +19,9 @@ Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
 Legg til successfully added
 
+AI filterer på det som er samme sak
+Lagre i DB historiske feeds
+
 * Kommersialisering
 Maks 1 forhåndsbestemt rss  uten betaling. Vel faktura epost skal sendes til/kortbetaling
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk

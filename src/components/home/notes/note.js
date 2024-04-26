@@ -172,7 +172,7 @@ export default function Home() {
   // Fetch feeds initially when selectedFeeds changes
   useEffect(() => {
     fetchFeeds();
-  }, [selectedFeeds]);
+  }, [selectedFeeds, selectedCustomFeeds]);
 
   // Fetch feeds every 10 seconds
   useInterval(fetchFeeds, 10000);
