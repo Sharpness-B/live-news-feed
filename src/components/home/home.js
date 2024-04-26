@@ -48,7 +48,7 @@ export default function Home() {
                   "InfoIndeks samler nyhetsstrømmene dine på ett sted. Dette gir deg oversikt og hurtighet. Et forsprang."
                 }
               </Typography>
-              <BlackButton component={Link} to={"/notes"}>
+              <BlackButton component={Link} to={"/infoindeks"}>
                 {"Til InfoIndeks"}
               </BlackButton>
               {/* <BlackButton component={Link} to={"/signup"}>
