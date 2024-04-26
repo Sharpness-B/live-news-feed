@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendEmailVerification,
   getAuth,
   signOut,
   signInWithPopup,
@@ -16,6 +17,8 @@ export const auth = getAuth();
 export const signUp = async (email, password, name, userName) => {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
   await addUserToDb(user, name, userName);
+  await sendEmailVerification(user);
+  await signOut(auth);
 };
 export const signIn = async (email, password) =>
   await signInWithEmailAndPassword(auth, email, password);

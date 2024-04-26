@@ -14,7 +14,7 @@ import { BlackButton } from "../common/styled";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { signUp } from "../../data/services/authservice";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/useUser";
 import { SignUpMetaData } from "./headers";
 import SocialAuth from "./socialAuth";
@@ -36,6 +36,8 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const signNewUser = async (e) => {
     e.preventDefault();
     if (!name) return setNameError(true);
@@ -45,6 +47,11 @@ export default function SignUp() {
     try {
       setLoading(true);
       await signUp(email, password, name, userName);
+      setLoading(false);
+      setCollapsed(true);
+      setAlertHead("info");
+      setAlertBody("En bekreftelses-e-post er sendt. Bekreft e-postadressen din før du logger på.");
+      navigate('/login?info=verify'); // redirect to login
     } catch (e) {
       setLoading(false);
       setCollapsed(true);
@@ -52,7 +59,7 @@ export default function SignUp() {
       setAlertBody(e.code.replace("auth/", ""));
     }
   };
-  return !user ? (
+  return !user || !user.emailVerified ? (
     <Stack
       alignItems={"center"}
       direction={"row"}

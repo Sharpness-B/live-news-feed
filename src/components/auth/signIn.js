@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { BlackButton } from "../common/styled";
-import { useState } from "react";
-import { signIn } from "../../data/services/authservice";
-import { Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { signIn, logOut } from "../../data/services/authservice";
+import { Navigate, useLocation } from "react-router-dom";
 import { useUser } from "../../context/useUser";
 import { SignInMeta } from "./headers";
 import image from "../img/prof.jpg";
@@ -31,13 +31,31 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
+  // show info?
+  const location = useLocation();
+  const info = new URLSearchParams(location.search).get('info');
+  useEffect(() => {
+    if (info === 'verify') {
+      setCollapsed(true);
+      setAlertHead("info");
+      setAlertBody("En bekreftelses-e-post er sendt. Bekreft e-postadressen din før du logger på.");
+    }
+  }, [info]);
+
   const signUserIn = async (e) => {
     e.preventDefault();
     if (!email) return setEmailError(true);
     if (!password) return setPasswordError(true);
     try {
       setLoading(true);
-      await signIn(email, password);
+      const { user } = await signIn(email, password);
+      if (!user.emailVerified) {
+        setLoading(false);
+        setCollapsed(true);
+        setAlertHead("error");
+        setAlertBody("Bekreft e-postadressen din før du logger på.");
+        logOut();
+      }
     } catch (e) {
       setLoading(false);
       setCollapsed(true);
@@ -45,7 +63,7 @@ export default function SignUp() {
       setAlertBody(e.code.replace("auth/", ""));
     }
   };
-  return !user ? (
+  return !user || !user.emailVerified ? (
     <Stack direction={"row"} justifyContent={"space-around"}>
       <Fade in timeout={1800}>
         <img alt="" src={image} style={{ height: "100vh" }} />
