@@ -139,6 +139,7 @@ export default function Home() {
   }, [flattened_items]);
 
 
+  const [openArticles, setOpenArticles] = useState([]);
 
 
 
@@ -192,15 +193,23 @@ export default function Home() {
       isNewArticle = (new Date() - date) < 5 * 60 * 1000;
     } catch {}
 
+    const isOpen = openArticles[index];
+
+    const handleClick = () => {
+      const newOpenArticles = [...openArticles];
+      newOpenArticles[index] = !isOpen;
+      setOpenArticles(newOpenArticles);
+    };
+
     return (
-      <Box key={index} sx={{ my: 0.5, p: 0.5, maxWidth: '1000px', width: '100%', backgroundColor: '#f6f6f6', borderRadius: '5px' }}>
+      <Box key={index} sx={{ my: 0.5, p: 0.5, maxWidth: '1000px', width: '100%', backgroundColor: '#f6f6f6', borderRadius: '5px', cursor: 'pointer' }} onClick={handleClick}>
         <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 600, lineHeight: 1 }}>{item.title}</Typography>
         <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}> 
           {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />} {/* Display icon if the article is less than 5 minutes old */}
           {timeString} {item.newspaper} <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>Les mer</a>
         </Typography>
-        <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1 }}>{item.contentSnippet}</Typography>
-      </Box>
+        {isOpen && <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1 }}>{item.contentSnippet}</Typography>}
+    </Box>
     );
   })}
 </Box>
