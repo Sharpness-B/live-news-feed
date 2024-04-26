@@ -10,18 +10,18 @@ const PayingUserModal = ({ open, handleClose }) => {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title" style={{position: 'relative'}}>
-                {"Access Restricted"}
+                {"Begrenset tilgang"}
                 <IconButton edge="end" color="inherit" onClick={handleClose} aria-label="close" style={{position: 'absolute', right: 16, top: 4}}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                    To access custom RSS feeds and add your own, you need to be a paying user.
+                    Oppgrader til en betalt bruker for å få tilgang til flere nyhetsstrømmer og for å legge til dine egne.
                 </DialogContentText>
                 <DialogContentText>
                     <br />
-                    Contact sales: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
+                    Ta kontakt for å komme i gang: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
                 </DialogContentText>
             </DialogContent>
         </Dialog>
