@@ -143,7 +143,7 @@ export default function Home() {
 
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/signup" />;
   }
 
   return (
