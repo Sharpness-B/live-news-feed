@@ -21,7 +21,7 @@ const PayingUserModal = ({ open, handleClose }) => {
                 </DialogContentText>
                 <DialogContentText>
                     <br />
-                    Contact sales: mail@sales.com
+                    Contact sales: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
                 </DialogContentText>
             </DialogContent>
         </Dialog>
