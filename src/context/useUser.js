@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "../data/services/authservice";
-import { userInfoRef } from "../data/services/firestore";
+import { userInfoRef, readIsPayingUser } from "../data/services/firestore";
 import { onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -16,14 +16,24 @@ const Auth = (props) => {
     return cleanup;
   }, []);
 
-  useEffect(() => {
+  useEffect( async () => {
     if (user != null) {
       const cleanUp = onSnapshot(userInfoRef(user), (snapshot) => {
         setUserInfo(snapshot.data());
       });
+
+      // Add payment info
+      try{
+        const isPayingUser = await readIsPayingUser(user);
+        user.isPayingUser = isPayingUser
+      } catch (error) {
+        console.log("Database error: could not fetch user payment info", error);
+        user.isPayingUser = false
+      }
+
       return cleanUp;
     }
-  }, [user]);
+  }, [user]); 
 
   const value = { user, userInfo };
 

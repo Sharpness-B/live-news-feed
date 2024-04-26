@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { writeCustomFeedsToDB, readCustomFeedsFromDB, readIsPayingUser } from  "../../../data/services/firestore";
+import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
 
 import './CustomFeedInput.css';
 
@@ -14,6 +14,14 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
     const fetchFeeds = async () => {
       const feedsFromDB = await readCustomFeedsFromDB(user);
       setFeeds(feedsFromDB);
+
+      // No selected if not paying user
+      if (!user.isPayingUser) {
+        setSelectedCustomFeeds([])
+        return
+      }
+
+      // Set selected custom feeds
       setSelectedCustomFeeds(feedsFromDB.filter(feed => feed.isSelected));
     }
 
@@ -32,18 +40,11 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
   };
 
   const handleFeedClick = async (feed) => {
-      // First, check if user is paying - return if user is not paying
-      try {
-        const isPayingUser = await readIsPayingUser(user);
-
-        if (!isPayingUser) {
-            setPayingUserModalVisible(true);
-            return
-        }
-      } catch (error) {
-          console.log("Database error: could not fetch user payment info", error);
-          return;
-      }
+    // First, check if user is paying - return if user is not paying
+    if (!user.isPayingUser) {
+        setPayingUserModalVisible(true);
+        return
+    }
 
     // handleFeedClick logic
     const updatedFeeds = feeds.map(x => {
@@ -87,7 +88,7 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
             <Chip
               label={feed.title}
               clickable
-              color={feed.isSelected ? 'primary' : 'default'}
+              color={feed.isSelected && user.isPayingUser ? 'primary' : 'default'}
               onClick={() => handleFeedClick(feed)}
               onDelete={() => handleDeleteFeed(feed)}
               deleteIcon={<IconButton><DeleteIcon /></IconButton>}
