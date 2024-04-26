@@ -84,7 +84,8 @@ export default function UpdateProfile() {
           flexDirection: "column",
         }}
       >
-        <Stack
+        {/* PROFILBILDE og velg nytt bilde */}
+        {/* <Stack
           direction={"column"}
           alignItems={"center"}
           spacing={1}
@@ -116,7 +117,7 @@ export default function UpdateProfile() {
           <Typography sx={{ fontSize: "1.2em", mt: 0 }} variant={"body2"}>
             {"Velg bilde"}
           </Typography>
-        </Stack>
+        </Stack> */}
         <div style={{ height: 10 }} />
         <Paper elevation={4} sx={{ width: "100%", p: 2 }}>
           <Grid container spacing={2}>
