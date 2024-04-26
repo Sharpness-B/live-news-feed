@@ -1,8 +1,3 @@
-3. url og login
-
-
-
-
 * Ting
 automatisert gh deply funker ikke
 få bort alle spor av notes
@@ -16,6 +11,8 @@ Default med en samlet kanal -> da er oppdateringseffekten kulere også (ref foku
 Man velger de kildene man vil, men også hvilken feed (1 2 eller 3, eller hvor mange man vil. + til siden for ny feed) de skal vises. Hver feed består av kanalene og saker sortert etter klokkeslett
 Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
+longin -> slett kontoer som ikke er bekreftet
+
 Legg til successfully added
 
 AI filterer på det som er samme sak
@@ -26,7 +23,6 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
 * Bugs
 Veldig rar behavor når det velges feeds som ikke funker
-Funker ikke å gå direkte inn på link
 user object er ikke loadet fra start så bytter bort noen ganger også
 Alert på nye rss funker ikke. feil med når den aktivers bare
 

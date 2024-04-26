@@ -8,12 +8,13 @@ import {
   Grid,
   Slide,
   InputLabel,
+  Button,
   Divider,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { BlackButton } from "../common/styled";
 import { useState, useEffect } from "react";
-import { signIn, logOut } from "../../data/services/authservice";
+import { signIn, logOut, resetPassword } from "../../data/services/authservice";
 import { Navigate, useLocation } from "react-router-dom";
 import { useUser } from "../../context/useUser";
 import { SignInMeta } from "./headers";
@@ -63,6 +64,21 @@ export default function SignUp() {
       setAlertBody(e.code.replace("auth/", ""));
     }
   };
+
+  // reset password
+  const handleResetPassword = async () => {
+    try {
+      await resetPassword(email);
+      setCollapsed(true);
+      setAlertHead("info");
+      setAlertBody("Lag et nytt passord med lenken som er sendt på mail");
+    } catch (error) {
+      setCollapsed(true);
+      setAlertHead("error");
+      setAlertBody("Fyll inn e-postadressen din");
+    }
+  };
+
   return !user || !user.emailVerified ? (
     <Stack direction={"row"} justifyContent={"space-around"}>
       <Fade in timeout={1800}>
@@ -162,6 +178,7 @@ export default function SignUp() {
                   {!loading ? "Sign In" : "Authenticating..."}
                 </BlackButton>
               </Grid>
+              <Button onClick={handleResetPassword}>Glemt Passord</Button>
             </Grid>
           </Box>
         </Container>
