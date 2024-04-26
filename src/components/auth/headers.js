@@ -8,7 +8,7 @@ export const SignUpMetaData = () => {
         variant="h4"
         sx={{ fontFamily: "Poppins", fontWeight: "600" }}
       >
-        Registrer bruker
+        Registrer bruker.
       </Typography>
       <Stack direction="row" alignItems="center" sx={{ mb: 2 }}>
         <Typography
@@ -19,7 +19,7 @@ export const SignUpMetaData = () => {
             textTransform: "capitalize",
           }}
         >
-          {"Har du allerede en bruker?"}
+          {"Har du allerede konto?"}
         </Typography>
         <div style={{ width: 10 }}></div>
         <StyledLink to="/login">{"  Logg inn"}</StyledLink>
@@ -38,7 +38,7 @@ export const SignInMeta = () => {
           fontWeight: "600",
         }}
       >
-        {" Velkommen tilbake!"}
+        {" Velkommen!"}
       </Typography>
       <Stack direction="row" alignItems="center" sx={{ mb: 2 }}>
         <Typography
@@ -49,7 +49,7 @@ export const SignInMeta = () => {
             textTransform: "capitalize",
           }}
         >
-          {"Har du ikke en bruker?"}
+          {"Har du ikke konto?"}
         </Typography>
         <div style={{ width: 10 }}></div>
         <StyledLink to="/signup">{"Registrer ny bruker"}</StyledLink>

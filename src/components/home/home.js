@@ -12,7 +12,7 @@ export default function Home() {
   // if (!user) return <Navigate to="/login" />;
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <Fade in duration={2000}>
         <Container maxWidth="lg">
           <Stack
@@ -45,15 +45,15 @@ export default function Home() {
                 }}
               >
                 {
-                  "InfoIndeks samler nyhetskildene dine på ett sted. Dette gir deg oversikt og hrutghet. Et forsprang."
+                  "InfoIndeks samler nyhetsstrømmene dine på ett sted. Dette gir deg oversikt og hurtighet. Et forsprang."
                 }
               </Typography>
               <BlackButton component={Link} to={"/notes"}>
-                {"Til Nyhesstørmmen"}
+                {"Til InfoIndeks"}
               </BlackButton>
-              <BlackButton component={Link} to={"/signup"}>
+              {/* <BlackButton component={Link} to={"/signup"}>
                 {"Registrer bruker"}
-              </BlackButton>
+              </BlackButton> */}
             </Container>
             <LazyLoadImage
               src={bookImage}
