@@ -178,7 +178,10 @@ export default function SignUp() {
                   {!loading ? "Sign In" : "Authenticating..."}
                 </BlackButton>
               </Grid>
-              <Button onClick={handleResetPassword}>Glemt Passord</Button>
+              
+              <Grid item lg={12} sm={12}>
+                <Button onClick={handleResetPassword}>Glemt Passord</Button>
+              </Grid>
             </Grid>
           </Box>
         </Container>
