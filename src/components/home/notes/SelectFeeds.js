@@ -1,5 +1,5 @@
 
-import { writeSelectedFeedsToDB, readSelectedFeedsFromDB } from "../../../data/services/firestore"
+import { writeSelectedFeedsToDB, readSelectedFeedsFromDB, readIsPayingUser } from "../../../data/services/firestore"
 import { useEffect } from "react";
 import { Grid, Typography, Chip, Box } from '@mui/material';
 
@@ -23,7 +23,7 @@ const feeds = [
   ];
 
 
-const SelectFeeds = ({ user, selectedFeeds, setSelectedFeeds }) => {
+const SelectFeeds = ({ user, selectedFeeds, setSelectedFeeds, setPayingUserModalVisible }) => {
     
      // Fetch selected feeds from DB on component mount
     useEffect(() => {
@@ -46,7 +46,22 @@ const SelectFeeds = ({ user, selectedFeeds, setSelectedFeeds }) => {
 
   
 
-    const handleFeedClick = (feed) => {
+    const handleFeedClick = async (feed) => {
+        // First, check if user is paying - return if user is not paying
+        try {
+            const isPayingUser = await readIsPayingUser(user);
+
+            if (!isPayingUser) {
+                setPayingUserModalVisible(true);
+                return
+            }
+        } catch (error) {
+            console.log("Database error: could not fetch user payment info", error);
+            return;
+        }
+        
+
+        // handleFeedClick logic
         setSelectedFeeds((prevFeeds) => {
             const newFeeds = prevFeeds.find((x) => x.id === feed.id)
                 ? prevFeeds.filter((x) => x.id !== feed.id)

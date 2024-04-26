@@ -143,3 +143,18 @@ export const readFiltersFromDB = async (user) => {
     return { keywords: [], endDate: '' };
   }
 };
+
+
+
+
+// read if user is paying user
+export const readIsPayingUser = async (user) => {
+  const docRef = doc(db, "paying-users-info", user.email);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().isPayingUser;
+  } else {
+    return false;
+  }
+};

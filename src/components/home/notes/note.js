@@ -9,6 +9,7 @@ import CurrentNote from "../../../context/useCurrentNote";
 import CustomFeedInput from './CustomFeedInput';
 import FilterBar from './FilterBar';
 import SelectFeeds from './SelectFeeds';
+import PayingUserModal from '../../common/PayingUserModal';
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
@@ -48,7 +49,12 @@ export default function Home() {
   ////////////////////////
   // alert new artickle //
   ////////////////////////
-  const [isNewItemAdded, setIsNewItemAdded] = useState(true);
+  const [isNewItemAdded, setIsNewItemAdded] = useState(false);
+
+  ///////////////////////
+  // paying user modal //
+  ///////////////////////
+  const [payingUserModalIsOpen, setPayingUserModalVisible] = useState(false);
 
 
   /////////////////////////////
@@ -146,12 +152,17 @@ export default function Home() {
         </Alert>
       </Snackbar>
 
+      {/* Paying user alert */}
+      <PayingUserModal open={payingUserModalIsOpen} handleClose={() => setPayingUserModalVisible(false)} />
+
+      
+
       {/* Select feeds bar */}
-      <SelectFeeds user={user} selectedFeeds={selectedFeeds} setSelectedFeeds={setSelectedFeeds} />
+      <SelectFeeds user={user} selectedFeeds={selectedFeeds} setSelectedFeeds={setSelectedFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
       
 
       {/* Custom rss input */}
-      <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} />
+      <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
 
       {/* Filters */}
       <FilterBar user={user} filters={filters} setFilters={setFilters} />

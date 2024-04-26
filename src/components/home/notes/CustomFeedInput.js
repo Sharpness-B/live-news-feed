@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
+import { writeCustomFeedsToDB, readCustomFeedsFromDB, readIsPayingUser } from  "../../../data/services/firestore";
 
 import './CustomFeedInput.css';
 
-const CustomFeedInput = ({ user, setSelectedCustomFeeds }) => {
+const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisible }) => {
   const [feeds, setFeeds] = useState([]);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
@@ -32,6 +32,20 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds }) => {
   };
 
   const handleFeedClick = async (feed) => {
+      // First, check if user is paying - return if user is not paying
+      try {
+        const isPayingUser = await readIsPayingUser(user);
+
+        if (!isPayingUser) {
+            setPayingUserModalVisible(true);
+            return
+        }
+      } catch (error) {
+          console.log("Database error: could not fetch user payment info", error);
+          return;
+      }
+
+    // handleFeedClick logic
     const updatedFeeds = feeds.map(x => {
       if (x.id === feed.id) {
         x.isSelected = !x.isSelected
