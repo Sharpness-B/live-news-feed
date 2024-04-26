@@ -125,7 +125,6 @@ export default function Home() {
   //////////////////
   // State variable to store hashes
   const [itemHashes, setItemHashes] = useState([]);
-
   useEffect(() => {
     // Calculate hashes for current items
     const currentItemHashes = flattened_items.map(item => hash(item));
@@ -141,6 +140,9 @@ export default function Home() {
         setItemHashes(currentItemHashes);
     }
   }, [flattened_items]);
+
+
+  
 
 
   // console.log(user)

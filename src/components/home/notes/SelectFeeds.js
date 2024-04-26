@@ -86,7 +86,7 @@ const SelectFeeds = ({ user, selectedFeeds, setSelectedFeeds, setPayingUserModal
     };
 
     return (
-        <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap', p: 4}}>
+        <Box sx={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap', mt: 2, mx: 4}}>
             {Object.entries(feeds.reduce((categories, feed) => {
             if (!categories[feed.category]) {
                 categories[feed.category] = [];
