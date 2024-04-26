@@ -8,8 +8,7 @@ import bookImage from "../img/home.jpg";
 import Quotes from "./notes/quote";
 
 export default function Home() {
-  const { user } = useUser();
-
+  // const { user } = useUser();
   // if (!user) return <Navigate to="/login" />;
   return (
     <>
@@ -50,7 +49,7 @@ export default function Home() {
                 }
               </Typography>
               <BlackButton component={Link} to={"/notes"}>
-                {"Til InfoIndeks"}
+                {"Til Nyhesstørmmen"}
               </BlackButton>
               <BlackButton component={Link} to={"/signup"}>
                 {"Registrer bruker"}

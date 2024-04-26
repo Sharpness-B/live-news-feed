@@ -1,10 +1,7 @@
 import { Navigate } from "react-router-dom";
-import NoteContainer from "./noteContainer";
 // import { Grid } from "@mui/material";
-import NoteDetails from "./notedetails";
 import NavBar from "../../common/navBar";
 import { useUser } from "../../../context/useUser";
-import CurrentNote from "../../../context/useCurrentNote";
 
 import CustomFeedInput from './CustomFeedInput';
 import FilterBar from './FilterBar';
@@ -145,9 +142,9 @@ export default function Home() {
 
 
 
-  // console.log(user)
-  // if (!userInfo) return <div>loading</div>
-  // if (!user) return <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>

@@ -45,30 +45,31 @@ export const updateUser = async (user, name, userName, about, profile) => {
   );
 };
 
-export const updateNoteByNoteId = async (user, noteId, noteObj) => {
-  await updateDoc(doc(db, "users", user.uid, "notes", noteId), noteObj);
-};
+// export const updateNoteByNoteId = async (user, noteId, noteObj) => {
+//   await updateDoc(doc(db, "users", user.uid, "notes", noteId), noteObj);
+// };
 
-export const removeNoteByNoteId = async (user, noteId) => {
-  await deleteDoc(doc(db, "users", user.uid, "notes", noteId));
-};
+// export const removeNoteByNoteId = async (user, noteId) => {
+//   await deleteDoc(doc(db, "users", user.uid, "notes", noteId));
+// };
 
-export const addNoteToDb = async (user, heading, note, tags) => {
-  await addDoc(collection(db, "users", user.uid, "notes"), {
-    heading: heading,
-    note: note,
-    tags: tags,
-    createdAt: serverTimestamp(),
-  });
-};
+// export const addNoteToDb = async (user, heading, note, tags) => {
+//   await addDoc(collection(db, "users", user.uid, "notes"), {
+//     heading: heading,
+//     note: note,
+//     tags: tags,
+//     createdAt: serverTimestamp(),
+//   });
+// };
 
-export const notesRef = (user) =>
-  query(
-    collection(db, "users", user.uid, "notes"),
-    orderBy("createdAt", "desc")
-  );
-export const noteDetailsRef = (user, noteId) =>
-  doc(db, "users", user.uid, "notes", noteId);
+// export const notesRef = (user) =>
+//   query(
+//     collection(db, "users", user.uid, "notes"),
+//     orderBy("createdAt", "desc")
+//   );
+// export const noteDetailsRef = (user, noteId) =>
+//   doc(db, "users", user.uid, "notes", noteId);
+
 export const userInfoRef = (user) => doc(db, "users", user.uid);
 
 

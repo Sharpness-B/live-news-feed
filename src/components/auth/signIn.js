@@ -150,6 +150,6 @@ export default function SignUp() {
       </Slide>
     </Stack>
   ) : (
-    <Navigate to="/" />
+    <Navigate to="/notes" />
   );
 }

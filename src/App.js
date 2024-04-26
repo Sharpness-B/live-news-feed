@@ -7,7 +7,7 @@ import UpdateProfile from "./components/profile/updateProfile";
 import Auth from "./context/useUser";
 import InvalidPage from "./components/common/invalidPage";
 import { CssBaseline } from "@mui/material";
-import NotesProvider from "./context/useNotes";
+// import NotesProvider from "./context/useNotes";
 import "react-lazy-load-image-component/src/effects/blur.css";
 const App = () => {
   return (
@@ -18,15 +18,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route exact path="login" element={<SignIn />} />
           <Route exact path="signup" element={<SignUp />} />
-          <Route
-            exact
-            path="/notes"
-            element={
-              <NotesProvider>
-                <Notes />
-              </NotesProvider>
-            }
-          />
+          <Route exact path="/notes" element={<Notes />} />
           <Route exact path="/profile" element={<UpdateProfile />} />
           <Route path="*" element={<InvalidPage />} />
         </Routes>
