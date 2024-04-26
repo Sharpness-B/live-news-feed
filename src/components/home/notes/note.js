@@ -196,11 +196,11 @@ export default function Home() {
     } catch {}
 
     return (
-      <Box key={index} sx={{ my: 1, p: 0.5, maxWidth: '1000px', width: '100%', backgroundColor: '#f6f6f6', borderRadius: '5px' }}>
+      <Box key={index} sx={{ my: 0.5, p: 0.5, maxWidth: '1000px', width: '100%', backgroundColor: '#f6f6f6', borderRadius: '5px' }}>
         <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 600, lineHeight: 1 }}>{item.title}</Typography>
         <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}> 
           {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />} {/* Display icon if the article is less than 5 minutes old */}
-          {timeString} {item.newspaper} |<a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>Read more</a>
+          {timeString} {item.newspaper} <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>Read more</a>
         </Typography>
         <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1 }}>{item.contentSnippet}</Typography>
       </Box>

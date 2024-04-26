@@ -55,6 +55,7 @@ const FilterBar = ({ user, filters, setFilters }) => {
                     value={filters.endDate}
                     onChange={handleEndDateChange}
                     InputLabelProps={{ shrink: true }}
+                    size="small"
                 />
             
                 <TextField
@@ -62,12 +63,13 @@ const FilterBar = ({ user, filters, setFilters }) => {
                     label="Keyword"
                     value={keywordInput}
                     onChange={(e) => setKeywordInput(e.target.value)}
+                    size="small"
                 />
                 <Button type="submit">Add Keyword</Button>
                 
                 <div className="chips-container">
                     {filters.keywords.map((keyword) => (
-                        <Chip key={keyword} label={keyword} onDelete={handleKeywordDelete(keyword)} />
+                        <Chip color={"primary"} key={keyword} label={keyword} onDelete={handleKeywordDelete(keyword)} />
                     ))}
                 </div>
             </form>

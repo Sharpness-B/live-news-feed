@@ -75,12 +75,14 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           className="input-field"
+          size="small"
         />
         <TextField
           label="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="input-field"
+          size="small"
         />
         <Button type="submit">Add Feed</Button>
         <div className="chips-container">
