@@ -17,7 +17,7 @@ const feeds = [
     // { id:9, category: 'Internasjonal', title: 'CNN Overview', url: 'https://edition.cnn.com/services/rss/' },
     { id:10, category: 'Internasjonal', title: 'CNN Top Stories', url: 'http://rss.cnn.com/rss/edition.rss' },
   
-    { id:11, category: 'Dansk', title: 'Dansk', url: 'http://www.startside.nu/rss_feeds_kategori.php?action=category&cid=1' },
+    // { id:11, category: 'Dansk', title: 'Dansk', url: 'http://www.startside.nu/rss_feeds_kategori.php?action=category&cid=1' },
   
     // ... add more feeds here
   ];
