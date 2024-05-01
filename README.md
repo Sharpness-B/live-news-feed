@@ -22,9 +22,10 @@ Google Firebase is a Google-backed application development software that enables
   Feed1 --> Custom
   Custom -> Details
   Feed1 --> Selected
-  Selected -> Details
+  Selected -> ID_list
   Feed1 --> Filters
-  Filters -> Details
+  Filters -> searchKeywords
+  Filters -> excludeKeywords
   User2 --> Credentials2
   Credentials2 --> photoURL
   Credentials2 --> createdAt
