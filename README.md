@@ -1,10 +1,6 @@
-# REACT NOTE APP
-
-A note app made with `react` with a custom rich text editor made with `slate js` and `firebase`.
-
 ## Firebase🔥
 
-Google Firebase is a Google-backed application development software that enables developers to develop iOS, Android and Web apps.Here our app **afternotes** which is a web app, depends on firebase for the following features.
+Google Firebase is a Google-backed application development software that enables developers to develop iOS, Android and Web apps. Our app depends on firebase for the following features.
 
 - **Firebase Auth 🦸**
   Every app requires an authentication system,firebase provides us with basic `email and password` signin and along with all the major OAuth providers like `facebook`,`google` and many others .
@@ -41,18 +37,8 @@ Google Firebase is a Google-backed application development software that enables
 - **Hosting🌏**
   Being a web project, thus taking advantage of firebase hosting and following the [instruction](https://firebase.google.com/docs/hosting/quickstart).The project can be easity hosted.[URL](https://notify-b3141.web.app/)
 
-## Slate js 🖋️
+  npm run build
+  firebase deploy --only hosting
 
-[Slate](https://docs.slatejs.org/v/v0.47/) is a completely customizable framework for building rich text editors.
 
-> 🤖 Slate is currently in beta. Its core API is usable now, Some of its APIs are not "finalized" and will (breaking) change over time as we find better solutions.
-
-## Problems 💢
-
-This version 0.1.1 seems better than the previous one but still it's isn't complete . the notes can't be updated yet due to some problem with slate js. Thus there is no reason for update notes ,yet delete can be performed.
-
-> 👽 Project is not finished
-
-## Conclusion ✋
-
-The project is done properly ,but not good for usage , thus it can be said it's a hobby project, I am ending this project here ,feel free to contribute and let's make afternotes a proper notes app which it's supposed to be .
+  This is a fork of https://github.com/tuuhin/react_note_app
