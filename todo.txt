@@ -1,5 +1,6 @@
-2filtrering
-3flere feeds
+filtrering
+tittel på feed
+sammenslått feed
 
 
 

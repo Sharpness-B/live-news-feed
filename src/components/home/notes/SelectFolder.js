@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getFoldersFromDB, addFolderToDB, deleteFolderFromDB, updateFolderInDB } from "../../../data/services/firestore";
+import { getFoldersFromDB, addFolderToDB, deleteFolderFromDB, updateFolderInDB, writeSelectedFeedsToDB } from "../../../data/services/firestore";
 
 import './CustomFeedInput.css';
 
@@ -16,6 +16,8 @@ const FolderSelector = ({ user, folders, setFolders }) => {
       if (foldersFromDB.length === 0) {
         const defaultFolderId = await addFolderToDB(user, { name: 'Innenriks', isSelected: true });
         foldersFromDB = [{ id: defaultFolderId, name: 'Innenriks', isSelected: true }];
+        // add the default select for new folders
+        await writeSelectedFeedsToDB(user, defaultFolderId, [1])
       }
 
       setFolders(foldersFromDB);
