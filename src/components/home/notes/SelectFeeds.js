@@ -6,7 +6,7 @@ import { Grid, Typography, Chip, Box } from '@mui/material';
 
 const feeds = [
     // { id:1, category: 'Norge', title: 'VG Forsiden', url: 'https://www.vg.no/rss/feed/forsiden/' },
-    { id:2, category: 'Norge', title: 'VG Innenriks', url: 'https://www.vg.no/rss/feed/?categories=1069' },
+    { id:1, category: 'Norge', title: 'VG Innenriks', url: 'https://www.vg.no/rss/feed/?categories=1069' },
     { id:3, category: 'Norge', title: 'VG Utenriks', url: 'https://www.vg.no/rss/feed/?categories=1070' },
     { id:4, category: 'Norge', title: 'E24 – Alle nyheter', url: 'http://e24.no/rss2/' },
     { id:5, category: 'Norge', title: 'E24 – Børs og finans', url: 'https://e24.no/rss2/?seksjon=boers-og-finans' },
@@ -23,66 +23,38 @@ const feeds = [
   ];
 
 
-const SelectFeeds = ({ user, selectedFeeds, setSelectedFeeds, setPayingUserModalVisible }) => {
-    
-     // Fetch selected feeds from DB on component mount
+const SelectFeeds = ({ user, selectedFolder, selectedFeeds, setSelectedFeeds, setPayingUserModalVisible }) => {    
+         // Fetch selected feeds from DB on component mount
     useEffect(() => {
-        // First, check if user is paying - return if user is not paying
-        if (!user.isPayingUser) {
-            const defalutFeed = feeds.filter(feed => feed.id === 2);
-            setSelectedFeeds(defalutFeed)
-            return
-        }
-
-        // Fech selected feeds id list from db and filter the feeds to the selection
         const fetchSelectedFeeds = async () => {
             try {
-                const id_list = await readSelectedFeedsFromDB(user);
-                
-                // Find the feeds corresponding to the ids
+                let id_list;
+                if (user.isPayingUser) { id_list = await readSelectedFeedsFromDB(user, selectedFolder.id) } 
+                else                   { id_list=[1] }
+
                 const selectedFeeds = feeds.filter(feed => id_list.includes(feed.id));
-                
-                // Set the found feeds as the initial state
                 setSelectedFeeds(selectedFeeds);
             } catch (error) {
                 console.log("Database error: could not fetch previously selected news feeds", error);
             }
         }
-    
-    fetchSelectedFeeds();
-  }, []); // Empty dependency array means this effect runs once on mount
+        fetchSelectedFeeds();
+    }, [user, selectedFolder, setSelectedFeeds]);
 
-  
-
-    const handleFeedClick = (feed) => {
+    const handleFeedClick = async (feed) => {
         // First, check if user is paying - return if user is not paying
         if (!user.isPayingUser) {
             setPayingUserModalVisible(true);
             return
         }
-        
 
-        // handleFeedClick logic
-        setSelectedFeeds((prevFeeds) => {
-            const newFeeds = prevFeeds.find((x) => x.id === feed.id)
-                ? prevFeeds.filter((x) => x.id !== feed.id)
-                : [...prevFeeds, feed];
-                
-            const updateFeeds = async () => {
-                try {
-                const id_list = newFeeds.map(item => item.id);
-                const id = await writeSelectedFeedsToDB(user, id_list);
-                } catch (error) {
-                console.log("Database error: could not save set of news feeds", error);
-                }
-            }
-            
-            // Call the async function
-            updateFeeds();
-            
-            // Return the updated feeds to update the state
-            return newFeeds;
-        })
+        const newFeeds = selectedFeeds.find((x) => x.id === feed.id)
+            ? selectedFeeds.filter((x) => x.id !== feed.id)
+            : [...selectedFeeds, feed];
+
+        await writeSelectedFeedsToDB(user, selectedFolder.id, newFeeds.map(feed => feed.id));
+
+        setSelectedFeeds(newFeeds);
     };
 
     return (

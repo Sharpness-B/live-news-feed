@@ -19,6 +19,7 @@ import { useUser } from "../../../context/useUser";
 import { useInterval } from 'react-use';
 import Parser from 'rss-parser';
 import hash from 'object-hash';
+import FolderSelector from "./SelectFolder";
 
 
 // to read rss feeds
@@ -30,6 +31,12 @@ const parser = new Parser();
 
 export default function Home() {
   const { user } = useUser();
+
+  /////////////////////////// 
+  // status of all folders //
+  ///////////////////////////
+  const [folders, setFolders] = useState([]);
+  const selectedFolder = folders.find(obj => obj.isSelected === true);
 
   ////////////////////////
   // select feeds logic //
@@ -49,6 +56,7 @@ export default function Home() {
   const [payingUserModalIsOpen, setPayingUserModalVisible] = useState(false);
 
 
+  
   /////////////////////////////
   // read selected rss feeds //
   /////////////////////////////
@@ -143,17 +151,20 @@ export default function Home() {
     <>
       <NavBar />     
 
+      {/* Folder selector */}
+      <FolderSelector user={user} folders={folders} setFolders={setFolders} />
+
       {/* Settings and filters */}
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography marginLeft={"8px"}>Innstillinger</Typography>
+          <Typography marginLeft={"8px"}>{selectedFolder && selectedFolder.name} / Innstillinger</Typography>
         </AccordionSummary>
         
         <AccordionDetails>
           {/* Select feeds bar */}
-          <SelectFeeds user={user} selectedFeeds={selectedFeeds} setSelectedFeeds={setSelectedFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
+          <SelectFeeds     user={user} selectedFolder={selectedFolder} selectedFeeds={selectedFeeds} setSelectedFeeds={setSelectedFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
           {/* Custom rss input */}
-          <CustomFeedInput user={user} setSelectedCustomFeeds={setSelectedCustomFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
+          <CustomFeedInput user={user} selectedFolder={selectedFolder} setSelectedCustomFeeds={setSelectedCustomFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
           {/* Filters */}
           <FilterBar user={user} filters={filters} setFilters={setFilters} />
         </AccordionDetails>

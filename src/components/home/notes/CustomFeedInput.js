@@ -5,34 +5,29 @@ import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/serv
 
 import './CustomFeedInput.css';
 
-const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisible }) => {
+const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayingUserModalVisible }) => {
   const [feeds, setFeeds] = useState([]);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
 
   useEffect(() => {
     const fetchFeeds = async () => {
-      const feedsFromDB = await readCustomFeedsFromDB(user);
+      const feedsFromDB = await readCustomFeedsFromDB(user, selectedFolder.id);
+      // unselect everything if not paying user
+      if(!user.isPayingUser) { feedsFromDB.forEach(feed => {feed.isSelected = false;});}
+
       setFeeds(feedsFromDB);
-
-      // No selected if not paying user
-      if (!user.isPayingUser) {
-        setSelectedCustomFeeds([])
-        return
-      }
-
-      // Set selected custom feeds
       setSelectedCustomFeeds(feedsFromDB.filter(feed => feed.isSelected));
     }
 
     fetchFeeds();
-  }, []);
+  }, [user, selectedFolder]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: false };
-    await writeCustomFeedsToDB(user, [...feeds, newFeed]);
+    await writeCustomFeedsToDB(user, selectedFolder.id, [...feeds, newFeed]);
 
     setFeeds([...feeds, newFeed]);
     setUrl('');
@@ -40,27 +35,25 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
   };
 
   const handleFeedClick = async (feed) => {
-    // First, check if user is paying - return if user is not paying
     if (!user.isPayingUser) {
         setPayingUserModalVisible(true);
         return
     }
 
-    // handleFeedClick logic
     const updatedFeeds = feeds.map(x => {
       if (x.id === feed.id) {
         x.isSelected = !x.isSelected
       }
       return x;
     });
-    await writeCustomFeedsToDB(user, updatedFeeds);
+    await writeCustomFeedsToDB(user, selectedFolder.id, updatedFeeds);
 
     setSelectedCustomFeeds(updatedFeeds.filter(feed => feed.isSelected));
   };
 
   const handleDeleteFeed = async (feedToDelete) => {
     const updatedFeeds = feeds.filter(feed => feed.id !== feedToDelete.id);
-    await writeCustomFeedsToDB(user, updatedFeeds);
+    await writeCustomFeedsToDB(user, selectedFolder.id, updatedFeeds);
 
     setFeeds(updatedFeeds);
     setSelectedCustomFeeds(updatedFeeds.filter(feed => feed.isSelected));
@@ -90,7 +83,7 @@ const CustomFeedInput = ({ user, setSelectedCustomFeeds, setPayingUserModalVisib
             <Chip
               label={feed.title}
               clickable
-              color={feed.isSelected && user.isPayingUser ? 'primary' : 'default'}
+              color={feed.isSelected ? 'primary' : 'default'}
               onClick={() => handleFeedClick(feed)}
               onDelete={() => handleDeleteFeed(feed)}
               deleteIcon={<IconButton><DeleteIcon /></IconButton>}

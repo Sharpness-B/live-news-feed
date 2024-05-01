@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   addDoc,
   setDoc,
   serverTimestamp,
@@ -45,31 +46,6 @@ export const updateUser = async (user, name, userName, about, profile) => {
   );
 };
 
-// export const updateNoteByNoteId = async (user, noteId, noteObj) => {
-//   await updateDoc(doc(db, "users", user.uid, "notes", noteId), noteObj);
-// };
-
-// export const removeNoteByNoteId = async (user, noteId) => {
-//   await deleteDoc(doc(db, "users", user.uid, "notes", noteId));
-// };
-
-// export const addNoteToDb = async (user, heading, note, tags) => {
-//   await addDoc(collection(db, "users", user.uid, "notes"), {
-//     heading: heading,
-//     note: note,
-//     tags: tags,
-//     createdAt: serverTimestamp(),
-//   });
-// };
-
-// export const notesRef = (user) =>
-//   query(
-//     collection(db, "users", user.uid, "notes"),
-//     orderBy("createdAt", "desc")
-//   );
-// export const noteDetailsRef = (user, noteId) =>
-//   doc(db, "users", user.uid, "notes", noteId);
-
 export const userInfoRef = (user) => doc(db, "users", user.uid);
 
 
@@ -77,49 +53,49 @@ export const userInfoRef = (user) => doc(db, "users", user.uid);
 // New stuff //
 ///////////////
 
-// save selected feeds id
-export const writeSelectedFeedsToDB = async (user, id_list) => {
-  await setDoc(doc(db, "users", user.uid, "feeds", "selected"), {
-    id_list: id_list,
-    createdAt: serverTimestamp(),
-  }, { merge: true });
-};
+// // save selected feeds id
+// export const writeSelectedFeedsToDB = async (user, id_list) => {
+//   await setDoc(doc(db, "users", user.uid, "feeds", "selected"), {
+//     id_list: id_list,
+//     createdAt: serverTimestamp(),
+//   }, { merge: true });
+// };
 
-// read selected feeds id
-export const readSelectedFeedsFromDB = async (user) => {
-  const docRef = doc(db, "users", user.uid, "feeds", "selected");
-  const docSnap = await getDoc(docRef);
+// // read selected feeds id
+// export const readSelectedFeedsFromDB = async (user) => {
+//   const docRef = doc(db, "users", user.uid, "feeds", "selected");
+//   const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    return docSnap.data().id_list;
-  } else {
-    return [];
-  }
-}
-
-
+//   if (docSnap.exists()) {
+//     return docSnap.data().id_list;
+//   } else {
+//     return [];
+//   }
+// }
 
 
 
-// write custom feeds
-export const writeCustomFeedsToDB = async (user, feeds) => {
-  await setDoc(doc(db, "users", user.uid, "feeds", "custom"), {
-    feeds,
-    createdAt: serverTimestamp(),
-  }, { merge: true });
-};
 
-// read custom feeds
-export const readCustomFeedsFromDB = async (user) => {
-  const docRef = doc(db, "users", user.uid, "feeds", "custom");
-  const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    return docSnap.data().feeds;
-  } else {
-    return [];
-  }
-};
+// // write custom feeds
+// export const writeCustomFeedsToDB = async (user, feeds) => {
+//   await setDoc(doc(db, "users", user.uid, "feeds", "custom"), {
+//     feeds,
+//     createdAt: serverTimestamp(),
+//   }, { merge: true });
+// };
+
+// // read custom feeds
+// export const readCustomFeedsFromDB = async (user) => {
+//   const docRef = doc(db, "users", user.uid, "feeds", "custom");
+//   const docSnap = await getDoc(docRef);
+
+//   if (docSnap.exists()) {
+//     return docSnap.data().feeds;
+//   } else {
+//     return [];
+//   }
+// };
 
 
 
@@ -157,5 +133,84 @@ export const readIsPayingUser = async (user) => {
     return docSnap.data().isPayingUser;
   } else {
     return false;
+  }
+};
+
+
+
+
+
+
+// Function to add folder to DB
+export const addFolderToDB = async (user, folder) => {
+  const foldersCollection = collection(db, `users/${user.uid}/folders`);
+  const docRef = await addDoc(foldersCollection, { ...folder, isSelected: true });
+  return docRef.id; // Returns the id of the created document
+};
+
+// Function to update folder selection status in DB
+export const updateFolderInDB = async (user, folderId, isSelected) => {
+  const folderDoc = doc(db, `users/${user.uid}/folders/${folderId}`);
+  await updateDoc(folderDoc, { isSelected });
+};
+
+// Function to get folders from DB
+export const getFoldersFromDB = async (user) => {
+  const foldersCollection = collection(db, `users/${user.uid}/folders`);
+  const folderSnapshot = await getDocs(foldersCollection);
+  return folderSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()})); // Returns array of folders
+};
+
+// Function to delete folder from DB
+export const deleteFolderFromDB = async (user, folderId) => {
+  const folderDoc = doc(db, `users/${user.uid}/folders/${folderId}`);
+  await deleteDoc(folderDoc);
+};
+
+
+
+
+
+
+
+
+
+// save selected feeds id
+export const writeSelectedFeedsToDB = async (user, folderId, id_list) => {
+  await setDoc(doc(db, "users", user.uid, "folders", folderId, "feeds", "selected"), {
+    id_list: id_list,
+    createdAt: serverTimestamp(),
+  }, { merge: true });
+};
+
+// read selected feeds id
+export const readSelectedFeedsFromDB = async (user, folderId) => {
+  const docRef = doc(db, "users", user.uid, "folders", folderId, "feeds", "selected");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().id_list;
+  } else {
+    return [];
+  }
+}
+
+// write custom feeds
+export const writeCustomFeedsToDB = async (user, folderId, feeds) => {
+  await setDoc(doc(db, "users", user.uid, "folders", folderId, "feeds", "custom"), {
+    feeds,
+    createdAt: serverTimestamp(),
+  }, { merge: true });
+};
+
+// read custom feeds
+export const readCustomFeedsFromDB = async (user, folderId) => {
+  const docRef = doc(db, "users", user.uid, "folders", folderId, "feeds", "custom");
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().feeds;
+  } else {
+    return [];
   }
 };
