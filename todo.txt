@@ -1,4 +1,9 @@
-sammenslått feed
+sammenslått feed til høyre (man har den som er selected + den sammenslåtte)
+Krever litt logikk på at man ikke fetcher samme to ganger. En løsning er at den sammenslåtte er main, så å trekker bare den andre ut det som er relevant for dne
+
+fetchFeeds eksporteres til en egen Funksjon. Samme med filter. og slå disse sammen til en get folder rss
+Videre lager vi en funksjon som går gjennom alle mappene og slår dem sammen. Samme funksjon yielder også den mappen man har valgt
+Lag en funksjon som fetcher alle mappene.Det er i første omgang ikke så farlig at dette leses en ekstra gang for mappen som er valgt
 
 
 
