@@ -3,73 +3,87 @@ import { TextField, Button, Chip, Typography } from '@mui/material';
 import { writeFiltersToDB, readFiltersFromDB } from "../../../data/services/firestore";
 import './CustomFeedInput.css';
 
-const FilterBar = ({ user, filters, setFilters }) => {
-    // const [filters, setFilters] = useState({ keywords: [], endDate: '' });
-    const [keywordInput, setKeywordInput] = useState('');
+const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
+    const [searchKeywordInput, setSearchKeywordInput] = useState('');
+    const [excludeKeywordInput, setExcludeKeywordInput] = useState('');
     const [filtersLoaded, setFiltersLoaded] = useState(false);
-  
+
     useEffect(() => {
         const fetchFilters = async () => {
-            const filtersFromDB = await readFiltersFromDB(user);
+            const filtersFromDB = await readFiltersFromDB(user, selectedFolder.id);
             setFilters(filtersFromDB);
             setFiltersLoaded(true);
         }
-  
+
         fetchFilters();
-    }, [user]);
-  
+    }, [user, selectedFolder]);
+
     useEffect(() => {
         if (filtersLoaded) {
             const saveFilters = async () => {
-                await writeFiltersToDB(user, filters);
+                await writeFiltersToDB(user, selectedFolder.id, filters);
             }
         
             saveFilters();
         }
-    }, [filters, filtersLoaded, user]);
+    }, [user, filters]);
 
-    const handleKeywordSubmit = (e) => {
+    const handleSearchKeywordSubmit = (e) => {
         e.preventDefault();
-        if (keywordInput && !filters.keywords.includes(keywordInput)) {
-            setFilters(prevFilters => ({ ...prevFilters, keywords: [...prevFilters.keywords, keywordInput]}));
+        if (searchKeywordInput && !filters.searchKeywords.includes(searchKeywordInput)) {
+            setFilters(prevFilters => ({ ...prevFilters, searchKeywords: [...prevFilters.searchKeywords, searchKeywordInput]}));
         }
-        setKeywordInput('');
+        setSearchKeywordInput('');
     };
 
-    const handleKeywordDelete = (keywordToDelete) => () => {
-        setFilters(prevFilters => ({ ...prevFilters, keywords: prevFilters.keywords.filter(keyword => keyword !== keywordToDelete)}));
+    const handleExcludeKeywordSubmit = (e) => {
+        e.preventDefault();
+        if (excludeKeywordInput && !filters.excludeKeywords.includes(excludeKeywordInput)) {
+            setFilters(prevFilters => ({ ...prevFilters, excludeKeywords: [...prevFilters.excludeKeywords, excludeKeywordInput]}));
+        }
+        setExcludeKeywordInput('');
     };
 
-    const handleEndDateChange = (e) => {
-        setFilters(prevFilters => ({ ...prevFilters, endDate: e.target.value}));
+    const handleSearchKeywordDelete = (keywordToDelete) => () => {
+        setFilters(prevFilters => ({ ...prevFilters, searchKeywords: prevFilters.searchKeywords.filter(keyword => keyword !== keywordToDelete)}));
+    };
+
+    const handleExcludeKeywordDelete = (keywordToDelete) => () => {
+        setFilters(prevFilters => ({ ...prevFilters, excludeKeywords: prevFilters.excludeKeywords.filter(keyword => keyword !== keywordToDelete)}));
     };
 
     return (
         <div className='container'>
-            <Typography variant="h6">Søk etter nøkkelord</Typography>
-            <form onSubmit={handleKeywordSubmit} className='form-container'>
+            <Typography variant="h6">Filtrer på nøkkelord</Typography>
+            <form onSubmit={handleSearchKeywordSubmit} className='form-container'>
                 <TextField
                     className='input-field'
-                    label="Siste dato og tidspunkt"
-                    type="datetime-local"
-                    value={filters.endDate}
-                    onChange={handleEndDateChange}
-                    InputLabelProps={{ shrink: true }}
+                    label="Søk etter ord"
+                    value={searchKeywordInput}
+                    onChange={(e) => setSearchKeywordInput(e.target.value)}
                     size="small"
                 />
-            
-                <TextField
-                    className='input-field'
-                    label="Nøkkelord"
-                    value={keywordInput}
-                    onChange={(e) => setKeywordInput(e.target.value)}
-                    size="small"
-                />
-                <Button type="submit">Legg til</Button>
-                
+                <Button type="submit">Søk</Button>
+
                 <div className="chips-container">
-                    {filters.keywords.map((keyword) => (
-                        <Chip color={"primary"} key={keyword} label={keyword} onDelete={handleKeywordDelete(keyword)} />
+                    {filters.searchKeywords && filters.searchKeywords.map((keyword) => (
+                        <Chip color="primary" key={keyword} label={keyword} onDelete={handleSearchKeywordDelete(keyword)} />
+                    ))}
+                </div>
+            </form>
+            <form onSubmit={handleExcludeKeywordSubmit} className='form-container'>
+                <TextField
+                    className='input-field'
+                    label="Ekskluder ord"
+                    value={excludeKeywordInput}
+                    onChange={(e) => setExcludeKeywordInput(e.target.value)}
+                    size="small"
+                />
+                <Button type="submit">Filtrer</Button>
+
+                <div className="chips-container">
+                    {filters.excludeKeywords && filters.excludeKeywords.map((keyword) => (
+                        <Chip color="primary" key={keyword} label={keyword} onDelete={handleExcludeKeywordDelete(keyword)} />
                     ))}
                 </div>
             </form>

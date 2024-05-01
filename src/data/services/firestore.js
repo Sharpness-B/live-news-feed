@@ -49,23 +49,44 @@ export const updateUser = async (user, name, userName, about, profile) => {
 export const userInfoRef = (user) => doc(db, "users", user.uid);
 
 
+// // save filters
+// export const writeFiltersToDB = async (user, filters) => {
+//   await setDoc(doc(db, "users", user.uid, "filters", "selected"), {
+//     filters,
+//     createdAt: serverTimestamp(),
+//   }, { merge: true });
+// };
+
+// // read filters
+// export const readFiltersFromDB = async (user) => {
+//   const docRef = doc(db, "users", user.uid, "filters", "selected");
+//   const docSnap = await getDoc(docRef);
+
+//   if (docSnap.exists()) {
+//     return docSnap.data().filters;
+//   } else {
+//     return { keywords: [], endDate: '' };
+//   }
+// };
+
+
 // save filters
-export const writeFiltersToDB = async (user, filters) => {
-  await setDoc(doc(db, "users", user.uid, "filters", "selected"), {
+export const writeFiltersToDB = async (user, folderId, filters) => {
+  await setDoc(doc(db, "users", user.uid, "folders", folderId, "filters", "selected"), {
     filters,
     createdAt: serverTimestamp(),
   }, { merge: true });
 };
 
 // read filters
-export const readFiltersFromDB = async (user) => {
-  const docRef = doc(db, "users", user.uid, "filters", "selected");
+export const readFiltersFromDB = async (user, folderId) => {
+  const docRef = doc(db, "users", user.uid, "folders", folderId, "filters", "selected");
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     return docSnap.data().filters;
   } else {
-    return { keywords: [], endDate: '' };
+    return { searchKeywords: [], excludeKeywords: [] };
   }
 };
 

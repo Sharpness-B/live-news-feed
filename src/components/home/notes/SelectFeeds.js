@@ -30,7 +30,7 @@ const SelectFeeds = ({ user, selectedFolder, selectedFeeds, setSelectedFeeds, se
             try {
                 let id_list;
                 if (user.isPayingUser) { id_list = await readSelectedFeedsFromDB(user, selectedFolder.id) } 
-                else                   { id_list=[1] }
+                else                   { id_list = [1] }
 
                 const selectedFeeds = feeds.filter(feed => id_list.includes(feed.id));
                 setSelectedFeeds(selectedFeeds);

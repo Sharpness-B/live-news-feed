@@ -106,19 +106,24 @@ export default function Home() {
 
 
 
+
+
   /////////////
   // filters //
   /////////////
   // init
-  const [filters, setFilters] = useState({ keywords: [], endDate: '' });
+  const [filters, setFilters] = useState({ searchKeywords: [], excludeKeywords: [] });
 
   // filter flattened_items
   const filtered_items = flattened_items.filter(item => (
-    // if empty list of keywords AND item object contains at least one key word
-    (filters.keywords.length===0 || filters.keywords.some(word => JSON.stringify(item).includes(word)))
-    // on or within end date
-    && (item.pubDate ? (filters.endDate ? new Date(item.pubDate) >= new Date(filters.endDate) : true) : false)
+    // item object contains at least one search keyword or searchKeywords is empty
+    (filters.searchKeywords.length === 0 || filters.searchKeywords.some(word => JSON.stringify(item).includes(word))) 
+    // item object does not contain any exclude keyword
+    && (!filters.excludeKeywords.some(word => JSON.stringify(item).includes(word)))
   ));
+
+
+
 
   //////////////////
   // alert if new //
@@ -166,7 +171,7 @@ export default function Home() {
           {/* Custom rss input */}
           <CustomFeedInput user={user} selectedFolder={selectedFolder} setSelectedCustomFeeds={setSelectedCustomFeeds} setPayingUserModalVisible={setPayingUserModalVisible} />
           {/* Filters */}
-          <FilterBar user={user} filters={filters} setFilters={setFilters} />
+          <FilterBar user={user} selectedFolder={selectedFolder} filters={filters} setFilters={setFilters} />
         </AccordionDetails>
       </Accordion>
 
