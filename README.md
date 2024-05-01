@@ -15,16 +15,16 @@ Google Firebase is a Google-backed application development software that enables
   Users --> User2
   User1 --> Credentials1
   User1 --> Folders
-  Folders -> Folder1
-  Folder1 -> Info1
-  Folder1 -> Feeds
-  Feeds -> Feed1
-  Feed1 -> Custom
-  Custom -> Details
-  Feed1 -> Selected
-  Selected -> Details
-  Feed1 -> Filters
-  Filters -> Details
+  Folders --> Folder1
+  Folder1 --> Info1
+  Folder1 --> Feeds
+  Feeds --> Feed1
+  Feed1 --> Custom
+  Custom --> Details
+  Feed1 --> Selected
+  Selected --> Details
+  Feed1 --> Filters
+  Filters --> Details
   User2 --> Credentials2
   Credentials2 --> photoURL
   Credentials2 --> createdAt
