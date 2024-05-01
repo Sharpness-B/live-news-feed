@@ -49,58 +49,6 @@ export const updateUser = async (user, name, userName, about, profile) => {
 export const userInfoRef = (user) => doc(db, "users", user.uid);
 
 
-///////////////
-// New stuff //
-///////////////
-
-// // save selected feeds id
-// export const writeSelectedFeedsToDB = async (user, id_list) => {
-//   await setDoc(doc(db, "users", user.uid, "feeds", "selected"), {
-//     id_list: id_list,
-//     createdAt: serverTimestamp(),
-//   }, { merge: true });
-// };
-
-// // read selected feeds id
-// export const readSelectedFeedsFromDB = async (user) => {
-//   const docRef = doc(db, "users", user.uid, "feeds", "selected");
-//   const docSnap = await getDoc(docRef);
-
-//   if (docSnap.exists()) {
-//     return docSnap.data().id_list;
-//   } else {
-//     return [];
-//   }
-// }
-
-
-
-
-
-// // write custom feeds
-// export const writeCustomFeedsToDB = async (user, feeds) => {
-//   await setDoc(doc(db, "users", user.uid, "feeds", "custom"), {
-//     feeds,
-//     createdAt: serverTimestamp(),
-//   }, { merge: true });
-// };
-
-// // read custom feeds
-// export const readCustomFeedsFromDB = async (user) => {
-//   const docRef = doc(db, "users", user.uid, "feeds", "custom");
-//   const docSnap = await getDoc(docRef);
-
-//   if (docSnap.exists()) {
-//     return docSnap.data().feeds;
-//   } else {
-//     return [];
-//   }
-// };
-
-
-
-
-
 // save filters
 export const writeFiltersToDB = async (user, filters) => {
   await setDoc(doc(db, "users", user.uid, "filters", "selected"), {
