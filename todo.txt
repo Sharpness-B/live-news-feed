@@ -1,5 +1,3 @@
-filtrering
-tittel på feed
 sammenslått feed
 
 
@@ -8,7 +6,6 @@ sammenslått feed
 
 * Ting
 automatisert gh deply funker ikke
-få bort alle spor av notes
 fiks profilbilde
 
 * Funksjonalitet:
@@ -19,14 +16,13 @@ Default med en samlet kanal -> da er oppdateringseffekten kulere også (ref foku
 Man velger de kildene man vil, men også hvilken feed (1 2 eller 3, eller hvor mange man vil. + til siden for ny feed) de skal vises. Hver feed består av kanalene og saker sortert etter klokkeslett
 Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
-longin -> slett kontoer som ikke er bekreftet
+longin -> slett kontoer som ikke er bekreftet (ikke nødvendig fori man kan resette passordet)
 
-Legg til successfully added
+Legg til successfully added new rss - ta en sjekk på at rss er legit
 
 AI filterer på det som er samme sak
 Lagre i DB historiske feeds
 
-Ta en test fetch når man legger tilny custom
 
 * Kommersialisering
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk

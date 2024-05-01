@@ -3,7 +3,7 @@ import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getFoldersFromDB, addFolderToDB, deleteFolderFromDB, updateFolderInDB, writeSelectedFeedsToDB } from "../../../data/services/firestore";
 
-import './CustomFeedInput.css';
+import './Inputs.css';
 
 const FolderSelector = ({ user, folders, setFolders }) => {
   const [folderName, setFolderName] = useState('');
@@ -65,7 +65,7 @@ const FolderSelector = ({ user, folders, setFolders }) => {
 
   return (
     <div className="container">
-      <Typography variant="h6">Lag ny mappe</Typography>
+      <Typography variant="h6">Velg mappe</Typography>
       <form onSubmit={handleAddFolder} className="form-container">
         <TextField
           label="Mappe"

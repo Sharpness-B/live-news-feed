@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TextField, Button, Chip, Typography } from '@mui/material';
 import { writeFiltersToDB, readFiltersFromDB } from "../../../data/services/firestore";
-import './CustomFeedInput.css';
+import './Inputs.css';
 
 const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
     const [searchKeywordInput, setSearchKeywordInput] = useState('');

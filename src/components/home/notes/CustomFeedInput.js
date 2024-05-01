@@ -3,7 +3,7 @@ import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
 
-import './CustomFeedInput.css';
+import './Inputs.css';
 
 const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayingUserModalVisible }) => {
   const [feeds, setFeeds] = useState([]);

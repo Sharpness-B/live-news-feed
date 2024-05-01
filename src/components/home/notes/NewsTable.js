@@ -7,11 +7,12 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
-const NewsTable = ({ filtered_items }) => {
+const NewsTable = ({ filtered_items, title }) => {
   const [openArticles, setOpenArticles] = useState([]);
 
   return (
     <TableContainer>
+      <Typography variant="h6">Mappe: {title}</Typography>
       <Table>
         <TableBody>
           {filtered_items.map((item, index) => {

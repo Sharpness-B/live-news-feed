@@ -176,7 +176,7 @@ export default function Home() {
       </Accordion>
 
       {/* Read selected feeds (one feed)*/}
-      <NewsTable filtered_items={filtered_items} />
+      <NewsTable filtered_items={filtered_items} title={selectedFolder && selectedFolder.name} />
 
       {/* Paying user alert */}
       <PayingUserModal open={payingUserModalIsOpen} handleClose={() => setPayingUserModalVisible(false)} />
