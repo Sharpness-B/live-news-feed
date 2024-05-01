@@ -47,5 +47,5 @@ Google Firebase is a Google-backed application development software that enables
   npm run build
   firebase deploy --only hosting
 
-
+- **Source**
   This is a fork of https://github.com/tuuhin/react_note_app
