@@ -1,3 +1,10 @@
+2filtrering
+3flere feeds
+
+
+
+
+
 * Ting
 automatisert gh deply funker ikke
 få bort alle spor av notes
@@ -18,6 +25,8 @@ Legg til successfully added
 AI filterer på det som er samme sak
 Lagre i DB historiske feeds
 
+Ta en test fetch når man legger tilny custom
+
 * Kommersialisering
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
@@ -25,6 +34,7 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 Veldig rar behavor når det velges feeds som ikke funker
 user object er ikke loadet fra start så bytter bort noen ganger også
 Alert på nye rss funker ikke. feil med når den aktivers bare
+Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten
 
 Multi global news - MGN
 Hybrid News - HN
