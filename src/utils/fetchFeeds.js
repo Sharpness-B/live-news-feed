@@ -157,11 +157,16 @@ export const flattenAndSortItems = (successfulFeedsData, folderId) => {
     const flattenedItems = successfulFeedsData
         .flatMap(feed => feed.data.items
             .filter(item => item.folderId.length > 0 && (!folderId || item.folderId.includes(folderId))) // Always include items that have at least one folder id, and if a folderId is specified, only include items with the specified folderId
-            .map(item => ({ ...item, newspaper: feed.title }))) // Add the title to each item
+            .map(item => ({ 
+                ...item, 
+                newspaper: feed.title, // Add the feed title to each item
+                imageUrl: feed.data.image?.url // Add the image URL from the feed to each item
+            })))
         .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort the items by date
 
     return flattenedItems;
 };
+
 
 
 

@@ -4,11 +4,13 @@ automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
 
 * Funksjonalitet:
-Display ikoner på alle kilder
 Lag en loading bar
 Info hvis en fetch failer
 Legg til successfully added new rss - ta en sjekk på at rss er legit
 Varsel om ny artikkel
+Read/unread
+Farge på søk
+Toggle på nøyaktig ord eller subord i filter
 
 
 
