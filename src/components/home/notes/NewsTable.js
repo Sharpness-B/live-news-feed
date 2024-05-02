@@ -24,7 +24,7 @@ const NewsTable = ({ filtered_items, title }) => {
               const options = { hour: '2-digit', minute: '2-digit', hour12: false };
               timeString = new Intl.DateTimeFormat('default', options).format(date);
               // Check if the article is less than 5 minutes old
-              isNewArticle = (new Date() - date) < 5 * 60 * 1000;
+              isNewArticle = (new Date() - date) < 50 * 60 * 1000;
             } catch {}
 
             const isOpen = openArticles[index];
@@ -37,7 +37,7 @@ const NewsTable = ({ filtered_items, title }) => {
 
             return (
               <TableRow key={index} sx={{ cursor: 'pointer', padding: '4px' }} onClick={handleClick}>
-                <TableCell component="th" scope="row" style={{ width: '10em', padding: '4px' }}>
+                <TableCell component="th" scope="row" style={{ width: '10em', padding: '0px' }}>
                   {item.newspaper}
                 </TableCell>
                 <TableCell style={{ width: 'auto', padding: '4px' }}>
@@ -50,13 +50,13 @@ const NewsTable = ({ filtered_items, title }) => {
                     </Typography>
                   )}
                 </TableCell>
-                <TableCell style={{ width: '7em', padding: '4px' }}>
+                <TableCell style={{ width: '45px', padding: '0px', textAlign: 'center' }}>
                   <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}>
                     {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />}
                     {timeString}
                   </Typography>
                 </TableCell>
-                <TableCell style={{ width: '7em', padding: '4px' }}>
+                <TableCell style={{ width: '60px', padding: '0px', textAlign: 'right' }}>
                   <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>
                     Les mer
                   </a>
