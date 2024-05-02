@@ -60,6 +60,11 @@ const FolderSelector = ({ user, folders, setFolders }) => {
       const newFolderId = await addFolderToDB(user, newFolder);
       setFolders([...updatedFolders, { id: newFolderId, ...newFolder }]);
       setFolderName('');
+
+      // add the default select for new folders if not paying user
+      if (!user.isPayingUser) {
+        await writeSelectedFeedsToDB(user, newFolderId, [1])
+      }
     }
   };
 

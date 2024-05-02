@@ -29,8 +29,9 @@ Lagre i DB historiske feeds
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
 * Bugs
-Når det opprettes en ny mappe selectes ikke default feed i db. Mulig dette går fint fordi id 1 blir jo selected uansett bare ikke lagt i db. Fix: legg til selected i db når man oppretter ny mappe hvis man ikke har abbonement
-Veldig rar behavor når det velges feeds som ikke funker
+Hvis man før hadde subuscitpion så selsects alt fra db?
+
+?fikset? Veldig rar behavor når det velges feeds som ikke funker
 user object er ikke loadet fra start så bytter bort noen ganger også
 Alert på nye rss funker ikke. feil med når den aktivers bare
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten

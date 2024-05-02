@@ -141,6 +141,7 @@ export const applyFilters = (successfulFeedsData, collectiveSettings) => {
         feed.data.items = feed.data.items.map(item => {
             item.folderId = feed.folderId.filter(folderId => {
                 const folder = collectiveSettings.find(setting => setting.folderId === folderId);
+                if (!folder) {return false} // folder might not be found if it added at the same time as a new feed
                 const filters = folder.filters;
                 return (filters.searchKeywords.length === 0 || filters.searchKeywords.some(word => JSON.stringify(item).includes(word))) 
                     && (!filters.excludeKeywords.some(word => JSON.stringify(item).includes(word)));
