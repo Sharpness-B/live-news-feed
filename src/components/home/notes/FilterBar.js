@@ -14,8 +14,9 @@ const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
             setFilters(filtersFromDB);
             setFiltersLoaded(true);
         }
-
-        fetchFilters();
+        if (selectedFolder) {
+            fetchFilters();
+        }
     }, [user, selectedFolder]);
 
     useEffect(() => {

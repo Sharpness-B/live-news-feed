@@ -20,7 +20,9 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
       setSelectedCustomFeeds(feedsFromDB.filter(feed => feed.isSelected));
     }
 
-    fetchFeeds();
+    if (selectedFolder) {
+      fetchFeeds();
+    }
   }, [user, selectedFolder]);
 
   const handleSubmit = async (e) => {
