@@ -2,7 +2,6 @@
 * Ting
 automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
-fjern unødvendige pakker i package.json (slate)
 
 * Funksjonalitet:
 Display ikoner på alle kilder
