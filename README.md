@@ -12,8 +12,10 @@ Google Firebase is a Google-backed application development software that enables
   ```mermaid
   stateDiagram
   Users --> User1
-  Users --> User2
   User1 --> Credentials1
+  Credentials1 --> photoURL
+  Credentials1 --> createdAt
+  Credentials1 --> updatedAt
   User1 --> Folders
   Folders --> Folder1
   Folder1 --> Info1
@@ -26,10 +28,8 @@ Google Firebase is a Google-backed application development software that enables
   Feed1 --> Filters
   Filters --> searchKeywords
   Filters --> excludeKeywords
-  User2 --> Credentials2
-  Credentials2 --> photoURL
-  Credentials2 --> createdAt
-  Credentials2 --> updatedAt
+  paying-users-info --> email
+  email --> isPayingUser t/f
   ```
 
 - **Cloud Storage🏪**
