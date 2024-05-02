@@ -14,11 +14,11 @@ export const getCollectiveSettings = async (user) => {
     // Retrieve folders and use Promise.all to combine data for each folder
     const collectiveSettings = await Promise.all(
         (await getFoldersFromDB(user)).map(async (folder) => {
-            // Retrieve filters, feeds, and custom feeds for the folder
+            // Retrieve filters, feeds, and custom feeds for the folder. If not paying user, only read filters
             const [filters, feeds, customFeeds] = await Promise.all([
                 readFiltersFromDB(user, folder.id),
-                readSelectedFeedsFromDB(user, folder.id),
-                readCustomFeedsFromDB(user, folder.id),
+                user.isPayingUser ? readSelectedFeedsFromDB(user, folder.id) : Promise.resolve([1]),
+                user.isPayingUser ? readCustomFeedsFromDB(user, folder.id)   : Promise.resolve([]),
             ]);
 
             // Return combined data for the folder
