@@ -10,6 +10,9 @@ Google Firebase is a Google-backed application development software that enables
   Cloud firestore is the database of our project .The cloud firestore is a `NoSql` database similar to `monogdb`.The data is being stored in the cloud firestore approximately like the `graph `shown below.
 
   ```mermaid
+  payingUsersInfo --> email
+  email --> Credentials
+  email --> isPayingUser(t/f)
   stateDiagram
   Users --> User
   User --> Credentials
@@ -28,9 +31,6 @@ Google Firebase is a Google-backed application development software that enables
   Feed --> Filters
   Filters --> searchKeywords
   Filters --> excludeKeywords
-  payingUsersInfo --> email
-  email --> Credentials
-  email --> isPayingUser(t/f)
   ```
 
 - **Cloud Storage🏪**
