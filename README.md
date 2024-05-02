@@ -11,25 +11,26 @@ Google Firebase is a Google-backed application development software that enables
 
   ```mermaid
   stateDiagram
-  Users --> User1
-  User1 --> Credentials1
-  Credentials1 --> photoURL
-  Credentials1 --> createdAt
-  Credentials1 --> updatedAt
-  User1 --> Folders
-  Folders --> Folder1
-  Folder1 --> Info1
-  Folder1 --> Feeds
-  Feeds --> Feed1
-  Feed1 --> Custom
+  Users --> User
+  User --> Credentials
+  Credentials --> photoURL
+  Credentials --> createdAt
+  Credentials --> updatedAt
+  User --> Folders
+  Folders --> Folder
+  Folder --> Info
+  Folder --> Feeds
+  Feeds --> Feed
+  Feed --> Custom
   Custom --> Details
-  Feed1 --> Selected
+  Feed --> Selected
   Selected --> ID_list
-  Feed1 --> Filters
+  Feed --> Filters
   Filters --> searchKeywords
   Filters --> excludeKeywords
   payingUsersInfo --> email
-  email --> isPayingUser t/f
+  payingUsersInfo --> Credentials
+  email --> isPayingUser(t/f)
   ```
 
 - **Cloud Storage🏪**
