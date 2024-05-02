@@ -84,8 +84,37 @@ export default function Home() {
   // }, [flattened_items]);
 
 
+  ////////////////
+  // news feeds //
+  ////////////////
+  const [isPanel1Expanded, setPanel1Expanded] = useState(true);
+  const [isPanel2Expanded, setPanel2Expanded] = useState(true);
+  
+  const panel1 = (
+    <Grid item xs={isPanel1Expanded && isPanel2Expanded ? 6 : 12}>
+        <Accordion expanded={isPanel1Expanded} onChange={() => setPanel1Expanded(!isPanel1Expanded)}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <h2>Nyheter fra valgt mappe: {selectedFolder && selectedFolder.name}</h2>
+            </AccordionSummary>
+            <AccordionDetails>
+                <NewsTable filtered_items={specifiedFolderItems} />
+            </AccordionDetails>
+        </Accordion>
+    </Grid>
+  );
 
-
+const panel2 = (
+    <Grid item xs={isPanel1Expanded && isPanel2Expanded ? 6 : 12}>
+        <Accordion expanded={isPanel2Expanded} onChange={() => setPanel2Expanded(!isPanel2Expanded)}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <h2>Nyheter fra alle mapper</h2>
+            </AccordionSummary>
+            <AccordionDetails>
+                <NewsTable filtered_items={allFlattenedItems} />
+            </AccordionDetails>
+        </Accordion>
+    </Grid>
+);
 
 
 
@@ -103,7 +132,7 @@ export default function Home() {
       <FolderSelector user={user} folders={folders} setFolders={setFolders} />
 
       {/* Settings and filters */}
-      <Accordion>
+      <Accordion style={{ marginTop: '8px' }}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography marginLeft={"8px"}>{selectedFolder && selectedFolder.name} / Innstillinger</Typography>
         </AccordionSummary>
@@ -118,9 +147,11 @@ export default function Home() {
         </AccordionDetails>
       </Accordion>
 
-      {/* Read selected feeds (one feed)*/}
-      <NewsTable filtered_items={specifiedFolderItems} title={selectedFolder && selectedFolder.name} />
-      <NewsTable filtered_items={allFlattenedItems}    title={"Nyheter fra alle mapper"} />
+      {/* News feeds: selected folder and all folders */}
+      <Grid container spacing={3} padding={3}>
+          {isPanel2Expanded ? panel1 : panel2}
+          {isPanel2Expanded ? panel2 : panel1}
+      </Grid>
 
       {/* Paying user alert */}
       <PayingUserModal open={payingUserModalIsOpen} handleClose={() => setPayingUserModalVisible(false)} />

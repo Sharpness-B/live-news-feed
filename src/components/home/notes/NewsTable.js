@@ -12,7 +12,7 @@ const NewsTable = ({ filtered_items, title }) => {
 
   return (
     <TableContainer>
-      <Typography variant="h6">{title}</Typography>
+      {/* <Typography variant="h6">{title}</Typography> */}
       <Table>
         <TableBody>
           {filtered_items.map((item, index) => {
