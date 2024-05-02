@@ -17,3 +17,23 @@ exports.helloWorld = onRequest((request, response) => {
   logger.info("Hello logs!", {structuredData: true});
   response.send("Hello from Firebase!");
 });
+
+const request = require('request-promise');
+
+exports.proxy = onRequest(async (req, res) => {
+    const targetURLs = req.body.urls;
+    if (!targetURLs) {
+        res.status(400).send('Missing URLs parameter');
+        return;
+    }
+
+    try {
+        const responses = await Promise.all(
+            targetURLs.map(url => request({url: url, method: 'GET'}))
+        );
+        res.send(responses);
+    } catch (error) {
+        console.error(`Failed to fetch:`, error);
+        res.status(500).send(error);
+    }
+});
