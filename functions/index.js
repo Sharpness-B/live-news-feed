@@ -19,7 +19,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app/', 'https://live-news-feed-8be46.firebaseapp.com/'];
+const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://live-news-feed-8be46.firebaseapp.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
