@@ -97,17 +97,6 @@ export const fetchFeeds = async (feedArray) => {
             const proxyUrl = 'https://api.allorigins.win/raw?url=';
             const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
 
-            // Add the folder id to the feed item if it passes the folder's filters
-            // data.items = data.items.map(item => {
-            //     item.folderId = feed.folderId.filter(folderId => {
-            //         const folder = collectiveSettings.find(setting => setting.folderId === folderId);
-            //         const filters = folder.filters;
-            //         return (filters.searchKeywords.length === 0 || filters.searchKeywords.some(word => JSON.stringify(item).includes(word))) 
-            //             && (!filters.excludeKeywords.some(word => JSON.stringify(item).includes(word)));
-            //     });
-            //     return item;
-            // });
-
             // Add the feed data and folder ids to the successful feeds array
             successfulFeeds.push({ ...feed, data });
 
