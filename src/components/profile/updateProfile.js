@@ -163,7 +163,7 @@ export default function UpdateProfile() {
             </Grid>
             <Grid item sm={12} lg={12} xs={12}>
               <InputLabel htmlFor="username" sx={{ fontFamily: "Poppins" }}>
-                {"Telefonnummer"}
+                {"Notat"}
               </InputLabel>
               <TextField
                 fullWidth
