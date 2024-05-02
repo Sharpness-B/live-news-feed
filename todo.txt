@@ -1,15 +1,17 @@
-sammenslått feed til høyre (man har den som er selected + den sammenslåtte)
-
-farger ikoner
-
-
 
 * Ting
 automatisert gh deply funker ikke
-fiks profilbilde
+fiks profilbilde når vi får blaze plan
 fjern unødvendige pakker i package.json (slate)
 
 * Funksjonalitet:
+Display ikoner på alle kilder
+Lag en loading bar
+Info hvis en fetch failer
+Legg til successfully added new rss - ta en sjekk på at rss er legit
+
+
+
 Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
 Toggle på en linje per kanal eller en feed sortert på publiseringstid
 Default med en samlet kanal -> da er oppdateringseffekten kulere også (ref fokus på det som oppdaterer seg)
@@ -19,8 +21,6 @@ Nyhetsvarsel - popup eller lingnende varsel på kodeord
 
 longin -> slett kontoer som ikke er bekreftet (ikke nødvendig fori man kan resette passordet)
 
-Legg til successfully added new rss - ta en sjekk på at rss er legit
-
 AI filterer på det som er samme sak
 Lagre i DB historiske feeds
 
@@ -29,12 +29,10 @@ Lagre i DB historiske feeds
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
 * Bugs
-Hvis man før hadde subuscitpion så selsects alt fra db?
-
-?fikset? Veldig rar behavor når det velges feeds som ikke funker
 user object er ikke loadet fra start så bytter bort noen ganger også
-Alert på nye rss funker ikke. feil med når den aktivers bare
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten
 
+* Navn
+InfoIndeks
 Multi global news - MGN
 Hybrid News - HN
