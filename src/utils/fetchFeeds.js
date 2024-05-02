@@ -6,6 +6,8 @@ import { useInterval } from 'react-use';
 import Parser from 'rss-parser';
 const parser = new Parser();
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+const auth = getAuth();
 
 
 
@@ -86,39 +88,48 @@ export const getCollectiveFeeds = (collectiveSettings) => {
 
 // fetching the feeds
 export const fetchFeeds = async (feedArray) => {
-    // Initialize an empty array to store the successfully fetched feeds
     let successfulFeeds = [];
-
-    // Initialize an empty array to store the feeds that failed to fetch
     let failedFeeds = [];
 
-    const allFeedsData = await Promise.all(feedArray.map(async (feed) => {
-        try {
-            const proxyUrl = 'https://api.allorigins.win/raw?url=';
-            const data = await parser.parseURL(proxyUrl + encodeURIComponent(feed.url));
+    try {
+        const idToken = await auth.currentUser.getIdToken(true);
+        const proxyUrl = 'https://proxy-5hnkoydcca-uc.a.run.app';
+        const urls = feedArray.map(feed => feed.url);
+        
+        const rawFeeds = await fetch(proxyUrl, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ urls: urls })
+        }).then(res => res.json());
 
-            // Add the feed data and folder ids to the successful feeds array
-            successfulFeeds.push({ ...feed, data });
+        const allFeedsData = await Promise.all(rawFeeds.map((rawFeed, index) => {
+            if (rawFeed) {
+                return parser.parseString(rawFeed)
+                    .then(data => {
+                        successfulFeeds.push({ ...feedArray[index], data });
+                        return { ...feedArray[index], data };
+                    })
+                    .catch(error => {
+                        console.error(`Failed to parse feed ${feedArray[index].title}:`, error);
+                        failedFeeds.push(feedArray[index]);
+                        return null;
+                    });
+            } else {
+                failedFeeds.push(feedArray[index]);
+                return null;
+            }
+        }));
 
-            return { ...feed, data };
-        } 
-        catch (error) {
-            console.error(`Failed to fetch feed ${feed.title}:`, error);
+        const successfulFeedsData = allFeedsData.filter(feed => feed !== null);
 
-            // Add the feed to the failed feeds array
-            failedFeeds.push(feed);
-
-            return null; // return null for feeds that failed to fetch
-        }
-    }));
-
-    // Remove null values from the allFeedsData array
-    const successfulFeedsData = allFeedsData.filter(feed => feed !== null);
-
-    // console.log('Successful feeds:', successfulFeeds);
-    // console.log('Failed feeds:', failedFeeds);
-
-    return successfulFeedsData;
+        return successfulFeedsData;
+    } catch (error) {
+        console.error(`Failed to fetch feeds:`, error);
+        return [];
+    }
 };
 
 

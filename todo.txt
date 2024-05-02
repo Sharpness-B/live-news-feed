@@ -2,6 +2,7 @@
 * Ting
 automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
+gjør at functions ikke kan misbrukes
 
 * Funksjonalitet:
 Lag en loading bar
