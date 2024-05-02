@@ -5,13 +5,14 @@ fetchFeeds eksporteres til en egen Funksjon. Samme med filter. og slå disse sam
 Videre lager vi en funksjon som går gjennom alle mappene og slår dem sammen. Samme funksjon yielder også den mappen man har valgt
 Lag en funksjon som fetcher alle mappene.Det er i første omgang ikke så farlig at dette leses en ekstra gang for mappen som er valgt
 
-
+farger ikoner
 
 
 
 * Ting
 automatisert gh deply funker ikke
 fiks profilbilde
+fjern unødvendige pakker i package.json (slate)
 
 * Funksjonalitet:
 Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
@@ -33,6 +34,7 @@ Lagre i DB historiske feeds
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
 * Bugs
+Når det opprettes en ny mappe selectes ikke default feed i db. Mulig dette går fint fordi id 1 blir jo selected uansett bare ikke lagt i db. Fix: legg til selected i db når man oppretter ny mappe hvis man ikke har abbonement
 Veldig rar behavor når det velges feeds som ikke funker
 user object er ikke loadet fra start så bytter bort noen ganger også
 Alert på nye rss funker ikke. feil med når den aktivers bare
