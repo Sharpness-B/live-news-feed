@@ -28,7 +28,7 @@ Google Firebase is a Google-backed application development software that enables
   Feed1 --> Filters
   Filters --> searchKeywords
   Filters --> excludeKeywords
-  paying-users-info --> email
+  payingUsersInfo --> email
   email --> isPayingUser t/f
   ```
 
