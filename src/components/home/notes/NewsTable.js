@@ -36,12 +36,12 @@ const NewsTable = ({ filtered_items, title }) => {
             };
 
             return (
-              <TableRow key={index} sx={{ cursor: 'pointer' }} onClick={handleClick}>
-                <TableCell component="th" scope="row" style={{ width: '10em' }}>
+              <TableRow key={index} sx={{ cursor: 'pointer', padding: '4px' }} onClick={handleClick}>
+                <TableCell component="th" scope="row" style={{ width: '10em', padding: '4px' }}>
                   {item.newspaper}
                 </TableCell>
-                <TableCell style={{ width: 'auto' }}>
-                  <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 600, lineHeight: 1 }}>
+                <TableCell style={{ width: 'auto', padding: '4px' }}>
+                  <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 500, fontSize: '0.875rem', lineHeight: 1 }}>
                     {item.title}
                   </Typography>
                   {isOpen && (
@@ -50,13 +50,13 @@ const NewsTable = ({ filtered_items, title }) => {
                     </Typography>
                   )}
                 </TableCell>
-                <TableCell style={{ width: '7em' }}>
+                <TableCell style={{ width: '7em', padding: '4px' }}>
                   <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}>
                     {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />}
                     {timeString}
                   </Typography>
                 </TableCell>
-                <TableCell style={{ width: '7em' }}>
+                <TableCell style={{ width: '7em', padding: '4px' }}>
                   <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>
                     Les mer
                   </a>
