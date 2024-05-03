@@ -112,13 +112,12 @@ const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
                     label="Nøyaktig ordmatch"
                 />
             </div>
-            <Typography variant="h6">Regex</Typography>
+            <Typography id="margin4bottom" variant="h6">Regex</Typography>
             <TextField className='input-field' label="^(?=.*Musk)(?=.*Oslo).*" value={customRegex} onChange={(e) => setCustomRegex(e.target.value)} size="small" />
             <FormControlLabel
-                    control={<Switch checked={useRegex} onChange={(e) => setUseRegex(e.target.checked)} />}
-                    label="Use regex"
-                />
-
+                control={<Switch checked={useRegex} onChange={(e) => setUseRegex(e.target.checked)} />}
+                label="Bruk regex"
+            />
         </div>
     );
 };
