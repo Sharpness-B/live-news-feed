@@ -11,7 +11,6 @@ Legg til successfully added new rss - ta en sjekk på at rss er legit
 Varsel om ny artikkel
 Read/unread
 Farge på søk
-Toggle på nøyaktig ord eller subord i filter
 
 
 
