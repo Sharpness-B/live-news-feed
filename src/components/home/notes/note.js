@@ -53,7 +53,7 @@ export default function Home() {
   /////////////
   // filters //
   /////////////
-  const [filters, setFilters] = useState({ searchKeywords: [], excludeKeywords: [] });
+  const [filters, setFilters] = useState({});
 
   //////////////////
   // Feed content //

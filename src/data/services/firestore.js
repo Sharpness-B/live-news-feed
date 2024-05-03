@@ -63,7 +63,7 @@ export const readFiltersFromDB = async (user, folderId) => {
   if (docSnap.exists()) {
     return docSnap.data().filters;
   } else {
-    return { searchKeywords: [], excludeKeywords: [] };
+    return { "customRegex": "", "searchInTitle": false, "searchKeywords": [], "excludeKeywords": [], "useRegex": false, "exactMatch": false };
   }
 };
 

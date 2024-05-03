@@ -145,10 +145,10 @@ export const applyFilters = (successfulFeedsData, collectiveSettings) => {
                 const { searchKeywords, excludeKeywords, searchInTitle, exactMatch, customRegex, useRegex } = folder.filters;
                 const itemString = JSON.stringify(item).toLowerCase();
 
-                let searchKeywordsPass = searchKeywords.length === 0;
+                let searchKeywordsPass = !searchKeywords || searchKeywords.length === 0;
                 let searchString;
-                if (!searchKeywordsPass) {
-                    searchString = searchInTitle ? item.title.toLowerCase() : itemString;
+                if (searchKeywords && !searchKeywordsPass) {
+                    searchString = (searchInTitle && item.title) ? item.title.toLowerCase() : itemString;
                     if (exactMatch) {
                         searchKeywordsPass = searchKeywords.some(word => searchString === word.toLowerCase());
                     } else {
@@ -156,7 +156,7 @@ export const applyFilters = (successfulFeedsData, collectiveSettings) => {
                     }
                 }
 
-                let excludeKeywordsPass = !excludeKeywords.some(word => itemString.includes(word.toLowerCase()));
+                let excludeKeywordsPass = !excludeKeywords || !excludeKeywords.some(word => itemString.includes(word.toLowerCase()));
 
                 let regexPass = true;
                 if (customRegex && useRegex) {
