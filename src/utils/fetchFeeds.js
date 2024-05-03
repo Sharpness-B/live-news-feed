@@ -137,14 +137,43 @@ export const fetchFeeds = async (feedArray) => {
 // Add the folder id to the feed item if it passes the folder's filters
 export const applyFilters = (successfulFeedsData, collectiveSettings) => {
     successfulFeedsData.forEach(feed => {
-        // Apply the filters for each folder to the items in the feed
         feed.data.items = feed.data.items.map(item => {
             item.folderId = feed.folderId.filter(folderId => {
                 const folder = collectiveSettings.find(setting => setting.folderId === folderId);
-                if (!folder) {return false} // folder might not be found if it added at the same time as a new feed
-                const filters = folder.filters;
-                return (filters.searchKeywords.length === 0 || filters.searchKeywords.some(word => JSON.stringify(item).includes(word))) 
-                    && (!filters.excludeKeywords.some(word => JSON.stringify(item).includes(word)));
+                if (!folder) {return false}
+
+                const { searchKeywords, excludeKeywords, searchInTitle, exactMatch, customRegex, useRegex } = folder.filters;
+                const itemString = JSON.stringify(item).toLowerCase();
+
+                let searchKeywordsPass = searchKeywords.length === 0;
+                let searchString;
+                if (!searchKeywordsPass) {
+                    searchString = searchInTitle ? item.title.toLowerCase() : itemString;
+                    if (exactMatch) {
+                        searchKeywordsPass = searchKeywords.some(word => searchString === word.toLowerCase());
+                    } else {
+                        searchKeywordsPass = searchKeywords.some(word => searchString.includes(word.toLowerCase()));
+                    }
+                }
+
+                let excludeKeywordsPass = !excludeKeywords.some(word => itemString.includes(word.toLowerCase()));
+
+                let regexPass = true;
+                if (customRegex && useRegex) {
+                    const regex = new RegExp(customRegex, 'i'); // 'i' flag for case insensitive matching
+                    regexPass = regex.test(itemString);
+                }
+
+
+
+                // logic test
+                if (useRegex) {
+                    if (searchKeywords.length > 0) return regexPass || (searchKeywordsPass && excludeKeywordsPass);
+                    else                           return regexPass;
+                }
+                else {
+                    return searchKeywordsPass && excludeKeywordsPass;
+                }
             });
             return item;
         });

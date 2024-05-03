@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Button, Chip, Typography } from '@mui/material';
+import { TextField, Button, Chip, Typography, Switch, FormControlLabel } from '@mui/material';
 import { writeFiltersToDB, readFiltersFromDB } from "../../../data/services/firestore";
 import './Inputs.css';
 
@@ -7,6 +7,11 @@ const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
     const [searchKeywordInput, setSearchKeywordInput] = useState('');
     const [excludeKeywordInput, setExcludeKeywordInput] = useState('');
     const [filtersLoaded, setFiltersLoaded] = useState(false);
+
+    const [searchInTitle, setSearchInTitle] = useState(false);
+    const [exactMatch, setExactMatch] = useState(false);
+    const [customRegex, setCustomRegex] = useState('');
+    const [useRegex, setUseRegex] = useState(false);
 
     useEffect(() => {
         const fetchFilters = async () => {
@@ -28,6 +33,14 @@ const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
             saveFilters();
         }
     }, [user, filters]);
+
+    useEffect(() => {
+        if (filtersLoaded) {
+            setFilters(prevFilters => ({...prevFilters, searchInTitle, exactMatch, customRegex, useRegex}));
+        }
+    }, [filtersLoaded, searchInTitle, exactMatch, customRegex, useRegex]);
+
+    
 
     const handleSearchKeywordSubmit = (e) => {
         e.preventDefault();
@@ -88,6 +101,24 @@ const FilterBar = ({ user, selectedFolder, filters, setFilters }) => {
                     ))}
                 </div>
             </form>
+            
+            <div className='form-container'>
+                <FormControlLabel
+                    control={<Switch checked={searchInTitle} onChange={(e) => setSearchInTitle(e.target.checked)} />}
+                    label="Filtrer kun på overskrifter"
+                />
+                <FormControlLabel
+                    control={<Switch checked={exactMatch} onChange={(e) => setExactMatch(e.target.checked)} />}
+                    label="Nøyaktig ordmatch"
+                />
+            </div>
+            <Typography variant="h6">Regex</Typography>
+            <TextField className='input-field' label="^(?=.*Musk)(?=.*Oslo).*" value={customRegex} onChange={(e) => setCustomRegex(e.target.value)} size="small" />
+            <FormControlLabel
+                    control={<Switch checked={useRegex} onChange={(e) => setUseRegex(e.target.checked)} />}
+                    label="Use regex"
+                />
+
         </div>
     );
 };
