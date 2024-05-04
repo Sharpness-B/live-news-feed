@@ -208,6 +208,9 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
     const [allFlattenedItems, setAllFlattenedItems] = useState([]);
     const [specifiedFolderItems, setSpecifiedFolderItems] = useState([]);
 
+    const [isFetching, setIsFetching] = useState(true);
+
+
     // update newCollectiveSettings for fetching feeds
     useEffect(() => {
         const fetchAndUpdateSettings = async () => {
@@ -237,9 +240,11 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
     // fetch feeds ...
     const fetchAndUpdateFeeds = async () => {
         if (feedCollectiveSettings.length > 0) {
+            setIsFetching(true);
             const feedArray = getCollectiveFeeds(feedCollectiveSettings);
             const newSuccessfulFeedsData = await fetchFeeds(feedArray);
             setSuccessfulFeedsData(newSuccessfulFeedsData); 
+            setIsFetching(false)
             // console.log("fetch!")       
         }    
     };
@@ -266,7 +271,7 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
 
 
     // return
-    return { allFlattenedItems, specifiedFolderItems };
+    return { allFlattenedItems, specifiedFolderItems, isFetching };
 };
 
 
