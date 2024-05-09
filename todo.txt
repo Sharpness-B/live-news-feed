@@ -30,6 +30,7 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 * Bugs
 user object er ikke loadet fra start så bytter bort noen ganger også (cookie session?)
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten
+Hvis feed click failer legg til logikk på togle tilbake til false
 
 * Navn
 InfoIndeks
