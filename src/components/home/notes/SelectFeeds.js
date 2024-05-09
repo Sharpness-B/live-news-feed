@@ -35,9 +35,9 @@ const SelectFeeds = ({ user, selectedFolder, selectedFeeds, setSelectedFeeds, se
             ? selectedFeeds.filter((x) => x.id !== feed.id)
             : [...selectedFeeds, feed];
 
-        await writeSelectedFeedsToDB(user, selectedFolder.id, newFeeds.map(feed => feed.id));
-
         setSelectedFeeds(newFeeds);
+
+        await writeSelectedFeedsToDB(user, selectedFolder.id, newFeeds.map(feed => feed.id)); // if it fails -> set it back to false
     };
 
     return (

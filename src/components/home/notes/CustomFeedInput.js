@@ -48,9 +48,10 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
       }
       return x;
     });
-    await writeCustomFeedsToDB(user, selectedFolder.id, updatedFeeds);
 
     setSelectedCustomFeeds(updatedFeeds.filter(feed => feed.isSelected));
+
+    await writeCustomFeedsToDB(user, selectedFolder.id, updatedFeeds); // if it fails -> set it back to false
   };
 
   const handleDeleteFeed = async (feedToDelete) => {
