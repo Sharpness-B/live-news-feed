@@ -239,6 +239,8 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
 
     // fetch feeds ...
     const fetchAndUpdateFeeds = async () => {
+        if (feedCollectiveSettings.length===0) return;
+        
         // just for visuals
         let hasAtLeastOneFeedSelected = feedCollectiveSettings.some(obj => obj.feeds.length>0 || obj.customFeeds.some(feed => feed.isSelected));
         if (hasAtLeastOneFeedSelected) {
