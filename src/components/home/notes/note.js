@@ -141,7 +141,7 @@ const panel2 = (
       {/* New item alert */}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={isNewItemAdded && false}
+        open={isNewItemAdded}
         autoHideDuration={5000}
         onClose={() => setIsNewItemAdded(false)}
       >

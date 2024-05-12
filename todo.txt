@@ -5,7 +5,6 @@ fiks profilbilde når vi får blaze plan
 Load feeds på forsiden hvis logget inn (går raskere da)
 
 * Funksjonalitet:
-Info hvis en fetch failer
 Legg til successfully added new rss - ta en sjekk på at rss er legit
 Read/unread
 Farge på søk
