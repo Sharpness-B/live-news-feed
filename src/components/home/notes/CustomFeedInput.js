@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
+import { Snackbar, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { writeCustomFeedsToDB, readCustomFeedsFromDB } from  "../../../data/services/firestore";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+const auth = getAuth();
 
 import './Inputs.css';
 
@@ -9,6 +13,9 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
   const [feeds, setFeeds] = useState([]);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
+
+  const [showCustomInfo, setShowCustomInfo] = useState(false);
+  const [addCustomStatus, setAddCustomStatus] = useState("info");
 
   useEffect(() => {
     const fetchFeeds = async () => {
@@ -28,12 +35,35 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: false };
-    await writeCustomFeedsToDB(user, selectedFolder.id, [...feeds, newFeed]);
+    let isValid = true;
+    try {
+      const idToken = await auth.currentUser.getIdToken(true);
+      const response = await fetch('https://validaterssfeed-5hnkoydcca-uc.a.run.app', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({ rssUrl: url })
+      });
+      const result = await response.json();
+      isValid = result.valid
+    } catch{}
 
-    setFeeds([...feeds, newFeed]);
+    if (isValid) {
+      // main code
+      const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: false };
+      await writeCustomFeedsToDB(user, selectedFolder.id, [...feeds, newFeed]);
+      setFeeds([...feeds, newFeed]);
+
+      setAddCustomStatus("success")
+    } else {
+      setAddCustomStatus("error")
+    }
+
     setUrl('');
     setTitle('');
+    setShowCustomInfo(true)
   };
 
   const handleFeedClick = async (feed) => {
@@ -63,39 +93,53 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
   };
 
   return (
-    <div className="container">
-      <Typography variant="h6">Legg til egne RSS kanaler</Typography>
-      <form onSubmit={handleSubmit} className="form-container">
-        <TextField
-          label="URL https://www.|.rss"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="input-field"
-          size="small"
-        />
-        <TextField
-          label="Beskrivelse"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="input-field"
-          size="small"
-        />
-        <Button type="submit">Legg til</Button>
-        <div className="chips-container">
-          {feeds.map((feed, index) => (
-            <Chip
-              label={feed.title}
-              clickable
-              color={feed.isSelected ? 'primary' : 'default'}
-              onClick={() => handleFeedClick(feed)}
-              onDelete={() => handleDeleteFeed(feed)}
-              deleteIcon={<IconButton><DeleteIcon /></IconButton>}
-              key={index}
-            />
-          ))}
-        </div>
-      </form>
-    </div>
+    <>
+      <div className="container">
+        <Typography variant="h6">Legg til egne RSS kanaler</Typography>
+        <form onSubmit={handleSubmit} className="form-container">
+          <TextField
+            label="URL https://www.|.rss"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            className="input-field"
+            size="small"
+          />
+          <TextField
+            label="Beskrivelse"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="input-field"
+            size="small"
+          />
+          <Button type="submit">Legg til</Button>
+          <div className="chips-container">
+            {feeds.map((feed, index) => (
+              <Chip
+                label={feed.title}
+                clickable
+                color={feed.isSelected ? 'primary' : 'default'}
+                onClick={() => handleFeedClick(feed)}
+                onDelete={() => handleDeleteFeed(feed)}
+                deleteIcon={<IconButton><DeleteIcon /></IconButton>}
+                key={index}
+              />
+            ))}
+          </div>
+        </form>
+      </div>
+
+      {/* New item alert */}
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={showCustomInfo}
+        autoHideDuration={5000}
+        onClose={() => setShowCustomInfo(false)}
+      >
+        <Alert severity={addCustomStatus}>
+          {addCustomStatus==="success" ? "Ny RSS er vellykket lagt til" : "Kunne ikke legge til RSS, sjekk URLen"}
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 

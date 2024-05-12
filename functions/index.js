@@ -10,13 +10,14 @@
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
 
-
-
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const request = require('request-promise');
 const admin = require('firebase-admin');
 admin.initializeApp();
+
+const Parser = require('rss-parser');
+const parser = new Parser();
 
 const cors = require('cors');
 const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://live-news-feed-8be46.firebaseapp.com'];
@@ -31,29 +32,35 @@ const corsOptions = {
   }
 }
 
+async function validateAuthToken(req, res) {
+    // Check for ID token in the 'Authorization' header
+    if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
+        logger.error('No Firebase ID token was passed as a Bearer token in the Authorization header.');
+        res.status(403).send('Unauthorized');
+        return null;
+    }
+
+    // Read the ID token from the 'Authorization' header.
+    let idToken = req.headers.authorization.split('Bearer ')[1];
+
+    let decodedToken;
+    try {
+        // Verify the ID token
+        decodedToken = await admin.auth().verifyIdToken(idToken);
+    } catch (error) {
+        logger.error('Error verifying Firebase ID token:', error);
+        res.status(403).send('Unauthorized');
+        return null;
+    }
+
+    logger.info('Token is valid. User ID:', decodedToken.uid);
+    return decodedToken;
+}
+
 exports.proxy = onRequest((req, res) => {
     cors(corsOptions)(req, res, async () => {
-        // Check for ID token in the 'Authorization' header
-        if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-            logger.error('No Firebase ID token was passed as a Bearer token in the Authorization header.');
-            res.status(403).send('Unauthorized');
-            return;
-        }
-
-        // Read the ID token from the 'Authorization' header.
-        let idToken = req.headers.authorization.split('Bearer ')[1];
-
-        let decodedToken;
-        try {
-            // Verify the ID token
-            decodedToken = await admin.auth().verifyIdToken(idToken);
-        } catch (error) {
-            logger.error('Error verifying Firebase ID token:', error);
-            res.status(403).send('Unauthorized');
-            return;
-        }
-
-        logger.info('Token is valid. User ID:', decodedToken.uid);
+        const decodedToken = await validateAuthToken(req, res);
+        if (!decodedToken) return;
 
         const targetURLs = req.body.urls;
         if (!targetURLs) {
@@ -69,6 +76,27 @@ exports.proxy = onRequest((req, res) => {
         } catch (error) {
             logger.error(`Failed to fetch:`, error);
             res.status(500).send(error);
+        }
+    });
+});
+
+exports.validateRssFeed = onRequest((req, res) => {
+    cors(corsOptions)(req, res, async () => {
+        const decodedToken = await validateAuthToken(req, res);
+        if (!decodedToken) return;
+
+        const rssUrl = req.body.rssUrl;
+        if (!rssUrl) {
+            res.status(400).send('Missing rssUrl parameter');
+            return;
+        }
+
+        try {
+            await parser.parseURL(rssUrl);  // This will throw an error if the URL is not a valid RSS feed
+            res.send({ valid: true });
+        } catch (error) {
+            logger.error(`Failed to validate RSS feed:`, error);
+            res.send({ valid: false });
         }
     });
 });
