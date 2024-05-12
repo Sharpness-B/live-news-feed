@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material';
-import { Grid, Typography, Chip, Box } from '@mui/material';
+import { CircularProgress, Snackbar, Alert } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import NavBar from "../../common/navBar";
 import CustomFeedInput from './CustomFeedInput';
@@ -25,8 +26,6 @@ import FolderSelector from "./SelectFolder";
 
 import { useFeedData } from "../../../utils/fetchFeeds";
 
-import { CircularProgress } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 
 export default function Home() {
