@@ -5,10 +5,8 @@ fiks profilbilde når vi får blaze plan
 Load feeds på forsiden hvis logget inn (går raskere da)
 
 * Funksjonalitet:
-Lag en loading bar
 Info hvis en fetch failer
 Legg til successfully added new rss - ta en sjekk på at rss er legit
-Varsel om ny artikkel
 Read/unread
 Farge på søk
 
