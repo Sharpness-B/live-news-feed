@@ -25,6 +25,9 @@ import FolderSelector from "./SelectFolder";
 
 import { useFeedData } from "../../../utils/fetchFeeds";
 
+import { CircularProgress } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 
 export default function Home() {
   const { user } = useUser();
@@ -147,6 +150,15 @@ const panel2 = (
           Ny artikkel
         </Alert>
       </Snackbar>
+
+      {/* Loading status */}
+      <Box position="fixed" bottom={2} right={-3} width={24} height={24} display="flex" justifyContent="center" alignItems="center">
+        {isFetching ? (
+          <CircularProgress size={12} color="success"/>
+        ) : (
+          <CheckCircleOutlineIcon color="success" fontSize="small"/>
+        )}
+      </Box>
 
       {/* <CookieConsentComponent /> */}
     </>
