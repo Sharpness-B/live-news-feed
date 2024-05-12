@@ -26,8 +26,6 @@ import FolderSelector from "./SelectFolder";
 import { useFeedData } from "../../../utils/fetchFeeds";
 
 
-
-
 export default function Home() {
   const { user } = useUser();
 
@@ -57,7 +55,7 @@ export default function Home() {
   // Feed content //
   //////////////////
   const { allFlattenedItems, specifiedFolderItems, isFetching } = useFeedData(user, selectedFeeds, selectedCustomFeeds, filters, selectedFolder)
-  console.log(isFetching)
+  // console.log(isFetching)
 
   //////////////////
   // alert if new //
@@ -79,7 +77,7 @@ export default function Home() {
                 <h2>Nyheter fra valgt mappe: {selectedFolder && selectedFolder.name}</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={specifiedFolderItems} />
+                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} />
             </AccordionDetails>
         </Accordion>
     </Grid>
@@ -92,7 +90,7 @@ const panel2 = (
                 <h2>Nyheter fra alle mapper</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={allFlattenedItems} />
+                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} />
             </AccordionDetails>
         </Accordion>
     </Grid>

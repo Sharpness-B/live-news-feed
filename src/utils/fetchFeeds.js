@@ -239,14 +239,19 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
 
     // fetch feeds ...
     const fetchAndUpdateFeeds = async () => {
-        if (feedCollectiveSettings.length > 0) {
+        // just for visuals
+        let hasAtLeastOneFeedSelected = feedCollectiveSettings.some(obj => obj.feeds.length>0 || obj.customFeeds.some(feed => feed.isSelected));
+        if (hasAtLeastOneFeedSelected) {
             setIsFetching(true);
-            const feedArray = getCollectiveFeeds(feedCollectiveSettings);
-            const newSuccessfulFeedsData = await fetchFeeds(feedArray);
-            setSuccessfulFeedsData(newSuccessfulFeedsData); 
-            setIsFetching(false)
-            // console.log("fetch!")       
-        }    
+        }
+
+        // acctual code
+        const feedArray = getCollectiveFeeds(feedCollectiveSettings);
+        const newSuccessfulFeedsData = await fetchFeeds(feedArray);
+        setSuccessfulFeedsData(newSuccessfulFeedsData); 
+
+        // just for visuals
+        setIsFetching(false)
     };
     // ... when feedCollectiveSettings updates
     useEffect(fetchAndUpdateFeeds, [feedCollectiveSettings]);

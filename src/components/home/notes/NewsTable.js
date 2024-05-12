@@ -7,7 +7,10 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
-const NewsTable = ({ filtered_items, title }) => {
+import { Box, CircularProgress } from '@mui/material';
+
+
+const NewsTable = ({ filtered_items, isFetching }) => {
     const [openArticles, setOpenArticles] = useState([]);
 
     return (
@@ -73,6 +76,12 @@ const NewsTable = ({ filtered_items, title }) => {
                     })}
                 </TableBody>
             </Table>
+
+            {isFetching && filtered_items.length===0 && (
+                <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" paddingBottom={1}>
+                    <CircularProgress />
+                </Box>
+            )}
         </TableContainer>
     );
 };
