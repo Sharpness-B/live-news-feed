@@ -2,6 +2,7 @@ import { getFoldersFromDB, readFiltersFromDB, readSelectedFeedsFromDB, readCusto
 import { feeds } from "./rssFeedsList";
 import { useEffect, useState } from 'react';
 import { useInterval } from 'react-use';
+import { concatenateAllStrings } from "./concat";
 
 import Parser from 'rss-parser';
 const parser = new Parser();
@@ -143,14 +144,16 @@ export const applyFilters = (successfulFeedsData, collectiveSettings) => {
                 if (!folder) {return false}
 
                 const { searchKeywords, excludeKeywords, searchInTitle, exactMatch, customRegex, useRegex } = folder.filters;
-                const itemString = JSON.stringify(item).toLowerCase();
+                // const itemString = JSON.stringify(item).toLowerCase().replace(/[^\w\sÀ-ÿ]/g, ""); //lowercase and remove remove special characters
+                const itemString  = concatenateAllStrings(item).toLowerCase().replace(/[^\w\sÀ-ÿ]/g, "");
+                const titleString = item.title.toLowerCase().replace(/[^\w\sÀ-ÿ]/g, "")
 
                 let searchKeywordsPass = !searchKeywords || searchKeywords.length === 0;
                 let searchString;
                 if (searchKeywords && !searchKeywordsPass) {
-                    searchString = (searchInTitle && item.title) ? item.title.toLowerCase() : itemString;
+                    searchString = (searchInTitle && item.title) ? titleString : itemString;
                     if (exactMatch) {
-                        searchKeywordsPass = searchKeywords.some(word => searchString === word.toLowerCase());
+                        searchKeywordsPass = searchKeywords.some(word => searchString.split(" ").includes(word.toLowerCase()));
                     } else {
                         searchKeywordsPass = searchKeywords.some(word => searchString.includes(word.toLowerCase()));
                     }
