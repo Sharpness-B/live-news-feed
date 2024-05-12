@@ -57,7 +57,7 @@ export default function Home() {
   // Feed content //
   //////////////////
   const { allFlattenedItems, specifiedFolderItems, isFetching } = useFeedData(user, selectedFeeds, selectedCustomFeeds, filters, selectedFolder)
-  // console.log(isFetching)
+  console.log(isFetching)
 
   //////////////////
   // alert if new //
@@ -150,7 +150,7 @@ const panel2 = (
         </Alert>
       </Snackbar>
 
-      <CookieConsentComponent />
+      {/* <CookieConsentComponent /> */}
     </>
   );
 }
