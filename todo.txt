@@ -10,6 +10,10 @@ Read/unread
 Farge på søk
 
 
+* Design
+Mer scroll og mindre bortover
+Ha instillinger åpent som default
+Mer kompakt layout på instillinger
 
 
 Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
@@ -34,3 +38,5 @@ Seen cookien henger seg av og til opp - en fix er å resette cookien hver sessio
 InfoIndeks
 Multi global news - MGN
 Hybrid News - HN
+InfoWORlD
+InfoPosten
