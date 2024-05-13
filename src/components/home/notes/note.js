@@ -114,7 +114,7 @@ const panel2 = (
       <FolderSelector user={user} folders={folders} setFolders={setFolders} />
 
       {/* Settings and filters */}
-      <Accordion style={{ marginTop: '8px' }}>
+      <Accordion style={{ marginTop: '8px' }} defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography marginLeft={"8px"}>{selectedFolder && selectedFolder.name} / Innstillinger</Typography>
         </AccordionSummary>
