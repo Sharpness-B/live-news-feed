@@ -5,14 +5,12 @@ fiks profilbilde når vi får blaze plan
 Load feeds på forsiden hvis logget inn (går raskere da)
 
 * Funksjonalitet:
-Legg til successfully added new rss - ta en sjekk på at rss er legit
 Read/unread
 Farge på søk
 
 
 * Design
 Mer scroll og mindre bortover
-Ha instillinger åpent som default
 Mer kompakt layout på instillinger
 
 
@@ -32,7 +30,7 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 user object er ikke loadet fra start så bytter bort noen ganger også (cookie session?)
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten
 Hvis feed click failer legg til logikk på togle tilbake til false
-Seen cookien henger seg av og til opp - en fix er å resette cookien hver session
+Seen cookien henger seg av og til opp - en fix er å resette cookien hver session -> Nei heller, bare lagre siste klokkeselett fra hver kilde _ hvis nyeste er nyere enn lagret klokkeslett, så er den ny
 
 * Navn
 InfoIndeks
