@@ -197,7 +197,7 @@ export default function UpdateProfile() {
             <br/>
             {user.isPayingUser ? "Har aktivt abonnement." : "Har ikke kjøpt tilgang."}
             <br/>
-            Support: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
+            Support: <a href="mailto:bendik.skarpnes+infoindeks@gmail.com" style={{color: 'inherit', textDecoration: 'none'}}>bendik.skarpnes+infoindeks@gmail.com</a>
           </Typography>
           
         </Paper>

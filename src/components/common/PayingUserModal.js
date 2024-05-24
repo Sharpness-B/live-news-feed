@@ -21,7 +21,7 @@ const PayingUserModal = ({ open, handleClose }) => {
                 </DialogContentText>
                 <DialogContentText>
                     <br />
-                    Ta kontakt for å komme i gang: <a href="mailto:mail@sales.com" style={{color: 'inherit', textDecoration: 'none'}}>mail@sales.com</a>
+                    Ta kontakt for å komme i gang: <a href="mailto:bendik.skarpnes+infoindeks@gmail.com" style={{color: 'inherit', textDecoration: 'none'}}>bendik.skarpnes+infoindeks@gmail.com</a>
                 </DialogContentText>
             </DialogContent>
         </Dialog>
