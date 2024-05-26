@@ -2,9 +2,11 @@ import {
   AppBar,
   Toolbar,
   Avatar,
-  Menu,
-  MenuItem,
+  Box,
+  ClickAwayListener,
   ListItemText,
+  MenuItem,
+  Paper,
 } from "@mui/material";
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -14,7 +16,7 @@ import { LogoLink } from "./styled";
 
 export default function NavBar() {
   const { user, userInfo } = useUser();
-  const [anchor, setAnchor] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const LogOut = useCallback(async () => {
     try {
@@ -24,11 +26,16 @@ export default function NavBar() {
     }
   }, []);
 
-  const closeAnchor = () => setAnchor(null);
-  const open = !!anchor;
+  const handleToggle = () => {
+    setOpen((prev) => !prev);
+  };
 
-  // if no user or loading nothing shows
-  if (!user) return null
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  // if no user or loading, nothing shows
+  if (!user) return null;
 
   return (
     <AppBar position="static" color={"inherit"}>
@@ -38,32 +45,49 @@ export default function NavBar() {
             {"InfoIndeks"}
           </LogoLink>
         </div>
-        <Menu
-          open={open}
-          anchorEl={anchor}
-          onClose={closeAnchor}
-          anchorOrigin={{ vertical: "center", horizontal: "center" }}
-        >
-          <MenuItem component={Link} to="/profile">
-            <ListItemText primary={"Konto"} />
-          </MenuItem>
-          <MenuItem onClick={LogOut} component={Link} to="/">
-            <ListItemText primary={"Logg ut"} />
-          </MenuItem>
-        </Menu>
-        <Avatar
-          onClick={(e) => setAnchor(e.currentTarget)}
-          src={(userInfo && userInfo.photoURL) || user.photoURL}
-          sx={{
-            ml: 1,
-            border: "2px dashed gray",
-            transition: "250ms ease-in-out",
-            "&:hover": {
-              cursor: "pointer",
-              transform: "scale(1.2)",
-            },
-          }}
-        />
+        <ClickAwayListener onClickAway={handleClose}>
+          <Box sx={{ position: 'relative' }}>
+            <Avatar
+              onClick={handleToggle}
+              src={(userInfo && userInfo.photoURL) || user.photoURL}
+              sx={{
+                ml: 1,
+                border: "2px dashed gray",
+                transition: "250ms ease-in-out",
+                "&:hover": {
+                  cursor: "pointer",
+                  transform: "scale(1.2)",
+                },
+              }}
+            />
+            {open && (
+              <Paper 
+                sx={{ 
+                  position: 'absolute', 
+                  top: '100%', 
+                  right: 0, 
+                  mt: 1, 
+                  minWidth: 150,
+                  zIndex: 1 
+                }}
+              >
+                <MenuItem component={Link} to="/profile" onClick={handleClose}>
+                  <ListItemText primary="Konto" />
+                </MenuItem>
+                <MenuItem
+                  onClick={async () => {
+                    await LogOut();
+                    handleClose();
+                  }}
+                  component={Link}
+                  to="/"
+                >
+                  <ListItemText primary="Logg ut" />
+                </MenuItem>
+              </Paper>
+            )}
+          </Box>
+        </ClickAwayListener>
       </Toolbar>
     </AppBar>
   );

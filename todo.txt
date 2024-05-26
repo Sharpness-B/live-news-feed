@@ -3,7 +3,6 @@
 automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
 Load feeds på forsiden hvis logget inn (går raskere da)
-I denne versjonen har det skjedd noe med logout. Gå tilbake i git history til det funker
 
 * Funksjonalitet:
 Read/unread
