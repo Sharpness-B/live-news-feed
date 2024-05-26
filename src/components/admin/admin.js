@@ -4,6 +4,7 @@ import NavBar from '../common/navBar';
 import { useUser } from "../../context/useUser";
 import { Table, Button, Input } from 'antd';
 import { fetchUsers, toggleUserStatus, addUser, deleteUser } from "../../data/services/firestore";
+import { margin } from '@mui/system';
 
 const AdminPage = () => {
     const { user } = useUser();
@@ -64,17 +65,19 @@ const AdminPage = () => {
   if (!emailList.includes(user.email)) return <Navigate to="/" />;
   
   return (
-    <div>
+    <>
       <NavBar /> 
-      <Table columns={columns} dataSource={users} rowKey="id" />
-      <Input
-        type="email"
-        value={newEmail}
-        onChange={e => setNewEmail(e.target.value)}
-        placeholder="Add new paying user email"
-      />
-      <Button onClick={handleAddUser}>Add User</Button>
-    </div>
+      <div style={{margin: 10}}>
+        <Table columns={columns} dataSource={users} rowKey="id" />
+        <Input
+          type="email"
+          value={newEmail}
+          onChange={e => setNewEmail(e.target.value)}
+          placeholder="Add new paying user email"
+        />
+        <Button onClick={handleAddUser}>Add User</Button>
+      </div>
+    </>
   );
 };
 
