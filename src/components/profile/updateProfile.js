@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { MdCamera } from "react-icons/md";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import NavBar from "../common/navBar";
 import { useFilePicker } from "use-file-picker";
 import { useUser } from "../../context/useUser";
@@ -184,7 +184,7 @@ export default function UpdateProfile() {
               </BlackButton>
             </Grid>
           </Grid>
-          
+
           <Typography
             variant="caption"
             sx={{
@@ -198,8 +198,13 @@ export default function UpdateProfile() {
             {user.isPayingUser ? "Har aktivt abonnement." : "Har ikke kjøpt tilgang."}
             <br/>
             Support: <a href="mailto:bendik.skarpnes+infoindeks@gmail.com" style={{color: 'inherit', textDecoration: 'none'}}>bendik.skarpnes+infoindeks@gmail.com</a>
+
+            {/* Link to admin page */}
+            {["bendik.skarpnes@gmail.com", "skjell99@gmail.com"].includes(user.email) &&
+              <><br/><Link to={"/admin"} >Admin</Link></>
+            }
           </Typography>
-          
+
         </Paper>
         <Snackbar open={isCollpased}>
           <Alert severity={alertType}>{alert}</Alert>

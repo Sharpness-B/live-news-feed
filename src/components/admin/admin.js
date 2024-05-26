@@ -4,19 +4,16 @@ import NavBar from '../common/navBar';
 import { useUser } from "../../context/useUser";
 import { Table, Button, Input } from 'antd';
 import { fetchUsers, toggleUserStatus, addUser, deleteUser } from "../../data/services/firestore";
-import { margin } from '@mui/system';
 
 const AdminPage = () => {
     const { user } = useUser();
     const [users, setUsers] = useState([]);
     const [newEmail, setNewEmail] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
   
     useEffect(() => {
       const fetchData = async () => {
         const data = await fetchUsers();
         setUsers(data);
-        setIsLoading(false); // dette er en hacky fix --- samme som å vente et par sekunder med å sjekke login....
       };
   
       fetchData();
@@ -35,6 +32,8 @@ const AdminPage = () => {
   };
 
   const handleAddUser = async () => {
+    if (!newEmail) return;
+
     await addUser(newEmail);
     setNewEmail('');
     const data = await fetchUsers();
@@ -57,9 +56,6 @@ const AdminPage = () => {
 
 
   // access control
-  if (isLoading) {
-    return <div></div>;
-  }
   const emailList = ["bendik.skarpnes@gmail.com", "skjell99@gmail.com"];
   if (!user) return <Navigate to="/signup" />;
   if (!emailList.includes(user.email)) return <Navigate to="/" />;
@@ -68,7 +64,7 @@ const AdminPage = () => {
     <>
       <NavBar /> 
       <div style={{margin: 10}}>
-        <Table columns={columns} dataSource={users} rowKey="id" />
+        <Table columns={columns} dataSource={users} rowKey="id" pagination={false} />
         <Input
           type="email"
           value={newEmail}
