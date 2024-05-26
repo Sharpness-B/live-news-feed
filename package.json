@@ -9,6 +9,7 @@
     "@mui/material": "^5.2.7",
     "@mui/styles": "^5.2.3",
     "@mui/system": "^5.15.15",
+    "antd": "^5.17.3",
     "buffer": "^6.0.3",
     "customize-cra": "^1.0.0",
     "firebase": "^9.6.10",

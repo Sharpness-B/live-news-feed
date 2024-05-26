@@ -160,3 +160,30 @@ export const readCustomFeedsFromDB = async (user, folderId) => {
     return [];
   }
 };
+
+
+
+
+
+
+
+
+
+// admin paying users
+export const fetchUsers = async () => {
+  const userCollection = collection(db, 'paying-users-info');
+  const userSnapshot = await getDocs(userCollection);
+  return userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data()}));
+};
+export const toggleUserStatus = async (email, isPayingUser) => {
+  const userDoc = doc(db, 'paying-users-info', email);
+  await updateDoc(userDoc, { isPayingUser: !isPayingUser });
+};
+export const addUser = async (newEmail) => {
+  const userDoc = doc(db, 'paying-users-info', newEmail);
+  await setDoc(userDoc, { email: newEmail, isPayingUser: true });
+};
+export const deleteUser = async (email) => {
+  const userDoc = doc(db, 'paying-users-info', email);
+  await deleteDoc(userDoc);
+};
