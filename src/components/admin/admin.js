@@ -57,7 +57,7 @@ const AdminPage = () => {
 
   // access control
   const emailList = ["bendik.skarpnes@gmail.com", "skjell99@gmail.com"];
-  if (!user) return <Navigate to="/signup" />;
+  if (!user) return <Navigate to="/" />;
   if (!emailList.includes(user.email)) return <Navigate to="/" />;
   
   return (
