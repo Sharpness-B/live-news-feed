@@ -199,7 +199,7 @@ export default function SignUp() {
                   disabled={loading}
                   size="large"
                 >
-                  {!loading ? "Register " : "Authenticating..."}
+                  {!loading ? "Register " : "Autentiserer..."}
                 </BlackButton>
               </Grid>
             </Grid>
