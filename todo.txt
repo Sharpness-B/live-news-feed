@@ -6,8 +6,8 @@ Load feeds på forsiden hvis logget inn (går raskere da)
 
 * Funksjonalitet:
 Read/unread
+Brukeropplæring på mapper og filter og regex
 Farge på søk
-Sletteknapp
 
 * Design
 Design mappene som chrome faner for å gjøre det tydelig hva som hører til hva
