@@ -29,7 +29,7 @@ const NewsTable = ({ filtered_items, isFetching }) => {
                             if (!isNaN(date.getTime())) { // check if date is valid
                                 const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
                                 timeString = date.toLocaleDateString('nb-NO', options);
-                                timeString = timeString.replaceAll('.,', ',');
+                                timeString = timeString.replace('.,', ',');
                                 // Check if the article is less than 5 minutes old
                                 isNewArticle = (new Date() - date) < 5 * 60 * 1000;
                             }
