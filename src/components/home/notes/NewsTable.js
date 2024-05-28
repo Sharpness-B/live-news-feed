@@ -21,14 +21,17 @@ const NewsTable = ({ filtered_items, isFetching }) => {
                 <TableBody>
                     {filtered_items.map((item, index) => {
                         let date;
-                        let timeString;
+                        let timeString = "";
                         let isNewArticle = false;
                         try {
                             date = new Date(item.pubDate);
-                            const options = { hour: '2-digit', minute: '2-digit', hour12: false };
-                            timeString = new Intl.DateTimeFormat('default', options).format(date);
-                            // Check if the article is less than 5 minutes old
-                            isNewArticle = (new Date() - date) < 5 * 60 * 1000;
+
+                            if (!isNaN(date.getTime())) { // check if date is valid
+                                const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
+                                timeString = date.toLocaleDateString('nb-NO', options);
+                                // Check if the article is less than 5 minutes old
+                                isNewArticle = (new Date() - date) < 5 * 60 * 1000;
+                            }
                         } catch {}
 
                         const isOpen = openArticles[index];
@@ -60,8 +63,8 @@ const NewsTable = ({ filtered_items, isFetching }) => {
                                         </Typography>
                                     )}
                                 </TableCell>
-                                <TableCell style={{ width: '45px', padding: '0px', textAlign: 'center' }}>
-                                    <Typography variant="caption" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, display: 'inline', lineHeight: 1 }}>
+                                <TableCell style={{ width: '110px', padding: '0px', textAlign: 'center' }}>
+                                    <Typography variant="caption" sx={{ fontFamily: '"Fira Code", monospace', letterSpacing: '0px', display: 'inline', lineHeight: 1}}>
                                         {isNewArticle && <AccessAlarmIcon sx={{ fontSize: 16, verticalAlign: 'middle', color: 'red' }} />}
                                         {timeString}
                                     </Typography>
