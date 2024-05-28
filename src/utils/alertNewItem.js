@@ -4,8 +4,9 @@ import { useState, useEffect } from "react";
 export const alertNewItem = (allFlattenedItems) => {
   // assumes that allflatteneditems is sorted (as it is)
   const latestNewsByNewspaper = allFlattenedItems.reduce((acc, { newspaper, pubDate }) => {
-    if (!acc[newspaper] || new Date(pubDate) > new Date(acc[newspaper])) {
-      acc[newspaper] = pubDate;
+    const unixSeconds = Math.floor(new Date(pubDate).getTime()/1000) // stores only number vs long time string
+    if (!acc[newspaper] || unixSeconds > acc[newspaper]) {
+      acc[newspaper] = unixSeconds;
     }
     return acc;
   }, {});
@@ -15,7 +16,6 @@ export const alertNewItem = (allFlattenedItems) => {
   useEffect(() => {
     const seenNews = Cookies.get('seenNews');
     let seenNewsByNewspaper = seenNews ? JSON.parse(seenNews) : {};
-    console.log(seenNewsByNewspaper)
 
     let updatedNewsByNewspaper = {...seenNewsByNewspaper};
 
@@ -28,7 +28,6 @@ export const alertNewItem = (allFlattenedItems) => {
 
     Cookies.set('seenNews', JSON.stringify(updatedNewsByNewspaper));
 
-    console.log(JSON.stringify(updatedNewsByNewspaper))
   }, [latestNewsByNewspaper]);
 
   return { isNewItemAdded, setIsNewItemAdded };
