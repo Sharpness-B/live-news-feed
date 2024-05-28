@@ -14,16 +14,6 @@ Sletteknapp
 Mer scroll og mindre bortover
 Mer kompakt layout på instillinger
 
-
-Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
-Toggle på en linje per kanal eller en feed sortert på publiseringstid
-
-longin -> slett kontoer som ikke er bekreftet (ikke nødvendig fori man kan resette passordet)
-
-AI filterer på det som er samme sak
-Lagre i DB historiske feeds
-
-
 * Kommersialisering
 Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 
@@ -38,3 +28,11 @@ Multi global news - MGN
 Hybrid News - HN
 InfoWORlD
 InfoPosten
+
+
+* Andre ideer
+Foks på rss som oppdaterer seg. Må vi fetche alle når noe reloader? Men viktigst er det å fokusere på det som er nytt ved refreash - kult om det highlightes på noen måte
+
+longin -> slett kontoer som ikke er bekreftet (ikke nødvendig fori man kan resette passordet)
+AI filterer på det som er samme sak
+Lagre i DB historiske feeds (avansert google søk er bedre)
