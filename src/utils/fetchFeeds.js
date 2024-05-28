@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useInterval } from 'react-use';
 import { concatenateAllStrings } from "./concat";
 
+import hash from 'object-hash';
+
 import { customParser } from "./customParser";
 import Parser from 'rss-parser';
 const parser = new Parser();
@@ -202,7 +204,8 @@ export const flattenAndSortItems = (successfulFeedsData, folderId) => {
             .map(item => ({ 
                 ...item, 
                 newspaper: feed.title, // Add the feed title to each item
-                imageUrl: feed.data.image?.url // Add the image URL from the feed to each item
+                imageUrl: feed.data.image?.url, // Add the image URL from the feed to each item
+                id_hash: hash(item).substring(0,4)
             })))
             .sort((a, b) => {
                 let dateA = new Date(a.pubDate);
