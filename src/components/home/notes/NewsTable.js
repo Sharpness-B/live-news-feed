@@ -23,17 +23,15 @@ const NewsTable = ({ filtered_items, isFetching }) => {
                         let date;
                         let timeString = "";
                         let isNewArticle = false;
-                        try {
-                            date = new Date(item.pubDate);
-
-                            if (!isNaN(date.getTime())) { // check if date is valid
-                                const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
-                                timeString = date.toLocaleDateString('nb-NO', options);
-                                timeString = timeString.replace('.,', ',');
-                                // Check if the article is less than 5 minutes old
-                                isNewArticle = (new Date() - date) < 5 * 60 * 1000;
-                            }
-                        } catch {}
+                        
+                        date = new Date(item.pubDate);
+                        if (!isNaN(date.getTime())) { // check if date is valid
+                            const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
+                            timeString = date.toLocaleDateString('nb-NO', options);
+                            timeString = timeString.replace('.,', ',');
+                            // Check if the article is less than 5 minutes old
+                            isNewArticle = (new Date() - date) < 5 * 60 * 1000;
+                        }
 
                         const isOpen = openArticles[index];
 
