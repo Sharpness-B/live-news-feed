@@ -194,7 +194,15 @@ export const flattenAndSortItems = (successfulFeedsData, folderId) => {
                 newspaper: feed.title, // Add the feed title to each item
                 imageUrl: feed.data.image?.url // Add the image URL from the feed to each item
             })))
-        .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort the items by date
+            .sort((a, b) => {
+                let dateA = new Date(a.pubDate);
+                let dateB = new Date(b.pubDate);
+                // Check if dates are valid - Set invalid dates to the Unix Epoch (very old date)
+                if (isNaN(dateA.getTime())) dateA = new Date(0);                
+                if (isNaN(dateB.getTime())) dateB = new Date(0);
+                // Sort the items by date
+                return dateB - dateA;
+              });
 
     return flattenedItems;
 };
