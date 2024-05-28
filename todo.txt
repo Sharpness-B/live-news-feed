@@ -1,4 +1,4 @@
-
+delete cleanup
 * Ting
 automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
@@ -8,7 +8,7 @@ Load feeds på forsiden hvis logget inn (går raskere da)
 Read/unread
 Farge på søk
 Sletteknapp
-
+Skriv en egen parser som sjekker at disse finnes title, (desc bare at den finnes), link, (pudate)
 
 * Design
 Mer scroll og mindre bortover
