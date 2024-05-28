@@ -52,9 +52,11 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
 
     if (isValid) {
       // main code
-      const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: false };
+      const newFeed = { id: "custom_"+(feeds.length + 1), url, title, category: 'Custom', isSelected: true };
       await writeCustomFeedsToDB(user, selectedFolder.id, [...feeds, newFeed]);
       setFeeds([...feeds, newFeed]);
+      
+      setSelectedCustomFeeds(feeds.filter(feed => feed.isSelected));
 
       setAddCustomStatus("success")
     } else {
