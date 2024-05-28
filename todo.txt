@@ -10,6 +10,7 @@ Farge på søk
 Sletteknapp
 
 * Design
+Design mappene som chrome faner for å gjøre det tydelig hva som hører til hva
 Mer scroll og mindre bortover
 Mer kompakt layout på instillinger
 
