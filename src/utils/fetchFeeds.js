@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useInterval } from 'react-use';
 import { concatenateAllStrings } from "./concat";
 
+import { customParser } from "./customParser";
 import Parser from 'rss-parser';
 const parser = new Parser();
 
@@ -109,14 +110,23 @@ export const fetchFeeds = async (feedArray) => {
         const allFeedsData = await Promise.all(rawFeeds.map((rawFeed, index) => {
             if (rawFeed) {
                 return parser.parseString(rawFeed)
-                    .then(data => {
+                    .then(data => { // first try rss-parser
                         successfulFeeds.push({ ...feedArray[index], data });
                         return { ...feedArray[index], data };
                     })
-                    .catch(error => {
-                        console.error(`Failed to parse feed ${feedArray[index].title}:`, error);
-                        failedFeeds.push(feedArray[index]);
-                        return null;
+
+                    .catch(async (error_rss_parser) => {                        
+                        try { // then try custom parser
+                            const data = await customParser(rawFeed)
+                            // console.log(data)
+                            successfulFeeds.push({ ...feedArray[index], data });
+                            return { ...feedArray[index], data };
+
+                        } catch (error_custom_parser) { // return error
+                            console.error(`Failed to parse feed ${feedArray[index].title}:`, error_custom_parser);
+                            failedFeeds.push(feedArray[index]);
+                            return null;
+                        }
                     });
             } else {
                 failedFeeds.push(feedArray[index]);

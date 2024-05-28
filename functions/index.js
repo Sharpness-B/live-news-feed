@@ -16,11 +16,12 @@ const request = require('request-promise');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+const { customParserCheck } = require('./customParserCheck');
 const Parser = require('rss-parser');
 const parser = new Parser();
 
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://live-news-feed-8be46.firebaseapp.com'];
+const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://live-news-feed-8be46.firebaseapp.com', 'https://validaterssfeed-5hnkoydcca-uc.a.run.app/', 'https://validaterssfeed-5hnkoydcca-uc.a.run.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -80,7 +81,7 @@ exports.proxy = onRequest((req, res) => {
     });
 });
 
-exports.validateRssFeed = onRequest((req, res) => {
+exports.validateRssFeed = onRequest(async (req, res) => {
     cors(corsOptions)(req, res, async () => {
         const decodedToken = await validateAuthToken(req, res);
         if (!decodedToken) return;
@@ -91,12 +92,22 @@ exports.validateRssFeed = onRequest((req, res) => {
             return;
         }
 
+        logger.warn("run")
+
         try {
             await parser.parseURL(rssUrl);  // This will throw an error if the URL is not a valid RSS feed
+            logger.warn("pass1")
             res.send({ valid: true });
         } catch (error) {
-            logger.error(`Failed to validate RSS feed:`, error);
-            res.send({ valid: false });
+            try {
+                const xml = await request(rssUrl);  // Fetch the XML content of the RSS feed
+                await customParserCheck(xml);  // This will throw an error if the content is not valid XML or if custom parser does not work
+                logger.warn("pass2")
+                res.send({ valid: true });
+            } catch (error) {
+                logger.error(`Failed to validate RSS feed:`, error);
+                res.send({ valid: false });
+            }
         }
     });
 });

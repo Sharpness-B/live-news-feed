@@ -35,7 +35,7 @@ const CustomFeedInput = ({ user, selectedFolder, setSelectedCustomFeeds, setPayi
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let isValid = true;
+    let isValid = false;
     try {
       const idToken = await auth.currentUser.getIdToken(true);
       const response = await fetch('https://validaterssfeed-5hnkoydcca-uc.a.run.app', {
