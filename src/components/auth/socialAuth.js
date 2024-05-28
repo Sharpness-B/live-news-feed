@@ -2,9 +2,10 @@ import React from "react";
 import { styled, Button, Stack } from "@mui/material";
 import {
   signInWithGoogle,
-  signWithFaceBook,
+  signWithMicrosoft
 } from "../../data/services/authservice";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaMicrosoft, FaGoogle } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 const SocialButton = styled(Button)({
   fontFamily: "Poppins",
@@ -26,10 +27,12 @@ export const SignWithGoggleButton = () => (
   </SocialButton>
 );
 
-export const SignWithFaceBookButton = () => {
+export const SignWithMicrosoftButton = () => {
+  const navigate = useNavigate();
+
   return (
-    <SocialButton onClick={signWithFaceBook} startIcon={<FaFacebook />}>
-      Facebook
+    <SocialButton onClick={()=>{signWithMicrosoft().then(()=>navigate('/infoindeks'));}} startIcon={<FaMicrosoft />}>
+      Microsoft
     </SocialButton>
   );
 };
@@ -42,7 +45,7 @@ const SocialAuth = () => {
       sx={{ width: "100%", mb: 1 }}
     >
       <SignWithGoggleButton />
-      {/* <SignWithFaceBookButton /> */}
+      {/* <SignWithMicrosoftButton /> */}
     </Stack>
   );
 };

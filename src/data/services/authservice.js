@@ -7,12 +7,12 @@ import {
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
+  OAuthProvider 
 } from "firebase/auth";
 import { addUserToDb } from "./firestore";
 
 const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
+const microsoftProvider = new OAuthProvider('microsoft.com');
 export const auth = getAuth();
 
 export const signUp = async (email, password, name, userName) => {
@@ -39,9 +39,9 @@ export const signInWithGoogle = async () => {
   }
 };
 
-export const signWithFaceBook = async () => {
+export const signWithMicrosoft = async () => {
   try {
-    await signInWithPopup(auth, facebookProvider);
+    await signInWithPopup(auth, microsoftProvider);
   } catch (error) {
     console.warn(error);
     alert(error.code.replace("auth/", ""));
