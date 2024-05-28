@@ -92,17 +92,13 @@ exports.validateRssFeed = onRequest(async (req, res) => {
             return;
         }
 
-        logger.warn("run")
-
         try {
             await parser.parseURL(rssUrl);  // This will throw an error if the URL is not a valid RSS feed
-            logger.warn("pass1")
             res.send({ valid: true });
         } catch (error) {
             try {
                 const xml = await request(rssUrl);  // Fetch the XML content of the RSS feed
                 await customParserCheck(xml);  // This will throw an error if the content is not valid XML or if custom parser does not work
-                logger.warn("pass2")
                 res.send({ valid: true });
             } catch (error) {
                 logger.error(`Failed to validate RSS feed:`, error);
