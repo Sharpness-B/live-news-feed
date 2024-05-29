@@ -15,9 +15,15 @@ import { useUser } from "../../context/useUser";
 import { logOut } from "../../data/services/authservice";
 import { LogoLink } from "./styled";
 
-export default function NavBar({setModalOpen}) {
+import TutorialModal from "./TutorialModal/TutorialModal";
+
+export default function NavBar() {
   const { user, userInfo } = useUser();
+  // menu
   const [open, setOpen] = useState(false);
+
+  // tutorial modal
+  const [tutorialModalOpen, setTutorialModalOpen] = useState(false);  
 
   const LogOut = useCallback(async () => {
     try {
@@ -46,7 +52,7 @@ export default function NavBar({setModalOpen}) {
             {"InfoIndeks"}
           </LogoLink>
         </div>
-        <Button onClick={()=>setModalOpen(true)}>Info</Button>
+        <Button onClick={()=>setTutorialModalOpen(true)}>Info</Button>
 
         <ClickAwayListener onClickAway={handleClose}>
           <Box sx={{ position: 'relative' }}>
@@ -92,6 +98,8 @@ export default function NavBar({setModalOpen}) {
           </Box>
         </ClickAwayListener>
       </Toolbar>
+      
+      <TutorialModal modalOpen={tutorialModalOpen} setModalOpen={setTutorialModalOpen} onClose={() => setTutorialModalOpen(false)} />
     </AppBar>
   );
 }

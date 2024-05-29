@@ -23,8 +23,6 @@ import { useUser } from "../../../context/useUser";
 
 
 import FolderSelector from "./SelectFolder";
-import TutorialModal from "../../common/TutorialModal/TutorialModal";
-
 
 import { useFeedData } from "../../../utils/fetchFeeds";
 
@@ -33,8 +31,7 @@ import { useFeedData } from "../../../utils/fetchFeeds";
 export default function Home() {
   const { user } = useUser();
 
-  // tutorial modal
-  const [modalOpen, setModalOpen] = useState(false);  
+  
 
   /////////////////////////// 
   // status of all folders //
@@ -123,7 +120,7 @@ const panel2 = (
 
   return (
     <>
-      <NavBar setModalOpen={setModalOpen} />     
+      <NavBar />     
 
       {/* Folder selector */}
       <FolderSelector user={user} folders={folders} setFolders={setFolders} />
@@ -175,7 +172,6 @@ const panel2 = (
       </Box>
 
       {/* <CookieConsentComponent /> */}
-      <TutorialModal modalOpen={modalOpen} setModalOpen={setModalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 }
