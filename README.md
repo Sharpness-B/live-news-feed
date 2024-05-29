@@ -45,9 +45,11 @@ Google Firebase is a Google-backed application development software that enables
 - **Hosting🌏**
   Being a web project, thus taking advantage of firebase hosting and following the [instruction](https://firebase.google.com/docs/hosting/quickstart).The project can be easity hosted.[URL](https://notify-b3141.web.app/)
 
+  ```
   npm run build
   firebase deploy --only hosting
   firebase deploy --only functions
+  ```
 
 - **Source**
   This is a fork of https://github.com/tuuhin/react_note_app
