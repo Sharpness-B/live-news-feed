@@ -4,6 +4,10 @@ automatisert gh deply funker ikke
 fiks profilbilde når vi får blaze plan
 Load feeds på forsiden hvis logget inn (går raskere da)
 
+* Jørgen
+Bibliotek
+Tutorial
+
 * Funksjonalitet:
 Brukeropplæring på mapper og filter og regex
 Farge på søk

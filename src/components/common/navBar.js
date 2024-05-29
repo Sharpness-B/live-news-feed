@@ -2,6 +2,7 @@ import {
   AppBar,
   Toolbar,
   Avatar,
+  Button,
   Box,
   ClickAwayListener,
   ListItemText,
@@ -14,7 +15,7 @@ import { useUser } from "../../context/useUser";
 import { logOut } from "../../data/services/authservice";
 import { LogoLink } from "./styled";
 
-export default function NavBar() {
+export default function NavBar({setModalOpen}) {
   const { user, userInfo } = useUser();
   const [open, setOpen] = useState(false);
 
@@ -45,6 +46,8 @@ export default function NavBar() {
             {"InfoIndeks"}
           </LogoLink>
         </div>
+        <Button onClick={()=>setModalOpen(true)}>Info</Button>
+
         <ClickAwayListener onClickAway={handleClose}>
           <Box sx={{ position: 'relative' }}>
             <Avatar
