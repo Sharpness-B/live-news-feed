@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,6 +16,7 @@ const NewsRow = ({ item, isRead, handleButtonClick }) => {
     const handleRowClick = () => {
         setIsOpen(!isOpen);
     };
+    useEffect(() => setIsOpen(false), [isRead]);
 
     let date;
     let timeString = "";
@@ -68,7 +69,7 @@ const NewsRow = ({ item, isRead, handleButtonClick }) => {
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
                 {isRead ? (
-                    <DoneIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <DoneIcon  onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
                     <ClearIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
