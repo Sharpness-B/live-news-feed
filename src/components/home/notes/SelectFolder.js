@@ -70,7 +70,7 @@ const FolderSelector = ({ user, folders, setFolders }) => {
 
   return (
     <div className="container">
-      <Typography variant="h6">Velg mappe</Typography>
+      {/* <Typography variant="h6">Velg mappe</Typography> */}
       <form onSubmit={handleAddFolder} className="form-container">
         <TextField
           label="Mappe"
