@@ -3,6 +3,7 @@ import { auth } from "../data/services/authservice";
 import { userInfoRef, readIsPayingUser } from "../data/services/firestore";
 import { onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import Cookies from 'js-cookie';
 
 export const AuthContext = createContext();
 export const useUser = () => useContext(AuthContext);
@@ -11,8 +12,19 @@ const Auth = (props) => {
   const [user, setuser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
+  // Retrieve user from cookie when component mounts
   useEffect(() => {
-    const cleanup = onAuthStateChanged(auth, (user) => setuser(user));
+    const storedUser = Cookies.get('user');
+    if (storedUser) {
+      setuser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    const cleanup = onAuthStateChanged(auth, (user) => {
+      setuser(user);
+      Cookies.set('user', JSON.stringify(user), { expires: 1 }); // Store user data in a cookie
+    });
     return cleanup;
   }, []);
 
@@ -41,4 +53,5 @@ const Auth = (props) => {
     <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
   );
 };
+
 export default Auth;
