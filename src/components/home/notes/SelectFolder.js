@@ -93,6 +93,11 @@ const FolderSelector = ({ user, folders, setFolders }) => {
                 deleteIcon: <IconButton><DeleteIcon /></IconButton>
               }}
               key={folder.id}
+              sx={{
+                ...(folder.isSelected ? { borderRadius: '12px 12px 0 0' } : {}),
+                ...(folder.isSelected ? { height: '50px' } : {}),
+                
+              }}
             />
           ))}
         </div>
