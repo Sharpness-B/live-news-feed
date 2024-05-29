@@ -9,7 +9,6 @@ Brukeropplæring på mapper og filter og regex
 Farge på søk
 
 * Design
-Design mappene som chrome faner for å gjøre det tydelig hva som hører til hva
 Mer scroll og mindre bortover
 Mer kompakt layout på instillinger
 
@@ -20,6 +19,7 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 user object er ikke loadet fra start så bytter bort noen ganger også (cookie session?)
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten.
 Hvis feed click failer legg til logikk på togle tilbake til false, nødvendig?? neh
+hvis man sletter en mappe man har selected
 
 * Navn
 InfoIndeks
