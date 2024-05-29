@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { CircularProgress, Snackbar, Alert } from '@mui/material';
 import { Grid, Typography, Box } from '@mui/material';
@@ -15,6 +15,7 @@ import SelectFeeds from './SelectFeeds';
 import PayingUserModal from '../../common/PayingUserModal';
 import NewsTable from './NewsTable';
 
+import Cookies from 'js-cookie';
 import { CookieConsentComponent } from "../../common/CookieConsentComponent";
 import { alertNewItem } from "../../../utils/alertNewItem";
 
@@ -63,6 +64,16 @@ export default function Home() {
   // alert if new //
   //////////////////
   const { isNewItemAdded, setIsNewItemAdded } = alertNewItem(allFlattenedItems)
+
+  //hide and show logic
+  const [readItems, setReadItems] = useState(() => {
+    const savedItems = Cookies.get('readItems');
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
+
+  useEffect(() => {
+      Cookies.set('readItems', JSON.stringify(readItems));
+  }, [readItems]);
   
 
 
@@ -79,7 +90,7 @@ export default function Home() {
                 <h2>Nyheter fra valgt mappe: {selectedFolder && selectedFolder.name}</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} />
+                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} readItems={readItems} setReadItems={setReadItems} />
             </AccordionDetails>
         </Accordion>
     </Grid>
@@ -92,7 +103,7 @@ const panel2 = (
                 <h2>Nyheter fra alle mapper</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} />
+                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} readItems={readItems} setReadItems={setReadItems} />
             </AccordionDetails>
         </Accordion>
     </Grid>

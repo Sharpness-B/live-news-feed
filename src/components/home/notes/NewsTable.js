@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,50 +6,70 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-
 import { Box, CircularProgress } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
 
-
-const NewsTable = ({ filtered_items, isFetching }) => {
+const NewsTable = ({ filtered_items, isFetching, readItems, setReadItems }) => {
     const [openArticles, setOpenArticles] = useState([]);
+    
+
+    const handleRowClick = (index) => {
+        const newOpenArticles = [...openArticles];
+        newOpenArticles[index] = !newOpenArticles[index];
+        setOpenArticles(newOpenArticles);
+    };
+
+    const handleButtonClick = (id) => {
+        if (readItems.includes(id)) {
+            setReadItems(prevItems => prevItems.filter(item => item !== id));
+        } else {
+            setReadItems(prevItems => [...prevItems, id]);
+        }
+    };
+
+    const sortedItems = [...filtered_items].sort((a, b) => {
+        const aIsRead = readItems.includes(a.id_hash);
+        const bIsRead = readItems.includes(b.id_hash);
+        return aIsRead ? 1 : bIsRead ? -1 : 0;
+    });
+
 
     return (
         <TableContainer>
-            {/* Uncomment the Typography component if you want to display the title */}
-            {/* <Typography variant="h6">{title}</Typography> */}
             <Table>
                 <TableBody>
-                    {filtered_items.map((item, index) => {
+                    {sortedItems.map((item, index) => {
                         let date;
                         let timeString = "";
                         let isNewArticle = false;
-                        
+
                         date = new Date(item.pubDate);
-                        if (!isNaN(date.getTime())) { // check if date is valid
+                        if (!isNaN(date.getTime())) {
                             const options = { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
                             timeString = date.toLocaleDateString('nb-NO', options);
                             timeString = timeString.replace('.,', ',');
-                            // Check if the article is less than 5 minutes old
                             isNewArticle = (new Date() - date) < 5 * 60 * 1000;
                         }
 
                         const isOpen = openArticles[index];
-
-                        const handleClick = () => {
-                            const newOpenArticles = [...openArticles];
-                            newOpenArticles[index] = !isOpen;
-                            setOpenArticles(newOpenArticles);
-                        };
+                        const isRead = readItems.includes(item.id_hash);
 
                         return (
-                            <TableRow key={index} sx={{ cursor: 'pointer', padding: '4px' }} onClick={handleClick}>
+                            <TableRow 
+                                key={index} 
+                                sx={{ 
+                                    cursor: 'pointer', 
+                                    padding: '4px', 
+                                    opacity: isRead ? 0.5 : 1
+                                }} 
+                                onClick={() => handleRowClick(index)}
+                            >
                                 <TableCell component="th" scope="row" style={{ width: '20px', padding: '0px', textAlign: 'left' }}>
-                                    {/* Display the image and use the title attribute to show the newspaper name on hover */}
                                     <img
-                                        src={item.imageUrl}  // Image URL from the feed
-                                        // alt={item.newspaper} //makes the row very tall
-                                        style={{ width: '15px', height: '15px', marginTop: '4px' }} // Limit the height of the logo
-                                        title={item.newspaper} // Show newspaper name when hovering over the image
+                                        src={item.imageUrl}
+                                        style={{ width: '15px', height: '15px', marginTop: '4px' }}
+                                        title={item.newspaper}
                                     />
                                 </TableCell>
                                 <TableCell style={{ width: 'auto', padding: '4px' }}>
@@ -72,6 +92,13 @@ const NewsTable = ({ filtered_items, isFetching }) => {
                                     <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>
                                         Les mer
                                     </a>
+                                </TableCell>
+                                <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
+                                    {isRead ? (
+                                        <DoneIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(item.id_hash); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                                    ) : (
+                                        <ClearIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(item.id_hash); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                                    )}
                                 </TableCell>
                             </TableRow>
                         );
