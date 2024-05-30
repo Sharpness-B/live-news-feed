@@ -66,12 +66,23 @@ export default function Home() {
   //////////////////
   const { isNewItemAdded, setIsNewItemAdded } = alertNewItem(allFlattenedItems)
 
-  //hide and show logic
+  //////////////////////////////////
+  // read and delete cookie logic //
+  //////////////////////////////////
+  //delete
+  const [deletedItems, setDeletedItems] = useState(() => {
+    const savedItems = Cookies.get('deletedItems');
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
+  useEffect(() => {
+      Cookies.set('deletedItems', JSON.stringify(deletedItems));
+  }, [deletedItems]);
+
+  //read
   const [readItems, setReadItems] = useState(() => {
     const savedItems = Cookies.get('readItems');
     return savedItems ? JSON.parse(savedItems) : [];
   });
-
   useEffect(() => {
       Cookies.set('readItems', JSON.stringify(readItems));
   }, [readItems]);
@@ -91,7 +102,7 @@ export default function Home() {
                 <h2>Nyheter fra valgt mappe: {selectedFolder && selectedFolder.name}</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} readItems={readItems} setReadItems={setReadItems} />
+                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
             </AccordionDetails>
         </Accordion>
     </Grid>
@@ -104,7 +115,7 @@ const panel2 = (
                 <h2>Nyheter fra alle mapper</h2>
             </AccordionSummary>
             <AccordionDetails>
-                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} readItems={readItems} setReadItems={setReadItems} />
+                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
             </AccordionDetails>
         </Accordion>
     </Grid>

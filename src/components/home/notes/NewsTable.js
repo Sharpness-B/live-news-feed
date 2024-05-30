@@ -9,14 +9,16 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import { Box, CircularProgress } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-const NewsRow = ({ item, isRead, handleButtonClick }) => {
+const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleRowClick = () => {
         setIsOpen(!isOpen);
     };
-    useEffect(() => setIsOpen(false), [isRead]);
+    useEffect(() => setIsOpen(false), [isDeleted]);
 
     let date;
     let timeString = "";
@@ -36,7 +38,7 @@ const NewsRow = ({ item, isRead, handleButtonClick }) => {
             sx={{ 
                 cursor: 'pointer', 
                 padding: '4px', 
-                opacity: isRead ? 0.5 : 1
+                opacity: (isDeleted || isRead) ? 0.5 : 1
             }}
         >
             <TableCell component="th" scope="row" style={{ width: '20px', padding: '0px', textAlign: 'left' }}>
@@ -68,19 +70,34 @@ const NewsRow = ({ item, isRead, handleButtonClick }) => {
                 </a>
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
-                {isRead ? (
+                {isDeleted ? (
                     <DoneIcon  onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
                     <ClearIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                )}
+            </TableCell>
+            <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
+                {isRead ? (
+                    <VisibilityIcon  onClick={(event) => { event.stopPropagation(); markAsRead(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                ) : (
+                    <VisibilityOffIcon onClick={(event) => { event.stopPropagation(); markAsRead(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
         </TableRow>
     );
 };
 
-const NewsTable = ({ filtered_items, isFetching, readItems, setReadItems }) => {
+const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, readItems, setReadItems }) => {
     
     const handleButtonClick = (id) => {
+        if (deletedItems.includes(id)) {
+            setDeletedItems(prevItems => prevItems.filter(item => item !== id));
+        } else {
+            setDeletedItems(prevItems => [...prevItems, id]);
+        }
+    };
+
+    const markAsRead = (id) => {
         if (readItems.includes(id)) {
             setReadItems(prevItems => prevItems.filter(item => item !== id));
         } else {
@@ -89,9 +106,9 @@ const NewsTable = ({ filtered_items, isFetching, readItems, setReadItems }) => {
     };
 
     const sortedItems = [...filtered_items].sort((a, b) => {
-        const aIsRead = readItems.includes(a.id_hash);
-        const bIsRead = readItems.includes(b.id_hash);
-        return aIsRead ? 1 : bIsRead ? -1 : 0;
+        const aIsDeleted = deletedItems.includes(a.id_hash);
+        const bIsDeleted = deletedItems.includes(b.id_hash);
+        return aIsDeleted ? 1 : bIsDeleted ? -1 : 0;
     });
 
     return (
@@ -99,13 +116,16 @@ const NewsTable = ({ filtered_items, isFetching, readItems, setReadItems }) => {
             <Table>
                 <TableBody>
                     {sortedItems.map((item, index) => {
-                        const isRead = readItems.includes(item.id_hash);
+                        const isDeleted = deletedItems.includes(item.id_hash);
+                        const isRead    = readItems.includes(item.id_hash);
                         return (
                             <NewsRow
                                 key={index}
                                 item={item}
-                                isRead={isRead}
+                                isDeleted={isDeleted}
                                 handleButtonClick={() => handleButtonClick(item.id_hash)}
+                                isRead={isRead}
+                                markAsRead={() => markAsRead(item.id_hash)}
                             />
                         );
                     })}
