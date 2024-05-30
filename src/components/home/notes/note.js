@@ -15,8 +15,6 @@ import SelectFeeds from './SelectFeeds';
 import PayingUserModal from '../../common/PayingUserModal';
 import NewsTable from './NewsTable';
 
-import Cookies from 'js-cookie';
-import { CookieConsentComponent } from "../../common/CookieConsentComponent";
 import { alertNewItem } from "../../../utils/alertNewItem";
 
 import { useUser } from "../../../context/useUser";
@@ -196,8 +194,6 @@ const panel2 = (
           <CheckCircleOutlineIcon color="success" fontSize="small"/>
         )}
       </Box>
-
-      {/* <CookieConsentComponent /> */}
     </>
   );
 }
