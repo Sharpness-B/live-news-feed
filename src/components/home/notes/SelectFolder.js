@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Typography, Button, Chip, IconButton } from '@mui/material';
+import { TextField, Button, Chip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { getFoldersFromDB, addFolderToDB, deleteFolderFromDB, updateFolderInDB, writeSelectedFeedsToDB } from "../../../data/services/firestore";
 
@@ -41,6 +41,12 @@ const FolderSelector = ({ user, folders, setFolders }) => {
 
   const handleDeleteFolder = async (folderToDelete) => {
     const updatedFolders = folders.filter((folder) => folder.id !== folderToDelete.id);
+    
+    // select another folder
+    if (folderToDelete.isSelected) {
+      updatedFolders[0].isSelected = true
+    }
+
     setFolders(updatedFolders);
     await deleteFolderFromDB(user, folderToDelete.id);
   };
@@ -70,7 +76,6 @@ const FolderSelector = ({ user, folders, setFolders }) => {
 
   return (
     <div className="container">
-      {/* <Typography variant="h6">Velg mappe</Typography> */}
       <form onSubmit={handleAddFolder} className="form-container">
         <TextField
           label="Mappe"

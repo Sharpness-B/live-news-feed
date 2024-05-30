@@ -11,7 +11,6 @@ Tutorial
 * Funksjonalitet:
 Brukeropplæring på mapper og filter og regex
 Farge på søk
-Flere feeds åpne (ikke begge åpne som default 
 
 * Design
 Mer scroll og mindre bortover
@@ -24,7 +23,7 @@ Har vi lov til dette? Ref harald concern og at vi utnytter andres åndsverk
 Optimaliser her og der
 Feed: Hvis man har noe åpent mens det kommer en ny tipper jeg at alt lukker seg fordi 1) index er ny og 2) rerender hav hele komponenten.
 Hvis feed click failer legg til logikk på togle tilbake til false, nødvendig?? neh
-hvis man sletter en mappe man har selected
+hvis man sletter en mappe man har selected i feed
 
 * Navn
 InfoIndeks
