@@ -14,7 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
-const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsReadOrUnread, active, setActive, index }) => {
+const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadOrUnread, active, setActive, index }) => {
     const [isOpen, setIsOpen] = useState(false);
     const rowRef = useRef(null);
 
@@ -93,9 +93,9 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsReadOrUnrea
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
                 {isDeleted ? (
-                    <RestoreFromTrashIcon  onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <RestoreFromTrashIcon  onClick={(event) => { event.stopPropagation(); handleDeleteButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
-                    <DeleteIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <DeleteIcon onClick={(event) => { event.stopPropagation(); handleDeleteButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
@@ -112,7 +112,7 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsReadOrUnrea
 const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, readItems, setReadItems }) => {
     const [activeRow, setActiveRow] = useState(0);
     
-    const handleButtonClick = (id) => {
+    const handleDeleteButtonClick = (id) => {
         if (deletedItems.includes(id)) {
             setDeletedItems(prevItems => prevItems.filter(item => item !== id));
         } else {
@@ -146,7 +146,7 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
                                 key={index}
                                 item={item}
                                 isDeleted={isDeleted}
-                                handleButtonClick={() => handleButtonClick(item.id_hash)}
+                                handleDeleteButtonClick={() => handleDeleteButtonClick(item.id_hash)}
                                 isRead={isRead}
                                 markAsReadOrUnread={() => markAsReadOrUnread(item.id_hash)}
                                 active={index === activeRow}
