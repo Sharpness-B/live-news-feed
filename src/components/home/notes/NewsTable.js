@@ -11,6 +11,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import DeleteIcon from '@mui/icons-material/Delete';
+import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
 const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +42,7 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => 
             sx={{ 
                 cursor: 'pointer', 
                 padding: '4px', 
-                opacity: (isDeleted || isRead) ? 0.5 : 1
+                opacity: isDeleted ? 0.2 : (isRead ? 0.5 : 1)
             }}
         >
             <TableCell component="th" scope="row" style={{ width: '20px', padding: '0px', textAlign: 'left' }}>
@@ -73,9 +75,9 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => 
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
                 {isDeleted ? (
-                    <DoneIcon  onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <RestoreFromTrashIcon  onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
-                    <ClearIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <DeleteIcon onClick={(event) => { event.stopPropagation(); handleButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
