@@ -60,12 +60,25 @@ export default function Home() {
   const { allFlattenedItems, specifiedFolderItems, isFetching } = useFeedData(user, selectedFeeds, selectedCustomFeeds, filters, selectedFolder)
 
   // choose 2nd folder
-  const [selectedDisplayFolder, setSelectedDisplayFolder] = useState("all");
+  const [selected2ndDisplayFolder, setSelected2ndDisplayFolder] = useState("all");
+  let secondFolderItems = selected2ndDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selected2ndDisplayFolder));
 
-  let secondFolderItems = selectedDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selectedDisplayFolder));
+  const handleChangeSelect2nd = (event) => {
+    setSelected2ndDisplayFolder(event.target.value);
+  };
 
-  const handleChange = (event) => {
-    setSelectedDisplayFolder(event.target.value);
+  // choose 1st folder
+  const [selected1stDisplayFolder, setSelected1stDisplayFolder] = useState("all");
+  useEffect(() => {
+    const selectedFolder = folders.find(obj => obj.isSelected === true);
+    if (selectedFolder) {
+      setSelected1stDisplayFolder(selectedFolder.id);
+    }
+  }, [folders]);
+  let firstFolderItems = selected1stDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selected1stDisplayFolder));
+  
+  const handleChangeSelect1st = (event) => {
+    setSelected1stDisplayFolder(event.target.value);
   };
 
   //////////////////
@@ -104,14 +117,20 @@ export default function Home() {
   
   const panel1 = (
     <Grid item xs={isPanel1Expanded && isPanel2Expanded ? 6 : 12}>
-        <Accordion expanded={isPanel1Expanded} onChange={() => setPanel1Expanded(!isPanel1Expanded)}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <h2>Nyheter fra valgt mappe: {selectedFolder && selectedFolder.name}</h2>
-            </AccordionSummary>
-            <AccordionDetails>
-                <NewsTable filtered_items={specifiedFolderItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
-            </AccordionDetails>
-        </Accordion>
+      <Accordion expanded={isPanel1Expanded} onChange={() => setPanel1Expanded(!isPanel1Expanded)}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <h2>Nyheter fra:</h2>
+              <select className="custom-feed-select" value={selected1stDisplayFolder} onChange={handleChangeSelect1st} onClick={(e) => e.stopPropagation()}>
+                <option value="all">Alle mapper</option>
+                {folders.map((folder) => (
+                  <option key={folder.id} value={folder.id}>{folder.name}</option>
+                ))}
+              </select>
+          </AccordionSummary>
+          <AccordionDetails>
+              <NewsTable filtered_items={firstFolderItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
+          </AccordionDetails>
+      </Accordion>
     </Grid>
   );
 
@@ -120,7 +139,7 @@ const panel2 = (
     <Accordion expanded={isPanel2Expanded} onChange={() => setPanel2Expanded(!isPanel2Expanded)}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <h2>Nyheter fra:</h2>
-            <select className="custom-feed-select" value={selectedDisplayFolder} onChange={handleChange} onClick={(e) => e.stopPropagation()}>
+            <select className="custom-feed-select" value={selected2ndDisplayFolder} onChange={handleChangeSelect2nd} onClick={(e) => e.stopPropagation()}>
               <option value="all">Alle mapper</option>
               {folders.map((folder) => (
                 <option key={folder.id} value={folder.id}>{folder.name}</option>
