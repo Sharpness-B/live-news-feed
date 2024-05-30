@@ -26,6 +26,7 @@ import FolderSelector from "./SelectFolder";
 
 import { useFeedData } from "../../../utils/fetchFeeds";
 
+import "./Feed.css"
 
 
 export default function Home() {
@@ -59,7 +60,15 @@ export default function Home() {
   // Feed content //
   //////////////////
   const { allFlattenedItems, specifiedFolderItems, isFetching } = useFeedData(user, selectedFeeds, selectedCustomFeeds, filters, selectedFolder)
-  // console.log(isFetching)
+
+  // choose 2nd folder
+  const [selectedDisplayFolder, setSelectedDisplayFolder] = useState("all");
+
+  let secondFolderItems = selectedDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selectedDisplayFolder));
+
+  const handleChange = (event) => {
+    setSelectedDisplayFolder(event.target.value);
+  };
 
   //////////////////
   // alert if new //
@@ -109,16 +118,22 @@ export default function Home() {
   );
 
 const panel2 = (
-    <Grid item xs={isPanel1Expanded && isPanel2Expanded ? 6 : 12}>
-        <Accordion expanded={isPanel2Expanded} onChange={() => setPanel2Expanded(!isPanel2Expanded)}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <h2>Nyheter fra alle mapper</h2>
-            </AccordionSummary>
-            <AccordionDetails>
-                <NewsTable filtered_items={allFlattenedItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
-            </AccordionDetails>
-        </Accordion>
-    </Grid>
+  <Grid item xs={isPanel1Expanded && isPanel2Expanded ? 6 : 12}>
+    <Accordion expanded={isPanel2Expanded} onChange={() => setPanel2Expanded(!isPanel2Expanded)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <h2>Nyheter fra:</h2>
+            <select className="custom-feed-select" value={selectedDisplayFolder} onChange={handleChange} onClick={(e) => e.stopPropagation()}>
+              <option value="all">Alle mapper</option>
+              {folders.map((folder) => (
+                <option key={folder.id} value={folder.id}>{folder.name}</option>
+              ))}
+            </select>
+        </AccordionSummary>
+        <AccordionDetails>
+            <NewsTable filtered_items={secondFolderItems} isFetching={isFetching} deletedItems={deletedItems} setDeletedItems={setDeletedItems} readItems={readItems} setReadItems={setReadItems} />
+        </AccordionDetails>
+    </Accordion>
+  </Grid>
 );
 
 

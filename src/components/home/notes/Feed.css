@@ -1,0 +1,10 @@
+.custom-feed-select {
+    font-size: 1rem;
+    font-family: Poppins;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    margin-left: 1rem;
+    cursor: pointer;
+  }
