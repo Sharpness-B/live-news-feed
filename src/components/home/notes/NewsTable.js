@@ -14,7 +14,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
-const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead, active, setActive, index }) => {
+const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsReadOrUnread, active, setActive, index }) => {
     const [isOpen, setIsOpen] = useState(false);
     const rowRef = useRef(null);
 
@@ -50,10 +50,10 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead, activ
             onKeyDown={(event) => {
                 if (event.key === 'ArrowRight') {
                     setActive((prevActive) => prevActive + 1);
-                    if (!isRead) markAsRead();
+                    if (!isRead) markAsReadOrUnread();
                 } else if (event.key === 'ArrowLeft') {
                     setActive((prevActive) => prevActive - 1);
-                    if (!isRead) markAsRead();
+                    if (!isRead) markAsReadOrUnread();
                 }
             }}
             tabIndex={0}
@@ -100,9 +100,9 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead, activ
             </TableCell>
             <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
                 {isRead ? (
-                    <VisibilityIcon  onClick={(event) => { event.stopPropagation(); markAsRead(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <VisibilityIcon  onClick={(event) => { event.stopPropagation(); markAsReadOrUnread(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
-                    <VisibilityOffIcon onClick={(event) => { event.stopPropagation(); markAsRead(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
+                    <VisibilityOffIcon onClick={(event) => { event.stopPropagation(); markAsReadOrUnread(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
         </TableRow>
@@ -120,7 +120,7 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
         }
     };
 
-    const markAsRead = (id) => {
+    const markAsReadOrUnread = (id) => {
         if (readItems.includes(id)) {
             setReadItems(prevItems => prevItems.filter(item => item !== id));
         } else {
@@ -148,7 +148,7 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
                                 isDeleted={isDeleted}
                                 handleButtonClick={() => handleButtonClick(item.id_hash)}
                                 isRead={isRead}
-                                markAsRead={() => markAsRead(item.id_hash)}
+                                markAsReadOrUnread={() => markAsReadOrUnread(item.id_hash)}
                                 active={index === activeRow}
                                 setActive={setActiveRow}
                                 index={index}
