@@ -66,25 +66,25 @@ export default function Home() {
   //////////////////
   const { isNewItemAdded, setIsNewItemAdded } = alertNewItem(allFlattenedItems)
 
-  //////////////////////////////////
-  // read and delete cookie logic //
-  //////////////////////////////////
+  /////////////////////////////////////////
+  // read and delete local storage logic //
+  /////////////////////////////////////////
   //delete
   const [deletedItems, setDeletedItems] = useState(() => {
-    const savedItems = Cookies.get('deletedItems');
-    return savedItems ? JSON.parse(savedItems) : [];
+    const savedItems = localStorage.getItem('deletedItems');
+    return savedItems ? new Set(JSON.parse(savedItems)) : new Set();
   });
   useEffect(() => {
-      Cookies.set('deletedItems', JSON.stringify(deletedItems));
+    localStorage.setItem('deletedItems', JSON.stringify(Array.from(deletedItems)));
   }, [deletedItems]);
 
   //read
   const [readItems, setReadItems] = useState(() => {
-    const savedItems = Cookies.get('readItems');
-    return savedItems ? JSON.parse(savedItems) : [];
+    const savedItems = localStorage.getItem('readItems');
+    return savedItems ? new Set(JSON.parse(savedItems)) : new Set();
   });
   useEffect(() => {
-      Cookies.set('readItems', JSON.stringify(readItems));
+    localStorage.setItem('readItems', JSON.stringify(Array.from(readItems)));
   }, [readItems]);
   
 

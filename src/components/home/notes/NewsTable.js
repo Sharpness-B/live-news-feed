@@ -114,11 +114,11 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
     
     const handleDeleteButtonClick = (id) => {
         setDeletedItems(prevItems => {
-            const newItems = { ...prevItems };
-            if (id in newItems) {
-                delete newItems[id];
+            const newItems = new Set(prevItems);
+            if (newItems.has(id)) {
+                newItems.delete(id);
             } else {
-                newItems[id] = true;
+                newItems.add(id);
             }
             return newItems;
         });
@@ -126,19 +126,19 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
     
     const markAsReadOrUnread = (id) => {
         setReadItems(prevItems => {
-            const newItems = { ...prevItems };
-            if (id in newItems) {
-                delete newItems[id];
+            const newItems = new Set(prevItems);
+            if (newItems.has(id)) {
+                newItems.delete(id);
             } else {
-                newItems[id] = true;
+                newItems.add(id);
             }
             return newItems;
         });
     };
 
     const sortedItems = [...filtered_items].sort((a, b) => {
-        const aIsDeleted = deletedItems.includes(a.id_hash);
-        const bIsDeleted = deletedItems.includes(b.id_hash);
+        const aIsDeleted = deletedItems.has(a.id_hash);
+        const bIsDeleted = deletedItems.has(b.id_hash);
         return aIsDeleted ? 1 : bIsDeleted ? -1 : 0;
     });
 
@@ -147,8 +147,8 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
             <Table>
                 <TableBody>
                     {sortedItems.map((item, index) => {
-                        const isDeleted = item.id_hash in deletedItems;
-                        const isRead = item.id_hash in readItems;
+                        const isDeleted = deletedItems.has(item.id_hash);
+                        const isRead = readItems.has(item.id_hash);
                         return (
                             <NewsRow
                                 key={index}
