@@ -18,7 +18,9 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => 
     const handleRowClick = () => {
         setIsOpen(!isOpen);
     };
+
     useEffect(() => setIsOpen(false), [isDeleted]);
+    useEffect(() => {if (isOpen && isRead) setIsOpen(false);}, [isRead]);
 
     let date;
     let timeString = "";
