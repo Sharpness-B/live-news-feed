@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,15 +14,22 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 
-const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => {
+const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead, active, setActive, index }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const rowRef = useRef(null);
 
     const handleRowClick = () => {
         setIsOpen(!isOpen);
+        setActive(index);  // Set this row as active
     };
 
     useEffect(() => setIsOpen(false), [isDeleted]);
     useEffect(() => {if (isOpen && isRead) setIsOpen(false);}, [isRead]);
+    useEffect(() => {
+        if (active && rowRef.current) {
+            rowRef.current.focus();
+        }
+    }, [active]);
 
     let date;
     let timeString = "";
@@ -38,7 +45,18 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => 
 
     return (
         <TableRow 
+            ref={rowRef}
             onClick={handleRowClick}
+            onKeyDown={(event) => {
+                if (event.key === 'ArrowRight') {
+                    setActive((prevActive) => prevActive + 1);
+                    if (!isRead) markAsRead();
+                } else if (event.key === 'ArrowLeft') {
+                    setActive((prevActive) => prevActive - 1);
+                    if (!isRead) markAsRead();
+                }
+            }}
+            tabIndex={0}
             sx={{ 
                 cursor: 'pointer', 
                 padding: '4px', 
@@ -92,6 +110,7 @@ const NewsRow = ({ item, isDeleted, handleButtonClick, isRead, markAsRead }) => 
 };
 
 const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, readItems, setReadItems }) => {
+    const [activeRow, setActiveRow] = useState(0);
     
     const handleButtonClick = (id) => {
         if (deletedItems.includes(id)) {
@@ -130,6 +149,9 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
                                 handleButtonClick={() => handleButtonClick(item.id_hash)}
                                 isRead={isRead}
                                 markAsRead={() => markAsRead(item.id_hash)}
+                                active={index === activeRow}
+                                setActive={setActiveRow}
+                                index={index}
                             />
                         );
                     })}
