@@ -26,7 +26,7 @@ export const alertNewItem = (allFlattenedItems) => {
       }
     }
 
-    Cookies.set('seenNews', JSON.stringify(updatedNewsByNewspaper));
+    Cookies.set('seenNews', JSON.stringify(updatedNewsByNewspaper), { expires: 1 });
 
   }, [latestNewsByNewspaper]);
 
