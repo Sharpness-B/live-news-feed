@@ -113,19 +113,27 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
     const [activeRow, setActiveRow] = useState(0);
     
     const handleDeleteButtonClick = (id) => {
-        if (deletedItems.includes(id)) {
-            setDeletedItems(prevItems => prevItems.filter(item => item !== id));
-        } else {
-            setDeletedItems(prevItems => [...prevItems, id]);
-        }
+        setDeletedItems(prevItems => {
+            const newItems = { ...prevItems };
+            if (id in newItems) {
+                delete newItems[id];
+            } else {
+                newItems[id] = true;
+            }
+            return newItems;
+        });
     };
-
+    
     const markAsReadOrUnread = (id) => {
-        if (readItems.includes(id)) {
-            setReadItems(prevItems => prevItems.filter(item => item !== id));
-        } else {
-            setReadItems(prevItems => [...prevItems, id]);
-        }
+        setReadItems(prevItems => {
+            const newItems = { ...prevItems };
+            if (id in newItems) {
+                delete newItems[id];
+            } else {
+                newItems[id] = true;
+            }
+            return newItems;
+        });
     };
 
     const sortedItems = [...filtered_items].sort((a, b) => {
@@ -139,8 +147,8 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
             <Table>
                 <TableBody>
                     {sortedItems.map((item, index) => {
-                        const isDeleted = deletedItems.includes(item.id_hash);
-                        const isRead    = readItems.includes(item.id_hash);
+                        const isDeleted = item.id_hash in deletedItems;
+                        const isRead = item.id_hash in readItems;
                         return (
                             <NewsRow
                                 key={index}
