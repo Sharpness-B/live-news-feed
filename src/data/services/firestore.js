@@ -109,8 +109,17 @@ export const getFoldersFromDB = async (user) => {
 
 // Function to delete folder from DB
 export const deleteFolderFromDB = async (user, folderId) => {
-  const folderDoc = doc(db, `users/${user.uid}/folders/${folderId}`);
-  await deleteDoc(folderDoc);
+  const folderDocRef = doc(db, `users/${user.uid}/folders/${folderId}`);
+
+  // Attempt to delete all documents in the specified subcollections
+  for (const subCollection of ['filters', 'feeds']) {
+    const subCollectionRef = collection(folderDocRef, subCollection);
+    const subCollectionSnapshot = await getDocs(subCollectionRef);
+    await Promise.all(subCollectionSnapshot.docs.map(doc => deleteDoc(doc.ref)));
+  }
+
+  // Delete the root folder document
+  await deleteDoc(folderDocRef);
 };
 
 
