@@ -45,6 +45,7 @@ const FolderSelector = ({ user, folders, setFolders }) => {
     // select another folder
     if (folderToDelete.isSelected) {
       updatedFolders[0].isSelected = true
+      updateFolderInDB(user, updatedFolders[0].id, true);
     }
 
     setFolders(updatedFolders);
