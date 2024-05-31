@@ -62,24 +62,29 @@ export default function Home() {
   // choose 2nd folder
   const [selected2ndDisplayFolder, setSelected2ndDisplayFolder] = useState("all");
   let secondFolderItems = selected2ndDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selected2ndDisplayFolder));
-
   const handleChangeSelect2nd = (event) => {
     setSelected2ndDisplayFolder(event.target.value);
   };
 
   // choose 1st folder
   const [selected1stDisplayFolder, setSelected1stDisplayFolder] = useState("all");
+  let firstFolderItems = selected1stDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selected1stDisplayFolder));
+  const handleChangeSelect1st = (event) => {
+    setSelected1stDisplayFolder(event.target.value);
+  };
+
+  // on folder change
   useEffect(() => {
+    // set 1st feed to selected folder
     const selectedFolder = folders.find(obj => obj.isSelected === true);
     if (selectedFolder) {
       setSelected1stDisplayFolder(selectedFolder.id);
     }
+    // set 2nd to all if it is a deleted folder
+    if (!folders.some(item => item.id === selectedFolder) && selectedFolder!=="all") {
+      setSelected2ndDisplayFolder("all")
+    };
   }, [folders]);
-  let firstFolderItems = selected1stDisplayFolder === "all" ? allFlattenedItems : allFlattenedItems.filter(item => item.folderId.includes(selected1stDisplayFolder));
-  
-  const handleChangeSelect1st = (event) => {
-    setSelected1stDisplayFolder(event.target.value);
-  };
 
   //////////////////
   // alert if new //
