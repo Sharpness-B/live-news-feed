@@ -36,8 +36,13 @@ const Auth = (props) => {
 
       // Add payment info
       try{
-        const isPayingUser = await readIsPayingUser(user);
-        user.isPayingUser = isPayingUser
+        if (user.email.endsWith("@finansavisen.no")) {
+          user.isPayingUser = true;
+        } 
+        else {
+          const isPayingUser = await readIsPayingUser(user);
+          user.isPayingUser = isPayingUser;
+        }
       } catch (error) {
         console.log("Database error: could not fetch user payment info", error);
         user.isPayingUser = false
