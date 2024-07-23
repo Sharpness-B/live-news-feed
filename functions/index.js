@@ -70,10 +70,19 @@ exports.proxy = onRequest((req, res) => {
         }
 
         try {
-            const responses = await Promise.all(
-                targetURLs.map(url => request({url: url, method: 'GET'}))
+            const responses = await Promise.allSettled(
+                targetURLs.map(url => request({url, method: 'GET'}))
             );
-            res.send(responses);
+
+            const successfulResponses = responses.filter(result => {
+                if (result.status !== 'fulfilled') {
+                    logger.error(`Failed to fetch URL: ${result.reason}`);
+                    return false;
+                }
+                return true;
+            }).map(result => result.value);
+
+            res.send(successfulResponses);
         } catch (error) {
             logger.error(`Failed to fetch:`, error);
             res.status(500).send(error);
