@@ -11,7 +11,7 @@ Google Firebase is a Google-backed application development software that enables
 
   ```mermaid
   stateDiagram
-  Email-domains-access --> Domains
+  EmailDomainsAccess --> Domains
   Users --> User
   User --> Folders
   Folders --> Folder
