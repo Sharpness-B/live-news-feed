@@ -44,7 +44,7 @@ Google Firebase is a Google-backed application development software that enables
   ```
   The last saved or added image is used as the user image
 - **Hosting🌏**
-  Being a web project, thus taking advantage of firebase hosting and following the [instruction](https://firebase.google.com/docs/hosting/quickstart).The project can be easity hosted.[URL](https://notify-b3141.web.app/)
+  Being a web project, thus taking advantage of firebase hosting and following the [instruction](https://firebase.google.com/docs/hosting/quickstart), the project can be easity hosted.
 
   ```
   npm run build
