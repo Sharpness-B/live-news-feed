@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth } from "../data/services/authservice";
-import { userInfoRef, readIsPayingUser } from "../data/services/firestore";
+import { userInfoRef, readIsPayingUser, fetchDomains } from "../data/services/firestore";
 import { onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import Cookies from 'js-cookie';
@@ -36,7 +36,8 @@ const Auth = (props) => {
 
       // Add payment info
       try{
-        if (user.email.endsWith("@finansavisen.no")) {
+        const domains = await fetchDomains();
+        if (domains.some(domain => user.email.endsWith(domain))) {
           user.isPayingUser = true;
         } 
         else {

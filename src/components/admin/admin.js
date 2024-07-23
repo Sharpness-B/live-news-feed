@@ -3,7 +3,55 @@ import { Navigate } from "react-router-dom";
 import NavBar from '../common/navBar';
 import { useUser } from "../../context/useUser";
 import { Table, Button, Input } from 'antd';
-import { fetchUsers, toggleUserStatus, addUser, deleteUser } from "../../data/services/firestore";
+import { fetchUsers, toggleUserStatus, addUser, deleteUser, fetchDomains, addDomain, deleteDomain } from "../../data/services/firestore";
+
+function DomainManagement() {
+  const [domains, setDomains] = useState([]);
+  const [inputValue, setInputValue] = useState(''); // to store the input value
+
+  useEffect(() => {
+    const getDomains = async () => {
+      const domains = await fetchDomains();
+      setDomains(domains);
+    }
+    
+    getDomains();
+  }, [])
+
+  const handleAddDomain = async () => {
+    await addDomain(domains, inputValue);
+    const updatedDomains = await fetchDomains();
+    setDomains(updatedDomains);
+    setInputValue('');  // clear the input field
+  };
+
+  const handleDeleteDomain = async (domain) => {
+    await deleteDomain(domains, domain);
+    const updatedDomains = await fetchDomains();
+    setDomains(updatedDomains);
+  };
+
+  return (
+    <div>
+      <h1>Domain Management</h1>
+      <input
+        type="text"
+        placeholder="Add a domain"
+        value={inputValue}  // bind the input value to state
+        onChange={(e) => setInputValue(e.target.value)}  // update state when input changes
+      />
+      <button onClick={handleAddDomain}>Add domain</button> 
+      <ul>
+        {domains.map((domain, index) => (
+          <li key={index}>
+            {domain}
+            <button onClick={() => handleDeleteDomain(domain)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 const AdminPage = () => {
     const { user } = useUser();
@@ -73,6 +121,7 @@ const AdminPage = () => {
         />
         <Button onClick={handleAddUser}>Add User</Button>
       </div>
+      <DomainManagement />
     </>
   );
 };

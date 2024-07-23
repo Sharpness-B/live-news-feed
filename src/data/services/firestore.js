@@ -196,3 +196,17 @@ export const deleteUser = async (email) => {
   const userDoc = doc(db, 'paying-users-info', email);
   await deleteDoc(userDoc);
 };
+// admin email domains
+export const fetchDomains = async () => {
+  const docRef = doc(db, 'email-domains-access', 'email-domains-access');
+  const docSnap = await getDoc(docRef);
+  return docSnap.data().domains;
+}
+export const addDomain = async (domains, newDomain) => {
+  const docRef = doc(db, 'email-domains-access', 'email-domains-access');
+  await updateDoc(docRef, { domains: [...domains, newDomain] });
+};
+export const deleteDomain = async (domains, domain) => {
+  const docRef = doc(db, 'email-domains-access', 'email-domains-access');
+  await updateDoc(docRef, { domains: domains.filter(d => d !== domain) });
+};
