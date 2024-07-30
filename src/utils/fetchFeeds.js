@@ -281,8 +281,8 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
     };
     // ... when feedCollectiveSettings updates
     useEffect(fetchAndUpdateFeeds, [feedCollectiveSettings]);
-    // ... every 15 seconds
-    useInterval(fetchAndUpdateFeeds, 15000);
+    // ... every 20 seconds
+    useInterval(fetchAndUpdateFeeds, 20000);
 
 
 
