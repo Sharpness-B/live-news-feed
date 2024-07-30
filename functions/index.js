@@ -13,6 +13,7 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const request = require('request-promise');
+const axios = require('axios');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
@@ -70,22 +71,28 @@ exports.proxy = onRequest((req, res) => {
         }
 
         try {
-            const responses = await Promise.allSettled(
-                targetURLs.map(url => request({url, method: 'GET'}))
+            const axiosInstance = axios.create({
+                timeout: 5000,  // Set a reasonable timeout for requests
+                httpAgent: new (require('http').Agent)({ keepAlive: true }), // Reuse connections
+                httpsAgent: new (require('https').Agent)({ keepAlive: true })
+            });
+
+            const requests = targetURLs.map(url => 
+                axiosInstance.get(url).then(response => ({ url, success: true, data: response.data }))
+                                 .catch(error => {
+                                     logger.warn(`Failed to fetch URL: ${url}, Reason: ${error.message}`);
+                                     return { url, success: false, error: error.message };
+                                 })
             );
 
-            const successfulResponses = responses.filter(result => {
-                if (result.status !== 'fulfilled') {
-                    logger.error(`Failed to fetch URL: ${result.reason}`);
-                    return false;
-                }
-                return true;
-            }).map(result => result.value);
+            const responses = await Promise.all(requests);
+
+            const successfulResponses = responses.filter(result => result.success).map(result => result.data);
 
             res.send(successfulResponses);
         } catch (error) {
             logger.error(`Failed to fetch:`, error);
-            res.status(500).send(error);
+            res.status(500).send(error.message);
         }
     });
 });
