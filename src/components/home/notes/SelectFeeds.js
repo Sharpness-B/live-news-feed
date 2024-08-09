@@ -22,7 +22,7 @@ const SelectFeeds = ({ user, selectedFolder, selectedFeeds, setSelectedFeeds, se
             }
         }
         fetchSelectedFeeds();
-    }, [user, selectedFolder, setSelectedFeeds]);
+    }, [user, user.isPayingUser, selectedFolder, setSelectedFeeds]);
 
     const handleFeedClick = async (feed) => {
         // First, check if user is paying - return if user is not paying
