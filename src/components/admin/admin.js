@@ -104,7 +104,7 @@ const AdminPage = () => {
 
 
   // access control
-  const emailList = ["bendik.skarpnes@gmail.com", "skjell99@gmail.com", "s222433@nhhs.no"];
+  const emailList = ["bendik.skarpnes@gmail.com", "skjell99@gmail.com", "s222012@nhhs.no"];
   if (!user) return <Navigate to="/" />;
   if (!emailList.includes(user.email)) return <Navigate to="/" />;
   
