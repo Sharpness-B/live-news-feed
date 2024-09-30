@@ -22,7 +22,7 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 
 const cors = require('cors');
-const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://infoindeks.no', 'https://live-news-feed-8be46.firebaseapp.com', 'https://validaterssfeed-5hnkoydcca-uc.a.run.app', 'https://validaterssfeed-5hnkoydcca-uc.a.run.app'];
+const allowedOrigins = ['http://localhost:3000', 'https://live-news-feed-8be46.web.app', 'https://infoindeks.no', 'https://live-news-feed-8be46.firebaseapp.com', 'https://validaterssfeed-5hnkoydcca-uc.a.run.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
