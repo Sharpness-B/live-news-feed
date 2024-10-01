@@ -279,8 +279,16 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
         // just for visuals
         setIsFetching(false)
     };
+
     // ... when feedCollectiveSettings updates
-    useEffect(fetchAndUpdateFeeds, [feedCollectiveSettings]);
+    useEffect(() => {
+        // only one run at a time, after 2 seconds of no updates
+        const timer = setTimeout(async () => {
+            await fetchAndUpdateFeeds();
+        }, 2000); 
+        return () => clearTimeout(timer);
+    }, [feedCollectiveSettings]);
+
     // ... every 60 seconds
     useInterval(fetchAndUpdateFeeds, 60000);
 
