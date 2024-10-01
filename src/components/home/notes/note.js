@@ -117,7 +117,7 @@ export default function Home() {
   ////////////////
   // news feeds //
   ////////////////
-  const [isPanel1Expanded, setPanel1Expanded] = useState(true);
+  const [isPanel1Expanded, setPanel1Expanded] = useState(false);
   const [isPanel2Expanded, setPanel2Expanded] = useState(true);
   
   const panel1 = (
