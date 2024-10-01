@@ -22,7 +22,7 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
 
     const handleRowClick = () => {
         // setIsOpen(!isOpen);
-        setActive(index);  // Set this row as active
+        // setActive(index);  // Set this row as active
     };
 
     useEffect(() => setIsOpen(false), [isDeleted]);
