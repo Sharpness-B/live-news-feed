@@ -16,13 +16,17 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { FixedSizeList as List } from 'react-window';
 import { height } from '@mui/system';
 
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+
 const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadOrUnread, active, setActive, index }) => {
     const [isOpen, setIsOpen] = useState(false);
     const rowRef = useRef(null);
 
     const handleRowClick = () => {
-        // setIsOpen(!isOpen);
-        setActive(index);  // Set this row as active
+        setIsOpen(!isOpen);
+        // setActive(index);  // Set this row as active
     };
 
     useEffect(() => setIsOpen(false), [isDeleted]);
@@ -60,7 +64,7 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
             }}
             tabIndex={0}
             sx={{ 
-                // cursor: 'pointer', 
+                cursor: 'pointer', 
                 padding: '4px', 
                 opacity: isDeleted ? 0.2 : (isRead ? 0.5 : 1)
             }}
@@ -76,11 +80,11 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
                 <Typography variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 500, fontSize: '0.875rem', lineHeight: 1 }}>
                     {item.title}
                 </Typography>
-                {isOpen && (
+                {/* {isOpen && (
                     <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1 }}>
                         {item.contentSnippet}
                     </Typography>
-                )}
+                )} */}
             </TableCell>
             <TableCell style={{ width: '110px', padding: '0px', textAlign: 'center' }}>
                 <Typography variant="caption" sx={{ fontFamily: '"Fira Code", monospace', letterSpacing: '0px', display: 'inline', lineHeight: 1}}>
@@ -89,7 +93,7 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
                 </Typography>
             </TableCell>
             <TableCell style={{ width: '60px', padding: '0px', textAlign: 'right' }}>
-                <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }}>
+                <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline', paddingLeft: '5px' }} >
                     Les mer
                 </a>
             </TableCell>
@@ -107,6 +111,29 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
                     <VisibilityOffIcon onClick={(event) => { event.stopPropagation(); markAsReadOrUnread(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
+
+
+
+
+            <Dialog open={isOpen} onClose={handleRowClick}>
+                <DialogTitle variant="subtitle1" sx={{ fontFamily: 'Poppins', fontWeight: 500, fontSize: '1.25rem', lineHeight: 1.5 }}>{item.title}</DialogTitle>
+                <DialogContent>
+                    <Typography variant="caption" sx={{ fontFamily: '"Fira Code", monospace', letterSpacing: '0px', display: 'inline', lineHeight: 1}}>
+                        {timeString}
+                    </Typography> <br/>
+                    <img
+                        src={item.imageUrl}
+                        alt={item.newspaper}
+                        style={{maxHeight: '40px', maxWidth: '100%' }}
+                    />
+                    <Typography variant="body2" sx={{ fontFamily: 'Poppins', letterSpacing: '-0.8px', fontWeight: 300, lineHeight: 1.5 }}>
+                        {item.contentSnippet}
+                    </Typography>
+                    <a href={item.link} target="_blank" rel="noreferrer" style={{ color: 'black', textDecoration: 'underline' }}>
+                        Les mer
+                    </a>
+                </DialogContent>
+            </Dialog>
         </TableRow>
     );
 };
