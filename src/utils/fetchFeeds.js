@@ -282,10 +282,11 @@ export const useFeedData = (user, selectedFeeds, selectedCustomFeeds, filters, s
 
     // ... when feedCollectiveSettings updates
     useEffect(() => {
-        // only one run at a time, after 2 seconds of no updates
+        // only one run after 1.5 seconds of no updates
         const timer = setTimeout(async () => {
             await fetchAndUpdateFeeds();
-        }, 2000); 
+        }, 1500); 
+
         return () => clearTimeout(timer);
     }, [feedCollectiveSettings]);
 

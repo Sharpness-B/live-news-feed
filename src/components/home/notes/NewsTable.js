@@ -173,6 +173,12 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
 
     return (
         <TableContainer>
+            {isFetching && filtered_items.length === 0 && (
+            <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" paddingBottom={1}>
+                <CircularProgress />
+            </Box>
+            )}
+            
             <List
                 height={1000} // Adjust based on your requirement
                 style={{height: "calc(100vh - 180px)"}}
@@ -205,12 +211,6 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
                     );
                 }}
             </List>
-
-            {isFetching && filtered_items.length === 0 && (
-            <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" paddingBottom={1}>
-                <CircularProgress />
-            </Box>
-            )}
         </TableContainer>
     );
 };
