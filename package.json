@@ -25,6 +25,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-use": "^17.5.0",
+    "react-window": "^1.8.10",
     "rss-parser": "^3.13.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",

@@ -13,13 +13,15 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import { FixedSizeList as List } from 'react-window';
+import { height } from '@mui/system';
 
 const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadOrUnread, active, setActive, index }) => {
     const [isOpen, setIsOpen] = useState(false);
     const rowRef = useRef(null);
 
     const handleRowClick = () => {
-        setIsOpen(!isOpen);
+        // setIsOpen(!isOpen);
         setActive(index);  // Set this row as active
     };
 
@@ -58,7 +60,7 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
             }}
             tabIndex={0}
             sx={{ 
-                cursor: 'pointer', 
+                // cursor: 'pointer', 
                 padding: '4px', 
                 opacity: isDeleted ? 0.2 : (isRead ? 0.5 : 1)
             }}
@@ -91,14 +93,14 @@ const NewsRow = ({ item, isDeleted, handleDeleteButtonClick, isRead, markAsReadO
                     Les mer
                 </a>
             </TableCell>
-            <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
+            <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right', cursor: 'pointer', }}>
                 {isDeleted ? (
                     <RestoreFromTrashIcon  onClick={(event) => { event.stopPropagation(); handleDeleteButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
                     <DeleteIcon onClick={(event) => { event.stopPropagation(); handleDeleteButtonClick(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 )}
             </TableCell>
-            <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right' }}>
+            <TableCell style={{ width: '15px', padding: '0px', textAlign: 'right', cursor: 'pointer', }}>
                 {isRead ? (
                     <VisibilityIcon  onClick={(event) => { event.stopPropagation(); markAsReadOrUnread(); }} sx={{ height: '15px', verticalAlign: 'middle' }} />
                 ) : (
@@ -144,32 +146,43 @@ const NewsTable = ({ filtered_items, isFetching, deletedItems, setDeletedItems, 
 
     return (
         <TableContainer>
-            <Table>
-                <TableBody>
-                    {sortedItems.map((item, index) => {
-                        const isDeleted = deletedItems.has(item.id_hash);
-                        const isRead = readItems.has(item.id_hash);
-                        return (
-                            <NewsRow
-                                key={index}
-                                item={item}
-                                isDeleted={isDeleted}
-                                handleDeleteButtonClick={() => handleDeleteButtonClick(item.id_hash)}
-                                isRead={isRead}
-                                markAsReadOrUnread={() => markAsReadOrUnread(item.id_hash)}
-                                active={index === activeRow}
-                                setActive={setActiveRow}
-                                index={index}
-                            />
-                        );
-                    })}
-                </TableBody>
-            </Table>
+            <List
+                height={1000} // Adjust based on your requirement
+                style={{height: "calc(100vh - 180px)"}}
+                itemCount={sortedItems.length}
+                itemSize={25} // Adjust based on the height of your rows
+                width='100%' // Add a width to your List
+                >
+                {({ index, style }) => {
+                    const item = sortedItems[index];
+                    const isDeleted = deletedItems.has(item.id_hash);
+                    const isRead = readItems.has(item.id_hash);
+                    return (
+                        <div style={style}>
+                            <Table>
+                            <TableBody>
+                                <NewsRow
+                                    key={index}
+                                    item={item}
+                                    isDeleted={isDeleted}
+                                    handleDeleteButtonClick={() => handleDeleteButtonClick(item.id_hash)}
+                                    isRead={isRead}
+                                    markAsReadOrUnread={() => markAsReadOrUnread(item.id_hash)}
+                                    active={index === activeRow}
+                                    setActive={setActiveRow}
+                                    index={index}
+                                />
+                            </TableBody>
+                            </Table>
+                        </div>
+                    );
+                }}
+            </List>
 
-            {isFetching && filtered_items.length===0 && (
-                <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" paddingBottom={1}>
-                    <CircularProgress />
-                </Box>
+            {isFetching && filtered_items.length === 0 && (
+            <Box display="flex" justifyContent="center" alignItems="center" overflow="hidden" paddingBottom={1}>
+                <CircularProgress />
+            </Box>
             )}
         </TableContainer>
     );
