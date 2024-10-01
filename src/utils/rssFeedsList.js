@@ -2,14 +2,26 @@
 
 export const feeds = [
     // { id:1, category: 'Norge', title: 'VG Forsiden', url: 'https://www.vg.no/rss/feed/forsiden/' },
-    { id:7, category: 'Norge', title: 'VG Innenriks', url: 'https://www.vg.no/rss/feed/?categories=1069' },
+    { id:2, category: 'Norge', title: 'VG Innenriks', url: 'https://www.vg.no/rss/feed/?categories=1069' },
     { id:3, category: 'Norge', title: 'VG Utenriks', url: 'https://www.vg.no/rss/feed/?categories=1070' },
     { id:4, category: 'Norge', title: 'E24 – Alle nyheter', url: 'http://e24.no/rss2/' },
     { id:5, category: 'Norge', title: 'E24 – Børs og finans', url: 'https://e24.no/rss2/?seksjon=boers-og-finans' },
-    // ... add more feeds here
+    { id:6, category: 'Norge', title: 'NRK Nyheter', url: 'https://www.nrk.no/nyheter/siste.rss' },
+    { id:7, category: 'Norge', title: 'TV2 Nyheter', url: 'https://www.tv2.no/rss/nyheter' },
+    { id:8, category: 'Norge', title: 'Dagbladet', url: 'https://www.dagbladet.no/?lab_viewport=rss' },
+    { id:9, category: 'Norge', title: 'Nettavisen', url: 'https://www.nettavisen.no/service/rich-rss' },
+    { id:40, category: 'Norge', title: 'Dagsavisen', url: 'https://www.dagsavisen.no/rss' },
+    { id:41, category: 'Norge', title: 'Dagens Næringsliv', url: 'https://services.dn.no/api/feed/rss/' },
+    // { id:42, category: 'Norge', title: 'Finansavisen', url: 'https://ws.finansavisen.no/api/articles.rss' },
+    { id:43, category: 'Norge', title: 'Aftenposten', url: 'https://www.aftenposten.no/rss/' },
+    { id:44, category: 'Norge', title: 'Bergens tidene', url: 'https://www.bt.no/rss' },
+    { id:45, category: 'Norge', title: 'Stavanger Aftenblad', url: 'https://www.aftenbladet.no/rss' },
+
+
+    
     // { id:6, category: 'Internasjonal', title: 'BBC Overview', url: 'https://www.bbc.com/news/10628494' },
     { id:1, category: 'Internasjonal', title: 'BBC World News', url: 'https://feeds.bbci.co.uk/news/world/rss.xml' },
-    { id:8, category: 'Internasjonal', title: 'BBC Top Stories', url: 'http://feeds.bbci.co.uk/news/rss.xml' },
+    { id:19, category: 'Internasjonal', title: 'BBC Top Stories', url: 'http://feeds.bbci.co.uk/news/rss.xml' },
     // { id:9, category: 'Internasjonal', title: 'CNN Overview', url: 'https://edition.cnn.com/services/rss/' },
     { id:10, category: 'Internasjonal', title: 'CNN Top Stories', url: 'http://rss.cnn.com/rss/edition.rss' },
     { id:11, category: 'Internasjonal', title: 'NY Times', url: 'https://www.nytimes.com/svc/collections/v1/publish/https:/www.nytimes.com/section/world/rss.xml' },
