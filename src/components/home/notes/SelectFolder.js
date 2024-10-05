@@ -14,8 +14,8 @@ const FolderSelector = ({ user, folders, setFolders }) => {
       
       // Create a default folder if there are no folders yet
       if (foldersFromDB.length === 0) {
-        const defaultFolderId = await addFolderToDB(user, { name: 'Innenriks', isSelected: true });
-        foldersFromDB = [{ id: defaultFolderId, name: 'Innenriks', isSelected: true }];
+        const defaultFolderId = await addFolderToDB(user, { name: 'Utenriks', isSelected: true });
+        foldersFromDB = [{ id: defaultFolderId, name: 'Utenriks', isSelected: true }];
         // add the default select for new folders
         await writeSelectedFeedsToDB(user, defaultFolderId, [1])
       }
