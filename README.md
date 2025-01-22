@@ -1,4 +1,4 @@
-## A customizable live news feed from an array of sources
+## A customizable live news feed
 
 !["demo"](./readme_images/demo1.png)
 !["demo"](./readme_images/demo2.png)
