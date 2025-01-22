@@ -104,7 +104,7 @@ const AdminPage = () => {
 
 
   // access control
-  const emailList = ["bendik.skarpnes@gmail.com", "skjell99@gmail.com", "s222012@nhhs.no"];
+  const emailList = JSON.parse(process.env.REACT_APP_ADMIN_EMAILS);
   if (!user) return <Navigate to="/" />;
   if (!emailList.includes(user.email)) return <Navigate to="/" />;
   

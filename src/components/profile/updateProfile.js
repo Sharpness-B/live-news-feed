@@ -197,10 +197,10 @@ export default function UpdateProfile() {
             <br/>
             {user.isPayingUser ? "Har aktivt abonnement." : "Har ikke kjøpt tilgang."}
             <br/>
-            Support: <a href="mailto:bendik.skarpnes+infoindeks@gmail.com" style={{color: 'inherit', textDecoration: 'none'}}>bendik.skarpnes+infoindeks@gmail.com</a>
+            Support: <a href="mailto:mail" style={{color: 'inherit', textDecoration: 'none'}}>mail</a>
 
             {/* Link to admin page */}
-            {["bendik.skarpnes@gmail.com", "skjell99@gmail.com"].includes(user.email) &&
+            {JSON.parse(process.env.REACT_APP_ADMIN_EMAILS).includes(user.email) &&
               <><br/><Link to={"/admin"} >Admin</Link></>
             }
           </Typography>
