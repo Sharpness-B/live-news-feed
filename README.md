@@ -1,3 +1,10 @@
+## A customizable live news feed from an array of sources
+
+!["demo"](./readme_images/demo1.png)
+!["demo"](./readme_images/demo2.png)
+
+
+
 ## Firebase🔥
 
 Google Firebase is a Google-backed application development software that enables developers to develop iOS, Android and Web apps. Our app depends on firebase for the following features.
