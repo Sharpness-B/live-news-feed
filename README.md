@@ -13,7 +13,10 @@ Google Firebase is a Google-backed application development software that enables
   Every app requires an authentication system,firebase provides us with basic `email and password` signin and along with all the major OAuth providers like `facebook`,`google` and many others .
   For this project we are mainly using above cited providers only.
 
-- **Cloud firestore 🧮**
+- **Cloud Functions ⚡**
+  Serverless functions for lighter frontend and infinite scalability.
+
+- **Cloud Firestore 🧮**
   Cloud firestore is the database of our project .The cloud firestore is a `NoSql` database similar to `monogdb`.The data is being stored in the cloud firestore approximately like the `graph `shown below.
 
   ```mermaid
